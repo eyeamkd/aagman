@@ -1,4 +1,3 @@
 1. Fully Functional Analytical POS  
 2. Customer Order to be placed from QR or Link  
-3. AR Based Menu 
-4. UnPaid Orders can be placed via app or link or QR  
+3. UnPaid Orders can be placed via app or link or QR  
