@@ -1,0 +1,24 @@
+.loginWrap {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formSignIn {
+    text-align: center;
+    background-color: black;
+    max-width: 300px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.formLabel{
+    color:white;
+    margin: 5px;
+}
+
+.errors{
+    color: red;
+    font-size: small;
+}
