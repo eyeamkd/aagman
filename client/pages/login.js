@@ -17,6 +17,10 @@ export default function Login() {
     }
 
     return (
+        <>
+          <Head>
+                <title>Login</title>
+            </Head>
         <div className={styles.loginWrap}>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.formSignIn}>
                 <div className="mb-3">
@@ -42,7 +46,7 @@ export default function Login() {
                         }}
                     />
                     {errors?.email && (
-                        <span className="errors">{errors.email.message}</span>
+                        <span className={styles.errors}>{errors.email.message}</span>
                     )}
                 </div>
                 <button type="submit" className="my-3 btn btn-primary">
@@ -50,5 +54,6 @@ export default function Login() {
                 </button>
             </form>
         </div>
+        </>
     );
 };

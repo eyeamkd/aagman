@@ -1,11 +1,11 @@
-.loginWrap {
+.signUpWrap {
     height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.formSignIn {
+.formSignUp {
     text-align: center;
     background-color: black;
     max-width: 300px;
