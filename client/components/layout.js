@@ -1,9 +1,12 @@
 
 import Link from 'next/link'
 import styles from "../styles/Layout.module.css";
-import styles2 from '../styles/Home.module.css'
+import styles2 from '../styles/Home.module.css';
 import { useState } from "react";
-import Image from 'next/image'
+import Image from 'next/image';
+import HomeIcon from '@material-ui/icons/Home';
+import InfoIcon from '@material-ui/icons/Info';
+import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
 
 export default function Layout({ children }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -28,21 +31,21 @@ export default function Layout({ children }) {
                         <Link href='/'>
                             <a className={isOpen === false ?
                                 styles.navlink : styles.navlink + ' ' + styles.active}
-                                onClick={openMenu}>Home</a>
+                                onClick={openMenu}><HomeIcon/> Home</a>
                         </Link>
                     </li>
                     <li className={styles.navitem}>
                         <Link href='/about'>
                             <a className={isOpen === false ?
                                 styles.navlink : styles.navlink + ' ' + styles.active}
-                                onClick={openMenu}>About</a>
+                                onClick={openMenu}><InfoIcon/> About</a>
                         </Link>
                     </li>
                     <li className={styles.navitem}>
                         <Link href='/contact'>
                             <a className={isOpen === false ?
                                 styles.navlink : styles.navlink + ' ' + styles.active}
-                                onClick={openMenu}>Contact</a>
+                                onClick={openMenu}><ContactPhoneIcon/> Contact</a>
                         </Link>
                     </li>
                 </ul>

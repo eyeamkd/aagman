@@ -1,17 +1,42 @@
+@font-face {
+	font-family: 'pizzafont';
+	src: url("../public/text/hotpizza.ttf");
+}
+
 .loginWrap {
     height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #cddee5;
 }
 
-.formSignIn {
+.heading{
+    font-family: 'pizzafont';
+}
+
+.formSignInWrapper {
     text-align: center;
-    background-color: black;
-    max-width: 300px;
-    padding: 15px;
+    background-image: url("../public/images/wooden_button.jpg");
+    
+    box-shadow: 10px 20px #888888;
+    
+    padding: 20px;
+    
     margin: 0 auto;
 }
+.formSignIn{
+    background-color: white;
+    display: inline-block;
+    padding-top: 50px;
+    border-right: solid 1px gray;
+    vertical-align: text-top;
+    align-items: center;
+    justify-content: center;
+    width: 550px;
+    height: 550px;
+}
+
 
 .formLabel{
     color:white;

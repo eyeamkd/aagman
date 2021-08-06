@@ -3,6 +3,11 @@ import Link from 'next/link'
 import { useForm } from "react-hook-form";
 import styles from '../styles/Login.module.css'
 import { useState } from "react";
+import Typography from '@material-ui/core/Typography';
+import logo from '../public/images/3071357.jpg';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Image from 'next/image';
 
 export default function Login() {
     const {
@@ -15,6 +20,8 @@ export default function Login() {
 
     const onSubmit = (e) => {
     }
+    const backHomePage = (e) => {
+    }
 
     return (
         <>
@@ -22,37 +29,25 @@ export default function Login() {
                 <title>Login</title>
             </Head>
         <div className={styles.loginWrap}>
-            <form onSubmit={handleSubmit(onSubmit)} className={styles.formSignIn}>
-                <div className="mb-3">
-                    <label htmlFor="email" className={styles.formLabel}>
-                        Email address
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control my-3"
-                        id="email"
-                        name="email"
-                        {...register("email", {
-                            required: "Email is required.",
-                            pattern: {
-                                value: /^[a-zA-Z0-9\.]+@[a-zA-Z]+\.[a-zA-Z]{2,3}$/,
-                                message: "Please enter a valid email.",
-                            },
-                        })}
-                        aria-describedby="emailHelp"
-                        value={email}
+        <div className={styles.formSignInWrapper}>
+        <div className={styles.formSignIn}>
+        <Image
+                            src="/../public/images/3071357.jpg"
+                            alt="App Logo"
+                            width={400}
+                            height={400}
+                        />
+        </div>
+        <div className={styles.formSignIn}><br/>
+        <h1 className={styles.heading}>Login</h1><br/><br/>
+        <TextField label="Email" variant="outlined" id="EmailInput" color= "primary"  value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
-                        }}
-                    />
-                    {errors?.email && (
-                        <span className={styles.errors}>{errors.email.message}</span>
-                    )}
-                </div>
-                <button type="submit" className="my-3 btn btn-primary">
-                    Submit
-                </button>
-            </form>
+                        }}/>
+                        <br/><br/>
+          <Button className={styles.button1} onClick={onSubmit}>Submit</Button> <br/>
+          <Button className={styles.button1} onClick={backHomePage}>Back to Home</Button>            
+            </div></div>
         </div>
         </>
     );

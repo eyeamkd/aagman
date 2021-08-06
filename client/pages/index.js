@@ -9,8 +9,13 @@ export default function Home() {
       <Head>
         <title>Aagman</title>
       </Head>
-      <Link href="/login"><a className={cx(styles.push_button, styles.red)}>Login</a></Link> 
-      <Link href="/signup"><a className={cx(styles.push_button,styles.blue)}>Sign Up</a></Link>
+     
+      <div className={styles.homeWrap}>
+        <h1 className={styles.heading}>AAGMAN</h1><br/>
+      <Link href="/login"><a className={styles.button}>Login</a></Link>
+      <Link href="/signup"><a className={styles.button}>Sign Up</a></Link>
+      </div>
+     
     </div>
   )
 }

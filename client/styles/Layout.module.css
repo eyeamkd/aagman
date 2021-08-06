@@ -7,7 +7,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1.5rem;
-    background-color: black;
+    background-color: #ccb086;
 }
 
 .hamburger {
@@ -36,15 +36,15 @@
 }
 
 .navlink{
-    font-size: 1rem;
+    font-size: 20px;
     font-weight: 400;
-    color: #475569;
+    color: #6d3406;
     text-transform: uppercase;
     text-decoration: none;
 }
 
 .navlink:hover{
-    color: #482ff7;
+    color: #c75d07;
 }
 
 .navlogo {
