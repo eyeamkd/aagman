@@ -4,12 +4,18 @@ import { useForm } from "react-hook-form";
 import styles from '../styles/Login.module.css'
 import { useState } from "react";
 import Typography from '@material-ui/core/Typography';
+import { motion } from "framer-motion";
 import logo from '../public/images/3071357.jpg';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Image from 'next/image';
 
 export default function Login() {
+    const variants = {
+        hidden: { opacity: 0, x: -200, y: 0 },
+        enter: { opacity: 1, x: 0, y: 0 },
+        exit: { opacity: 0, x: 0, y: -100 },
+    }
     const {
         register,
         handleSubmit,
@@ -28,27 +34,25 @@ export default function Login() {
           <Head>
                 <title>Login</title>
             </Head>
-        <div className={styles.loginWrap}>
-        <div className={styles.formSignInWrapper}>
-        <div className={styles.formSignIn}>
-        <Image
-                            src="/../public/images/3071357.jpg"
-                            alt="App Logo"
-                            width={400}
-                            height={400}
-                        />
-        </div>
-        <div className={styles.formSignIn}><br/>
+            <motion.main
+   variants={variants}// Pass the variant object into Framer Motion 
+    initial="hidden" // Set the initial state to variants.hidden
+    animate="enter" // Animated state to variants.enter
+    exit="exit" // Exit state (used later) to variants.exit
+    transition={{ type: 'linear' }} // Set the transition to linear
+    
+>
+<form>
         <h1 className={styles.heading}>Login</h1><br/><br/>
         <TextField label="Email" variant="outlined" id="EmailInput" color= "primary"  value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
                         }}/>
                         <br/><br/>
-          <Button className={styles.button1} onClick={onSubmit}>Submit</Button> <br/>
-          <Button className={styles.button1} onClick={backHomePage}>Back to Home</Button>            
-            </div></div>
-        </div>
+          <button className={styles.button1} onClick={onSubmit}>Login</button> <br/>
+                     
+          </form> 
+  </motion.main>
         </>
     );
 };

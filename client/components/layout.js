@@ -31,21 +31,21 @@ export default function Layout({ children }) {
                         <Link href='/'>
                             <a className={isOpen === false ?
                                 styles.navlink : styles.navlink + ' ' + styles.active}
-                                onClick={openMenu}><HomeIcon/> Home</a>
+                                onClick={openMenu}><HomeIcon/><span className={styles.icon}> Home</span></a>
                         </Link>
                     </li>
                     <li className={styles.navitem}>
                         <Link href='/about'>
                             <a className={isOpen === false ?
                                 styles.navlink : styles.navlink + ' ' + styles.active}
-                                onClick={openMenu}><InfoIcon/> About</a>
+                                onClick={openMenu}><InfoIcon/><span > About</span></a>
                         </Link>
                     </li>
                     <li className={styles.navitem}>
                         <Link href='/contact'>
                             <a className={isOpen === false ?
                                 styles.navlink : styles.navlink + ' ' + styles.active}
-                                onClick={openMenu}><ContactPhoneIcon/> Contact</a>
+                                onClick={openMenu}><ContactPhoneIcon/><span className={styles.icon}> Contact</span></a>
                         </Link>
                     </li>
                 </ul>
@@ -60,8 +60,6 @@ export default function Layout({ children }) {
             </nav>
         </header>
         {children}
-        <footer>
-          <p>This is my footer.</p>
-        </footer>
+       
     </>
 }
