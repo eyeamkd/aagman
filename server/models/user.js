@@ -1,9 +1,7 @@
-const mongoose =require("mongoose");
+import mongoose from "mongoose";
 
-const User = mongoose.model("User", { 
+export const User = mongoose.model("User", { 
     email: String,
     fullName: String,
     phoneNumber: String
 })
-
-module.exports = {User}

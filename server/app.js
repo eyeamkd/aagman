@@ -1,9 +1,9 @@
-var express = require('express');
-const mongoose = require('mongoose')
-const {ApolloServer} = require('apollo-server-express')
-const {resolvers} = require('./resolver')
-const {typeDefs} = require('./typeDefs')
-const dotenv = require("dotenv");
+import express from "express";
+import mongoose from "mongoose";
+import { ApolloServer} from "apollo-server-express";
+import {resolvers} from "./resolvers";
+import { typeDefs } from "./typeDefs";
+import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
 
 const PORT = process.env.PORT || 5000;
@@ -31,8 +31,6 @@ const server = async () => {
   app.listen(PORT, () => {
     console.log("server is running on", PORT);
   })
-
-module.exports = app;
 }
 
 server();
