@@ -53,12 +53,12 @@ export default function Home() {
                         />
                          </motion.div><br/>
                          <motion.div initial="hidden" animate="visible" variants={variantHeading}>
-        <h3 className={styles.heading}  >AAGMAN</h3><br/>
+        <h3 className={styles.heading}  >Aagman</h3><br/>
         </motion.div>
          
       <motion.div initial="hidden" animate="visible" variants={variantButton}>
      
-      <Link href="/form"><a className={styles.button}>Sign Up !</a></Link>
+      <Link href="/form"><a className={styles.button}>Sign Up</a></Link>
   
      </motion.div>
     </div>
