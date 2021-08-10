@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useForm } from "react-hook-form";
 import styles from '../../styles/Form.module.css';
 import { motion } from "framer-motion";
+import slides from '../../styles/slides.module.css';
 import { useState } from "react";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -14,15 +15,12 @@ import {useRouter} from 'next/router';
 
 export default function Form() {
   
-    const [signIn, setSignIn] = useState(true);
-    const [signUp, setSignUp] = useState(false);
-   const changeSignIn=()=>{
-       setSignIn(false);
-       setSignUp(true);
-   }
+
+    const [signUp, setSignUp] = useState(true);
+  
    const changeSignUp=()=>{
-    setSignIn(true);
-    setSignUp(false);
+   
+    setSignUp(!signUp);
    }
 
 
@@ -40,13 +38,13 @@ export default function Form() {
             <div className={styles.signUpWrap}>
             
             <div className={styles.formSignInWrapper}>
-            <div class="switches-container">
-    <input type="radio" id="switchMonthly" name="switchPlan" value="SignUp" checked="checked" />
-    <input type="radio" id="switchYearly" name="switchPlan" value="SignIn" />
-    <label for="switchMonthly" onClick={changeSignUp}>SignUp</label>
-    <label for="switchYearly" onClick={changeSignIn}>Login</label>
-    <div class="switch-wrapper">
-      <div class="switch">
+            <div className={slides.switchescontainer}>
+    <input type="radio" id="switchMonthly" name="switchPlan" value="SignUp" onChange={changeSignUp}  />
+    <input type="radio" id="switchYearly" name="switchPlan" value="SignIn" onChange={changeSignUp}/>
+    <label htmlFor="switchMonthly" >SignUp</label>
+    <label htmlFor="switchYearly" >Login</label>
+    <div className={slides.switchwrapper}>
+      <div className={slides.switch}>
         <div>SignUp</div>
         <div>Login</div>
       </div>
@@ -61,8 +59,8 @@ export default function Form() {
         
         <div  className={cx(styles.signup)}><br/>
         
-       {signIn&&<Signup/>}
-       {signUp&&<Login/>}
+       {signUp&&<Signup/>}
+       {!signUp&&<Login/>}
         
                 
             </div></div>

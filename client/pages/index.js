@@ -1,37 +1,26 @@
 import Head from 'next/head'
+import Image from 'next/image';
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import cx from 'classnames'
 import { motion } from "framer-motion";
 
+
 export default function Home() {
-  
-  const showLoginSignup=()=>{
-      
+  const variantHeading={
+    hidden: {
+      scale: 0.2,
+      opacity: 0
+    },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        delay: 1
+      }
+    },
   }
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Aagman</title>
-      </Head>
-     
-      <motion.div initial="hidden" animate="visible" variants={{
-  hidden: {
-    scale: 0.2,
-    opacity: 0
-  },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      delay: 1
-    }
-  },
-}}>
-        <h1 className={styles.heading}  onMouseOver={showLoginSignup}>AAGMAN</h1><br/>
-        </motion.div>
-         
-      <motion.div initial="hidden" animate="visible" variants={{
+ const variantButton={
   hidden: {
     scale: 2,
     opacity: 0
@@ -40,13 +29,37 @@ export default function Home() {
     scale: 1,
     opacity: 1,
     transition: {
-      delay: 5
+      delay: 3
     }
   },
-}}>
+}
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Aagman</title>
+      </Head>
+     
+      
+      <motion.div animate={{
+      y:50,y:-50,
+      transition:{ yoyo: Infinity,duration: 1.5,},
+      
+    }}>
+      <Image
+                            src="/../public/images/a_logo3_nobg.png"
+                            alt="App Logo"
+                            width={300}
+                            height={240}
+                        />
+                         </motion.div><br/>
+                         <motion.div initial="hidden" animate="visible" variants={variantHeading}>
+        <h3 className={styles.heading}  >AAGMAN</h3><br/>
+        </motion.div>
+         
+      <motion.div initial="hidden" animate="visible" variants={variantButton}>
      
       <Link href="/form"><a className={styles.button}>Sign Up !</a></Link>
-   
+  
      </motion.div>
     </div>
   )

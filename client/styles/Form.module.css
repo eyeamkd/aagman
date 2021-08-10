@@ -1,6 +1,6 @@
 
     .signUpWrap {
-        height: 90vh;
+        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -15,7 +15,8 @@
 }
 
 .signup{
-    overflow-y: scroll;
+    
+    overflow-x: hidden;
     background-color: white;
    
     padding-top: 50px;
@@ -62,7 +63,8 @@
    
 .signup {
 
-overflow-y: scroll;
+
+overflow-x: hidden;
 background-color: white;
 display: block;
 padding-top: 50px;

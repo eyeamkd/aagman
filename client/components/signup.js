@@ -28,6 +28,7 @@ export default function Signup() {
     const [userName,setUserName]=useState("");
     const [gstNumber,setGstNumber]=useState("");
     const [location,setLocation]=useState("");
+    const [restaurantName,setRestaurantName]=useState("");
 
     const onSubmit = (e) => {
     }
@@ -50,6 +51,7 @@ export default function Signup() {
     
 >
 <form>
+
 <h1 className={styles.heading}>Sign Up</h1><br/><br/>
 
 <TextField label="Email" variant="outlined" color= "primary"  value={email} onChange={(e) => {    setEmail(e.target.value);    }}/>    <br/><br/>
@@ -57,13 +59,20 @@ export default function Signup() {
 <br/><br/>
 <TextField label="Full Name" variant="outlined"  color= "primary"  value={fullName} onChange={(e) => {setFullName(e.target.value);}}/>
 <br/><br/>
+<TextField label="Restaurant Name" variant="outlined"  color= "primary"  value={restaurantName} onChange={(e) => {setRestaurantName(e.target.value);}}/>
+<br/><br/>
+<TextField label="Location" variant="outlined"  color= "primary"  value={location} onChange={(e) => {setLocation(e.target.value);}}/>
+<br/><br/>
 <TextField label="Phone Number" variant="outlined"  color= "primary"  value={phoneNumber} onChange={(e) => {setPhoneNumber(e.target.value);}}/>
 <br/><br/>
 <TextField label="GST Number" variant="outlined"  color= "primary"  value={gstNumber} onChange={(e) => {setGstNumber(e.target.value);}}/>
 <br/><br/>
+
   <button className={styles.button1} onClick={onSubmit}>Register</button> <br/>
-  
-  </form> 
+
+  </form>
+ 
+
   </motion.main>
   </>    );
     };

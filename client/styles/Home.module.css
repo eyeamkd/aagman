@@ -1,18 +1,11 @@
 
-@font-face {
-	font-family: 'croissaintfont';
-	src: url("../public/text/CroissantOne-Regular.ttf");
-}
 
-@font-face {
-	font-family: 'pizzafont';
-	src: url("../public/text/hotpizza.ttf");
-}
 .heading{
 
   margin: 5px;
   color:#40E0D0;
-	cursor: pointer;
+  cursor: pointer;
+  
 }
 
 .container {
@@ -141,23 +134,61 @@
 }
 .button{
 	
-	background-color: white ;
+	background-color: #0f3c61;
 	background-repeat: no-repeat;
-	color: black;
+	color: #42c3aa;
 	text-decoration: none;
-	padding: 10px;
+	padding: 15px;
 font-size: 20px;
+font-weight: bold;
+
+
 margin:7px;
-width: 150px;
-height: 65px;
-border-radius: 10px;
+
+border-radius: 40px;
 text-align: center;
-font-size: 30px;
+
 
 
 }
+.button:hover{
+color: #008080;
+background-color: white;
+}
 
+@media only screen and (max-width:768px)
+{
+  .heading{
 
+    margin: 5px;
+    color:#40E0D0;
+    cursor: pointer;
+    font-size: 30px;
+  }
+  .button{
+	
+    background-color: #0f3c61;
+    background-repeat: no-repeat;
+    color: #42c3aa;
+    text-decoration: none;
+    padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  
+  
+  margin:7px;
+  
+  border-radius: 40px;
+  text-align: center;
+  
+  
+  
+  }
+  .button:hover{
+  color: #008080;
+  background-color: white;
+  }
+}
 
 
 
