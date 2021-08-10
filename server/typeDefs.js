@@ -6,6 +6,7 @@ type Query {
     users: [User!]!
     user(id: ID!): User!
     deleteUser(id: ID!): User
+    userExists(email: String!): User
 }
 
 type User {
@@ -13,6 +14,7 @@ type User {
     email: String!
     fullName: String!
     phoneNumber: String!
+    otp: String!
 }
 
 type Mutation {
@@ -20,7 +22,9 @@ type Mutation {
                fullName: String!
                phoneNumber: String!): User!,
 
-    deleteUser(id: ID!): String
+    deleteUser(id: ID!): String,
+    updateOtp(email: String!
+              otp: String!): User!
 }
 
 `

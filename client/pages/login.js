@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useForm } from "react-hook-form";
 import styles from '../styles/Login.module.css'
 import { useState } from "react";
+import { postOtp } from '../lib/auth';
 
 export default function Login() {
     const {
@@ -14,6 +15,27 @@ export default function Login() {
     const [email, setEmail] = useState("");
 
     const onSubmit = (e) => {
+        let user;
+
+        checkIfUserExists(email).then(res => {user = res;
+            if(user !== null)
+            {
+                postOtp(email).then(res =>{
+                    if(res)
+                    {
+                        alert("Email has been sent check your mail and enter the OTP.")
+                    }
+                    else
+                    {
+                        alert("Email has not been sent due to some error.");
+                    }
+                })
+            }
+            else
+            {
+                alert("User does not exists already. Sign Up first to continue.");
+            }
+        });
     }
 
     return (

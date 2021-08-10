@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { useForm } from "react-hook-form";
 import styles from '../styles/SignUp.module.css'
 import { useState } from "react";
+import { signUpUser, checkIfUserExists} from '../lib/auth';
 
-export default function Signup() {
+export default function Signup({ users }) {
     const {
         register,
         handleSubmit,
@@ -16,6 +17,26 @@ export default function Signup() {
     const [phoneNumber, setPhoneNumber] = useState("");
 
     const onSubmit = (e) => {
+        let user;
+
+        checkIfUserExists(email).then(res => {user = res;
+            if(user !== null)
+            {
+                alert("User with this email already exists.")
+            }
+            else
+            {
+                const answer = window.confirm(
+                    `Is your email, full name and phone number entered correctly?\nEmail: ${email}\nFull Name: ${fullName}\nPhone Number: ${phoneNumber}`
+                  );
+                  if (answer) {
+                    signUpUser(email, fullName, phoneNumber);
+                    setEmail("");
+                    setFullName("");
+                    setPhoneNumber("");
+                  }
+            }
+        });
     }
 
     return (
@@ -63,7 +84,7 @@ export default function Signup() {
                             {...register("fullName", {
                                 required: "Full Name is required.",
                                 pattern: {
-                                    value: /^[a-zA-Z ]$/,
+                                    value: /[\w ]$/,
                                     message: "Please enter a valid full name.",
                                 },
                             })}
