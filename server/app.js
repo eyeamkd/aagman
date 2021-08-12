@@ -1,8 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import { ApolloServer} from "apollo-server-express";
-import {resolvers} from "./resolvers";
-import { typeDefs } from "./typeDefs";
+import OrderResolvers from "./resolvers/OrderResolver";
+import OrderTypeDef from "./typedefs/OrderTypeDef";
+import UserResolvers from "./resolvers/UserResolver";
+import GMR from 'graphql-merge-resolvers';
+import UserTypeDef from "./typedefs/UserTypeDef";
 import nodemailer from "nodemailer";
 import sendGridTransport from "nodemailer-sendgrid-transport";
 import dotenv from "dotenv";
@@ -23,17 +26,21 @@ const server = async () => {
   app.use(express.json());
   app.use(cors());
   const server = new ApolloServer({
-      typeDefs,
-      resolvers
+    typeDefs: [ UserTypeDef, OrderTypeDef],
+    
+    resolvers:GMR.merge([
+      UserResolvers, OrderResolvers
+    ])
   })
 
   await server.start()
   server.applyMiddleware({app});
 
   try{
-
-      await mongoose.connect(process.env.Connection_String, {useNewUrlParser: true, useUnifiedTopology: true })
-  }catch(err){
+      
+      await mongoose.connect("mongodb+srv://greeta123:greeta123@aagman-cluster.coau9.mongodb.net/Aagman?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true })
+      console.log(mongoose.connection.readyState);
+    }catch(err){
       console.log(err)
   }
 

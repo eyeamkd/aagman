@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express'
 
-export const typeDefs = gql`
+export default gql`
 
 type Query {
     users: [User!]!

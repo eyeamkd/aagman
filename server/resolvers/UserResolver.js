@@ -1,6 +1,6 @@
-import { User } from "./models/user"
+import { User } from "./../models/user"
 
-export const resolvers = {
+export default {
     Query: {
         users:() => User.find(),
         user:(parent, {id}) => User.findById(id),
