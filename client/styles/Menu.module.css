@@ -1,24 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap');
 
-.menuContainer{
-    background: url("../public/images/menuBg.jpg");
-    background-position: center;
-    background-size: cover;
-    height: 100vh;
-}
-
-.heading{
-    margin: 0;
-    padding: 0;
-    background-color: rgb(241, 210, 71, 0.8);
-    text-align: center;
-    font-weight: 900;
-    font-size:3rem;
-    color: rgb(54, 37, 6);
+.menu{
+    background-color: white;
+    color: black;
     font-family: 'Style Script', cursive;
 }
 
-.menu{
-    display: flex;
-    height: 80vh;
+.navigateButtons{
+    text-align: center;
+    margin: 10px;
 }

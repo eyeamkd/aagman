@@ -1,17 +1,71 @@
+@font-face {
+	font-family: 'pizzafont';
+	src: url("../public/text/hotpizza.ttf");
+}
+
 .loginWrap {
     height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color:#008080;
+}
+.login{
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
-.formSignIn {
+
+
+.formSignInWrapper {
     text-align: center;
-    background-color: black;
-    max-width: 300px;
-    padding: 15px;
+    border: solid 15px #40E0D0;
+    border-radius: 40px;
+    background-color: white;
+    padding: 20px;
+    
     margin: 0 auto;
 }
+.formSignIn{
+    background-color: white;
+    display: inline-block;
+    padding-top: 50px;
+    vertical-align: text-top;
+    align-items: center;
+    justify-content: center;
+    width: 550px;
+    height: 550px;
+}
+
+@media only screen and (min-width:768px)
+{
+    .button1{
+        font-size: 30px;
+        background-color:#008080; 
+        color:  white;
+        border-radius: 10px;
+        width: 150px;
+        height: 70px;
+    }
+}
+@media only screen and (max-width:768px)
+{
+    .button1{
+        font-size: 20px;
+        background-color:#008080; 
+        color:  white;
+        border-radius: 10px;
+        width: 100px;
+        height: 50px;
+    }
+}
+
+
+.button1:hover{
+    background-color: #40E0D0 ;
+    color:#008080 ;
+}
+
 
 .formLabel{
     color:white;
