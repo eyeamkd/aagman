@@ -7,12 +7,16 @@ type Query {
     user(id: ID!): User!
     deleteUser(id: ID!): User
     userExists(email: String!): User
+    getUsersByLocation(location:String!):[User]
 }
 
 type User {
     id: ID!
     email: String!
     fullName: String!
+    restaurantName:String!
+    GSTNumber:String!
+    location:String!
     phoneNumber: String!
     otp: String!
 }
@@ -20,11 +24,18 @@ type User {
 type Mutation {
     createUser(email: String!
                fullName: String!
+               restaurantName: String!
+               GSTNumber: String!
+               location:String!
                phoneNumber: String!): User!,
 
     deleteUser(id: ID!): String,
     updateOtp(email: String!
-              otp: String!): User!
+              otp: String!): User!,
+    updateRestaurantName(email:String!
+        restaurantName:String!):User!,
+    updateLocation(email:String!,location:String!):User!,
+    updatePhoneNumber(email:String!,phoneNumber:String!):User!
 }
 
 `

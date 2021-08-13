@@ -4,6 +4,8 @@ import { ApolloServer} from "apollo-server-express";
 import OrderResolvers from "./resolvers/OrderResolver";
 import OrderTypeDef from "./typedefs/OrderTypeDef";
 import UserResolvers from "./resolvers/UserResolver";
+import ItemResolvers from "./resolvers/ItemResolver";
+import ItemTypeDef from "./typedefs/ItemTypeDef";
 import GMR from 'graphql-merge-resolvers';
 import UserTypeDef from "./typedefs/UserTypeDef";
 import nodemailer from "nodemailer";
