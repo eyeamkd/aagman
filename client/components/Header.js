@@ -10,7 +10,6 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import SideDrawer from "./SideDrawer";
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import ButtonBase from '@material-ui/core/ButtonBase';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -60,10 +59,9 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     tagline: {
-        fontSize: 20,
+        fontSize: 25,
         textTransform: "uppercase",
         justifyContent: "center",
-        fontFamily: "Montserrat",
     },
 }));
 

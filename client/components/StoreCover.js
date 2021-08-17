@@ -6,7 +6,7 @@
 
   const useStyles = makeStyles({
     cover: {
-      backgroundImage: `url(/images/orderCover.jpg)`,
+      backgroundColor: "rgb(52, 247, 250, 0.7)",
       backgroundPosition: "center",
       padding: "35px 25px",
       borderRadius: "50px",
@@ -14,7 +14,7 @@
     },
     title: {
       fontSize: 40,
-      fontFamily: "Montserrat",
+      fontWeight: "900",
       color: "inherit"
     },
     textContainer: {
@@ -26,7 +26,7 @@
     const classes = useStyles();
   
     return (
-      <Card className={classes.cover}>
+      <Card className={classes.cover} variant="outlined">
         <CardContent className={classes.textContainer}>
           <Typography className={classes.title} gutterBottom>
             Store Name

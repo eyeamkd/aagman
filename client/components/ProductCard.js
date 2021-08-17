@@ -46,19 +46,19 @@ const ProductCard = ({ product }) => {
 
     return (
         <Grid item xs={12} md={6}>
-            <Card className={classes.card}>
+            <Card className={classes.card} variant="outlined">
                 <div className={classes.cardDetails}>
                     <CardContent>
-                        <Typography component="h2" variant="h6">
+                        <Typography component="h2" variant="h4" style={{fontWeight: "900"}}>
                             {product.title}
                         </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
+                        <Typography variant="h6" color="textSecondary">
                             {product.price}
                         </Typography>
                         <Typography variant="subtitle1" paragraph>
                             {product.description}
                         </Typography>
-                        <Typography variant="subtitle1" style={{ color: "skyblue" }}>
+                        <Typography variant="h6" style={{ color: "skyblue" }}>
                            Quantity: {counter}
                         </Typography>
                     </CardContent>

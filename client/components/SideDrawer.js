@@ -14,6 +14,7 @@ import { sections } from "../Data/Data";
 const useStyles = makeStyles({
     list: {
         width: 250,
+        fontSize: 20,
     },
     fullList: {
         width: "auto",
