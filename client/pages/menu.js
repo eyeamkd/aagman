@@ -17,7 +17,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import SideDrawer from "../components/SideDrawer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -65,7 +64,7 @@ const menu = () => {
                     <Header />
                     <StoreCover />
                     <br />
-                    <Grid container spacing={4}>
+                    <Grid container spacing={1}>
                         {productCards.map((product) => (
                             <ProductCard key={product.title} product={product} />
                         ))}
