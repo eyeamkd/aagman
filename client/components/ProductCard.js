@@ -17,7 +17,7 @@ const useStyles = makeStyles({
         borderRadius: "20px",
         backgroundColor: "rgba(247,120,186,255)",
         color: "white",
-        margin: "10px",
+        margin: "10px 10px 0",
         padding: "10px"
     },
     cardActions: {
