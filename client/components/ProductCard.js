@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 const useStyles = makeStyles({
     card: {
         display: "flex",
-        borderRadius: "50px",
+        borderRadius: "20px",
         backgroundColor: "rgba(247,120,186,255)",
         color: "white",
         margin: "10px",

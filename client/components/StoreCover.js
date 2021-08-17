@@ -8,7 +8,7 @@
       backgroundColor: "rgba(106,72,245,255)",
       backgroundPosition: "center",
       padding: "35px 25px",
-      borderRadius: "50px",
+      borderRadius: "20px",
       margin: "10px",
       color: "white",
     },

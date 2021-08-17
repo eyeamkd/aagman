@@ -22,7 +22,7 @@ import SideDrawer from "../components/SideDrawer";
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "rgba(234,227,255,255)",
-        borderRadius: "50px",
+        borderRadius: "20px",
         position: "fixed",
         bottom: "0px",
         margin: "10px",
