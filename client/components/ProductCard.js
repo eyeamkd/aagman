@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -15,20 +15,34 @@ const useStyles = makeStyles({
     card: {
         display: "flex",
         borderRadius: "50px",
-        backgroundColor: "rgb(235, 52, 168, 0.7)",
+        backgroundColor: "rgba(247,120,186,255)",
         color: "white",
-        textAlign: "center",
         margin: "10px",
+        padding: "10px"
     },
-    cardActions:{
+    cardActions: {
         justifyContent: "center"
     },
     cardDetails: {
         flex: 1,
     },
     cardMedia: {
-        width: 200,
+        border: "2px solid white",
+        borderRadius: "100px",
+        width: 50,
+        height: 50,
     },
+    product: {
+        margin: "10px 0 0 10px" 
+    },
+    cardContent: {
+        padding: "16px"
+    },
+    productQuantity: {
+        marginTop: "auto",
+        padding: "16px",
+        textAlign: "center",
+    }
 });
 
 const ProductCard = ({ product }) => {
@@ -41,27 +55,33 @@ const ProductCard = ({ product }) => {
     }
 
     const decrementCounter = () => {
-        counter>0 ? setCounter(counter - 1) : alert("Products quantity is already 0.");
+        counter > 0 ? setCounter(counter - 1) : alert("Products quantity is already 0.");
     }
 
     return (
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
             <Card className={classes.card} variant="outlined">
                 <div className={classes.cardDetails}>
-                    <CardContent>
-                        <Typography component="h2" variant="h4" style={{fontWeight: "900"}}>
-                            {product.title}
-                        </Typography>
-                        <Typography variant="h6" color="textSecondary">
+                    <CardContent className={classes.cardContent}>
+                        <CardMedia
+                            className={classes.cardMedia}
+                            image={product.image}
+                            title={product.imageTitle}
+                        />
+                        <div className={classes.product}>
+                        <Typography variant="subtitle1" color="textSecondary" style={{ fontWeight: "500" }}>
                             {product.price}
                         </Typography>
-                        <Typography variant="subtitle1" paragraph>
-                            {product.description}
+                        <Typography component="h2" variant="h5" style={{ fontWeight: "500" }}>
+                            {product.title}
                         </Typography>
-                        <Typography variant="h6" style={{ color: "skyblue" }}>
-                           Quantity: {counter}
-                        </Typography>
+                        </div>
                     </CardContent>
+                </div>
+                <div className={classes.productQuantity}>
+                    <Typography variant="h6" style={{ color: "skyblue" }}>
+                        Quantity: {counter}
+                    </Typography>
                     <CardActions className={classes.cardActions}>
                         <IconButton color="primary" aria-label="add to shopping cart" onClick={incrementCounter}>
                             <AddShoppingCartIcon />
@@ -71,13 +91,6 @@ const ProductCard = ({ product }) => {
                         </IconButton>
                     </CardActions>
                 </div>
-                <Hidden xsDown>
-                    <CardMedia
-                        className={classes.cardMedia}
-                        image={product.image}
-                        title={product.imageTitle}
-                    />
-                </Hidden>
             </Card>
         </Grid>
     );

@@ -9,23 +9,19 @@ export const sections = [
 export const productCards = [
   {
     title: "French Fries",
-    price: "₹80",
-    description:
-      "These are deep fried potato sticks.",
+    price: "₹80,00",
     image: "/images/frenchFries.jpg",
     imageText: "Image Text",
   },
   {
     title: "Pizza",
-    price: "₹200",
-    description:
-      "This is an italian dish. A bread with toppings.",
+    price: "₹200.00",
     image: "/images/pizza.jpg",
     imageText: "Image Text",
   },
   {
     title: "Burger",
-    price: "₹100",
+    price: "₹100.00",
     description:
       "This is bread buns with patties and toppings.",
     image: "/images/burger.jpg",
@@ -33,7 +29,7 @@ export const productCards = [
   },
   {
     title: "Momos",
-    price: "₹120",
+    price: "₹120.00",
     description:
       "It's a dumpling filled with vegetables",
     image: "/images/momos.jpg",

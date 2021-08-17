@@ -21,14 +21,14 @@ import SideDrawer from "../components/SideDrawer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: "rgb(148, 255, 255)",
+        backgroundColor: "rgba(234,227,255,255)",
         borderRadius: "50px",
         position: "fixed",
         bottom: "0px",
-        left: "0px",
-        right: "0px",
-        marginBottom: "10px",
-        width: "100vw",
+        margin: "10px",
+        boxSizing: "border-box",
+        width: "calc(100% - 52px)",
+        paddingTop: "10px",
         display: "block",
         textAlign: "center",
         [theme.breakpoints.up('sm')]: {
@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: "10px",
         borderRadius: "50px",
+    },
+    navIcons: {
+        color: "rgba(192,174,246,255)"
     }
 }));
 
@@ -90,10 +93,10 @@ const menu = () => {
                         showLabels
                         className={classes.root}
                     >
-                        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-                        <BottomNavigationAction label="Menu" icon={<MenuIcon />} />
-                        <BottomNavigationAction label="Profile" icon={<PersonIcon />} />
-                        <BottomNavigationAction label="Back" icon={<ArrowBackIosIcon />} />
+                        <BottomNavigationAction icon={<HomeIcon />} className={classes.navIcons} />
+                        <BottomNavigationAction icon={<MenuIcon />} className={classes.navIcons}/>
+                        <BottomNavigationAction icon={<PersonIcon />} className={classes.navIcons}/>
+                        <BottomNavigationAction icon={<ArrowBackIosIcon />} className={classes.navIcons}/>
                     </BottomNavigation>
                 </Container>
                 <Footer />
