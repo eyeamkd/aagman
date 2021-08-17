@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     card: {
         display: "flex",
         borderRadius: "20px",
-        backgroundColor: "rgba(247,120,186,255)",
+        background: "linear-gradient(to right, #654ea3, #eaafc8)",
         color: "white",
         margin: "10px 10px 0",
         padding: "10px"
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
         height: 50,
     },
     product: {
-        margin: "10px 0 0 10px" 
+        margin: "10px 0 0 0px" 
     },
     cardContent: {
         padding: "16px"
@@ -79,7 +79,7 @@ const ProductCard = ({ product }) => {
                     </CardContent>
                 </div>
                 <div className={classes.productQuantity}>
-                    <Typography variant="h6" style={{ color: "skyblue" }}>
+                    <Typography variant="h6" style={{ color: "rgb(193, 227, 247)" }}>
                         Quantity: {counter}
                     </Typography>
                     <CardActions className={classes.cardActions}>

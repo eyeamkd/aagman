@@ -20,7 +20,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: "rgba(234,227,255,255)",
+        background: "linear-gradient(to right, #c9d6ff, #e2e2e2)",
         borderRadius: "20px",
         position: "fixed",
         bottom: "0px",
