@@ -1,136 +1,217 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
 import Container from '@material-ui/core/Container';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-  
+import CloseIcon from '@material-ui/icons/Close';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 const useStyles = makeStyles((theme) => ({
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+    dialogWrapper: {
+        background: "linear-gradient(to right, #7f7fd5, #86a8e7, #91eae4)",
+        padding: theme.spacing(2),
+        position: 'absolute',
+        top: theme.spacing(5),
+        borderRadius: "20px",
+    },
+    dialogTitle: {
+        paddingRight: '0px'
     },
     paper: {
         background: "linear-gradient(to right, #d9a7c7, #fffcdc)",
-        border: '1px solid #000',
+        borderRadius: "20px",
+        border: '1px solid #654ea3',
         boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
+        padding: theme.spacing(1, 3, 2),
     },
     formPaper: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(3),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-      },
-      avatar: {
+    },
+    avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-      },
-      form: {
+        background: "linear-gradient(to right, #8e2de2, #4a00e0)",
+    },
+    form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
-      },
-      submit: {
-        margin: theme.spacing(3, 0, 2),
-      },
+    },
+    submit: {
+        margin: theme.spacing(2, 0, 1),
+        borderRadius: "50px",
+        background: "linear-gradient(to right, #654ea3, #eaafc8)"
+    },
 }));
 
-export const AddMenu = () => {
+export const AddMenu = (props) => {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit } = props;
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+    const initialFValues = {
+        id: '',
+        name: '',
+        description: '',
+        status: '',
+        cost: '',
+        category: ''
+    }
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const resetForm = () => {
+        setItem(initialFValues);
+        setRecordForEdit(null);
+    }
+
+    const [item, setItem] = useState(initialFValues);
+
+    useEffect(() => {
+        if (recordForEdit != null) {
+            setItem({
+                ...recordForEdit
+            })
+
+        }
+    }, [recordForEdit])
+
+    const handleInputChange = e => {
+        const { name, value } = e.target
+        setItem({
+            ...item,
+            [name]: value
+        })
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault()
+
+        addOrEdit(item, resetForm);
+
+    }
 
     return (
-        <div>
-            <button type="button" onClick={handleOpen} >
-                Create Menu
-            </button>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
-            >
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <Container component="main" maxWidth="xs">
-                            <CssBaseline />
-                            <div className={classes.formPaper}>
-                                <Avatar className={classes.avatar}>
-                                    <AddShoppingCartIcon />
-                                </Avatar>
-                                <Typography component="h1" variant="h5">
-                                    Add Product
-                                </Typography>
-                                <form className={classes.form} noValidate>
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        id="title"
-                                        label="Title"
-                                        name="title"
-                                        autoComplete="title"
-                                        autoFocus
-                                    />
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="price"
-                                        label="Price"
-                                        type="text"
-                                        id="price"
-                                        autoComplete="price"
-                                    />
-                                      <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="category"
-                                        label="Category"
-                                        type="text"
-                                        id="category"
-                                        autoComplete="category"
-                                    />
-                                    <Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.submit}
+        <Dialog open={openPopup} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
+            <DialogTitle className={classes.dialogTitle}>
+                <div style={{ display: 'flex' }}>
+                    <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
+                        {title}
+                    </Typography>
+                    <Button
+                        color="secondary"
+                        onClick={() => { setOpenPopup(false) }}>
+                        <CloseIcon />
+                    </Button>
+                </div>
+            </DialogTitle>
+            <DialogContent dividers>
+                <div className={classes.paper}>
+                    <Container component="main" maxWidth="xs">
+                        <CssBaseline />
+                        <div className={classes.formPaper}>
+                            <Avatar className={classes.avatar}>
+                                <AddShoppingCartIcon />
+                            </Avatar>
+                            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="name"
+                                    value={item.name}
+                                    onChange={handleInputChange}
+                                    label="Name"
+                                    type="text"
+                                    name="name"
+                                    autoComplete="name"
+                                    autoFocus
+                                />
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    id="description"
+                                    value={item.description}
+                                    onChange={handleInputChange}
+                                    label="Description"
+                                    type="text"
+                                    name="description"
+                                    autoComplete="description"
+                                    autoFocus
+                                />
+                                <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="status" autoFocus>
+                                    <InputLabel htmlFor="status">Status</InputLabel>
+                                    <Select
+                                        native
+                                        name="status"
+                                        value={item.status}
+                                        onChange={handleInputChange}
+                                        label="Status"
                                     >
-                                        Add
-                                    </Button>
-                                </form>
-                            </div>
-                        </Container>
-                    </div>
-                </Fade>
-            </Modal>
-        </div>
+                                        <option aria-label="None" value=""/>
+                                        <option value={"Available"}>Available</option>
+                                        <option value={"Unavailable"}>Unavailable</option>
+                                    </Select>
+                                </FormControl>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="cost"
+                                    label="Cost"
+                                    type="text"
+                                    id="cost"
+                                    value={item.cost}
+                                    onChange={handleInputChange}
+                                    autoComplete="cost"
+                                />
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="category"
+                                    label="Category"
+                                    type="text"
+                                    id="category"
+                                    value={item.category}
+                                    onChange={handleInputChange}
+                                    autoComplete="category"
+                                />
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                >
+                                    Save
+                                </Button>
+                                <Button
+                                    type="reset"
+                                    fullWidth
+                                    variant="contained"
+                                    color="secondary"
+                                    className={classes.submit}
+                                    onClick={resetForm}
+                                >
+                                    Reset
+                                </Button>
+                            </form>
+                        </div>
+                    </Container>
+                </div>
+            </DialogContent>
+        </Dialog>
     );
 }

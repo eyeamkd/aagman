@@ -9,16 +9,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 
 // Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
+function createData(orderCode, itemName, itemCost, itemQuantity, totalCost, paymentMode, paymentStatus, itemStatus) {
+  return { orderCode, itemName, itemCost, itemQuantity, totalCost, paymentMode, paymentStatus, itemStatus };
 }
 
 const rows = [
-  createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-  createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-  createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
+  createData(1234, 'Pizza', '150.00', '2', '300.00', 'Cash', 'Completed', 'InProgress'),
 ];
 
 function preventDefault(event) {
@@ -26,9 +22,6 @@ function preventDefault(event) {
 }
 
 const useStyles = makeStyles((theme) => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
 }));
 
 export default function Orders() {
@@ -39,30 +32,31 @@ export default function Orders() {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>Order Code</TableCell>
+            <TableCell>Item Name</TableCell>
+            <TableCell>Item Cost</TableCell>
+            <TableCell>Item Quantity</TableCell>
+            <TableCell>Total Cost</TableCell>
+            <TableCell>Payment Mode</TableCell>
+            <TableCell>Payment Status</TableCell>
+            <TableCell align="right">Item Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+            <TableRow key={row.orderCode}>
+              <TableCell>{row.orderCode}</TableCell>
+              <TableCell>{row.itemName}</TableCell>
+              <TableCell>{row.itemCost}</TableCell>
+              <TableCell>{row.itemQuantity}</TableCell>
+              <TableCell>{row.totalCost}</TableCell>
+              <TableCell>{row.paymentMode}</TableCell>
+              <TableCell>{row.paymentStatus}</TableCell>
+              <TableCell align="right">{row.itemStatus}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          See more orders
-        </Link>
-      </div>
     </React.Fragment>
   );
 }

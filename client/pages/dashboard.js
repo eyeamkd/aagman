@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -19,23 +19,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from '../components/listItems';
-import Chart from '../components/Chart';
-import Deposits from '../components/Deposits';
 import Orders from '../components/Orders';
-import { AddMenu } from '../components/AddMenu';
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import Menu from '../components/Menu';
+import Footer from '../components/Footer';
 
 const drawerWidth = 240;
 
@@ -54,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
         ...theme.mixins.toolbar,
     },
     appBar: {
+        background: "linear-gradient(to right, #5c258d, #4389a2)",
         zIndex: theme.zIndex.drawer + 1,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
@@ -78,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     drawerPaper: {
+        background: "linear-gradient(to right, #b993d6, #8ca6db)",
         position: 'relative',
         whiteSpace: 'nowrap',
         width: drawerWidth,
@@ -108,6 +96,8 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(4),
     },
     paper: {
+        background: "linear-gradient(to right, #b993d6, #8ca6db)",
+        borderRadius: "20px",
         padding: theme.spacing(2),
         display: 'flex',
         overflow: 'auto',
@@ -120,7 +110,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+
+    const [open, setOpen] = useState(true);
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -144,7 +136,7 @@ export default function Dashboard() {
                         <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Dashboard
+                        Aagman
                     </Typography>
                     <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">
@@ -167,25 +159,11 @@ export default function Dashboard() {
                 </div>
                 <Divider />
                 <List>{mainListItems}</List>
-                <Divider />
-                <List>{secondaryListItems}</List>
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
-                        {/* Chart */}
-                        <Grid item xs={12} md={8} lg={9}>
-                            <Paper className={fixedHeightPaper}>
-                                <Chart />
-                            </Paper>
-                        </Grid>
-                        {/* Recent Deposits */}
-                        <Grid item xs={12} md={4} lg={3}>
-                            <Paper className={fixedHeightPaper}>
-                                <Deposits />
-                            </Paper>
-                        </Grid>
                         {/* Recent Orders */}
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
@@ -194,12 +172,12 @@ export default function Dashboard() {
                         </Grid>
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
-                                <AddMenu />
+                                <Menu />
                             </Paper>
                         </Grid>
                     </Grid>
                     <Box pt={4}>
-                        <Copyright />
+                        <Footer/>
                     </Box>
                 </Container>
             </main>
