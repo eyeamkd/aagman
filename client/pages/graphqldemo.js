@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Users from '../components/Users';
 import Orders from '../components/order';
+import Items from '../components/item';
 import {ApolloClient, InMemoryCache, ApolloProvider,HttpLink,from,} from '@apollo/client';
 import {onError} from '@apollo/client/link/error';
 
@@ -34,6 +35,7 @@ export default function GraphQLDemo() {
            {" "}
            <Users/>
            <Orders/>
+           <Items/>
            </ApolloProvider>;
         </div>
         </>

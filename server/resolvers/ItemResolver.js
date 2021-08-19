@@ -7,8 +7,8 @@ export default {
         item:(parent, {id}) => Item.findById(id),
         getItemByCode: (_, {itemCode}) =>{
             const filter = { itemCode: itemCode }
-            const orders = Order.findOne(filter);
-            return orders;
+            const items = Item.findOne(filter);
+            return items;
         },
         
     },
@@ -19,6 +19,17 @@ export default {
           await item.save();
           return item;
       },
+      updateItem:async(_,{itemCode,itemSubTopic})=>{
+        const filter ={itemCode:itemCode}
+        const update = {itemSubTopic:itemSubTopic};
+        const items= await Item.findOneAndUpdate(filter,update,{new:true});
+        return items;
+      },
+      deleteItem:async(_,{itemCode})=>{
+        const filter={itemCode:itemCode}
+        const item=await Item.findOneAndDelete(filter);
+        return "Item Deleted";
+    }
 
        
        

@@ -2,32 +2,45 @@ import React,{useEffect,useState} from 'react';
 import {useQuery,gql} from '@apollo/client';
 import {useMutation} from '@apollo/client';
 import {LOAD_USERS,
-        GET_USER_BY_CODE} from '../GraphQL/Queries';
+        GET_USER_BY_CODE,
+        GET_USERS_BY_LOCATION} from '../GraphQL/Queries/UsersQueries';
 import {CREATE_USERS,
-    UPDATE_USERS_PHONENUMBER,
-    UPDATE_USERS_LOCATION,
-UPDATE_USERS_RESTAURANTNAME} from '../GraphQL/Mutations';
+        UPDATE_USERS_PHONENUMBER,
+        UPDATE_USERS_LOCATION,
+        UPDATE_USERS_RESTAURANTNAME,
+        DELETE_USER} from '../GraphQL/Mutations/UsersMutation';
 
 function Users(){
-    //const {error, loading,data} = useQuery(LOAD_USERS)
-    
+   
+    const {error, loading,data:dataEntire} = useQuery(LOAD_USERS)
+    const {data:dataSingleUser}=useQuery(GET_USER_BY_CODE,
+        {variables:{
+            userExistsEmail:"k@gmail"
+        }})
+    const {data:dataUsersLocation}=useQuery(GET_USERS_BY_LOCATION,{
+        variables:{
+            getUsersByLocationLocation:"chennai"
+        }
+    });
     const [createUser]=useMutation(CREATE_USERS);
     const [updatePhoneNumber]=useMutation(UPDATE_USERS_PHONENUMBER);
     const [updateLocation]=useMutation(UPDATE_USERS_LOCATION);
     const [updateRestaurantName]=useMutation(UPDATE_USERS_RESTAURANTNAME);
+    const [deleteUser]=useMutation(DELETE_USER);
     const [users,setUsers]=useState([]);
-    let {error, loading,data}=useQuery(GET_USER_BY_CODE,
-        {variables:{
-            userExistsEmail:"k@gmail"
-        }})
+   
     
     const getUsers=(e)=>{
         
-       // console.log(data);
+        console.log(dataEntire);
     }
    const getSingleUserFunction=(e)=>{
-   
     
+        console.log(dataSingleUser);
+    
+    }
+    const getUsersLocationFunction=(e)=>{
+        console.log(dataUsersLocation)
     }
     const createUserFunction=(e)=>{
         createUser({
@@ -64,10 +77,17 @@ function Users(){
         updatePhoneNumber({
             variables:{
                 updatePhoneNumberEmail:"manasa@gmail",
-                updatePhoneNumberPhoneNumber:"76768877665454"
+                updatePhoneNumberPhoneNumber:"2334454"
             }
         })
-        console.log(data_phone);
+        
+    }
+    const deleteUserFunction=(e)=>{
+        deleteUser({
+            variables:{
+                deleteUserId:"611b83615d16fe50fce48abc"
+            }
+        })
     }
    
 
@@ -76,10 +96,12 @@ function Users(){
            
         <h1 onClick={getUsers}>Get Users</h1>
         <h1 onClick={getSingleUserFunction}>Get Single User</h1>
+        <h1 onClick={getUsersLocationFunction}>Get Users Location</h1>
         <h1 onClick={createUserFunction}> Create Users</h1>
         <h1 onClick={updateUserRestaurantNameFunction}>Update Users Restaurant</h1>
         <h1 onClick={updateUserLocationNameFunction}>Update Users Location</h1>
         <h1 onClick={updateUserPhoneNumberFunction}>Update Users Phone Number</h1>
+        <h1 onClick={deleteUserFunction}>Delete User</h1>
           
      
         </div>

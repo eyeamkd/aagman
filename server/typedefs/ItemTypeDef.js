@@ -5,43 +5,45 @@ export default gql`
 type Query {
     items: [Item!]!
     item(id: ID!): Item!
-    getItemByCode(itemCode: Int!): Item
+    getItemByCode(itemCode: String!): Item
     
 }
-type ItemSubTopicList{
-    itemList:[ItemList!]
+type ItemSubTopic{
+    itemsName:String!
+    items:[Items]!
 }
 
-input inputItemSubTopicList{
-    itemList:[inputItemList]
+input inputItemSubTopic{
+    itemsName:String!
+    items:[inputItems]!
 }
 
-input inputItemList{
-    itemName:String!
-    itemDescription:String!
-    itemQuantity:Int!
+input inputItems{
+    Name:String!
+    Description:String!
+    Quantity:Int!
     Status:String!
     Cost:Int!
 }
 
-type ItemList{
-    itemName:String!
-    itemDescription:String!
-    itemQuantity:Int!
+type Items{
+    Name:String!
+    Description:String!
+    Quantity:Int!
     Status:String!
     Cost:Int!
 }
 
 type Item {
     id: ID!
-    itemCode:Int!
-    itemSubTopicList:[ItemSubTopicList!]
+    itemCode:String!
+    itemSubTopic:[ItemSubTopic]!
 }
 
 type Mutation{
-    createItem(itemCode:Int!,itemSubTopic:inputItemSubTopicList!):Item!
+    createItem(itemCode:String!,itemSubTopic:[inputItemSubTopic]!):Item!
+    updateItem(itemCode:String!,itemSubTopic:[inputItemSubTopic]!):Item
+    deleteItem(itemCode:String!):String
 }
-
-
 
 `

@@ -28,10 +28,10 @@ const server = async () => {
   app.use(express.json());
   app.use(cors());
   const server = new ApolloServer({
-    typeDefs: [ UserTypeDef, OrderTypeDef],
+    typeDefs: [ UserTypeDef, OrderTypeDef,ItemTypeDef],
     
     resolvers:GMR.merge([
-      UserResolvers, OrderResolvers
+      UserResolvers, OrderResolvers,ItemResolvers
     ])
   })
 
