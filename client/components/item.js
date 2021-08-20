@@ -95,7 +95,7 @@ function order(){
            <br/>
         
         <h1 onClick={()=>createItemsFunction()}> Create Items</h1>
-        {imageUrl?(<a href={imageUrl} download><img src={imageUrl} alt="image"/></a>):null}
+        {qrCode?(<a href={qrCode} download><img src={qrCode} alt="image"/></a>):null}
       <h1 onClick={getItems}>Get Item</h1>
         <QrReader
        
