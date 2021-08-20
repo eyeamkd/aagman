@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap');
+
+.menu{
+    background-color: white;
+    color: black;
+    font-family: Calibri;
+}
+
+.navigateButtons{
+    text-align: center;
+    margin: 10px;
+}

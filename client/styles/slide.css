@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+}
+:root {
+    --switches-bg-color: #008080;
+    --switches-label-color: #40E0D0 ;
+    --switch-bg-color: #40E0D0;
+    --switch-text-color: #008080 ;
+}
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+/* resize font-size on html and body level. html is required for widths based on rem */
+@media screen and (min-width: 1024px) {
+
+    html,
+    body {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+    html,
+    body {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    html,
+    body {
+        font-size: 12px;
+    }
+}
+

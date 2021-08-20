@@ -1,0 +1,78 @@
+.signUpWrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #008080;
+    
+}
+
+@media only screen and (min-width:768px)
+{
+.signInImages{
+float: left;
+}
+
+.signup{
+
+overflow-x: hidden;
+background-color: white;
+
+padding-top: 50px;
+vertical-align: text-top;
+align-items: center;
+justify-content: center;
+float: right;
+width: 550px;
+height: 550px;
+}
+
+.formSignInWrapper {
+text-align: center;
+border: solid 15px #40E0D0;
+border-radius: 40px;
+background-color: white;
+padding: 20px;
+
+margin: 0 auto;
+}
+
+
+}
+@media only screen and (max-width:768px)
+{
+.signup{
+display: none;
+}
+
+.formSignInWrapper {
+    text-align: center;
+    border: solid 15px #40E0D0;
+    border-radius: 40px;
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+    width: 330px;
+    height: 500px;
+    margin: 0 auto;
+}
+.signInImages{
+display: none;
+}
+
+.signup {
+
+
+overflow-x: hidden;
+background-color: white;
+display: block;
+padding-top: 50px;
+
+align-items: center;
+justify-content: center;
+
+width: 270px;
+height: 380px;
+}
+
+}
