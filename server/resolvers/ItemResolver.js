@@ -1,4 +1,5 @@
 import { Item } from "./../models/item"
+import {Category} from "./../models/categories"
 
 
 export default {
@@ -31,10 +32,8 @@ export default {
         const filterCode={itemCode:itemCode}
         const filterCategory={categoryName:categoryName}
         const updateitem={item:item}
-        const items=Item.find(filter);
-        const it =items.find(filter1);
-        const up=await it.findOneAndUpdate(it,updateitem,{new:true})
-        return up;
+        const up=await Item.categoryName.findOneAndUpdate(filterCategory,updateitem,{new:true})
+        return "Updated!";
     },
     
       deleteItem:async(_,{itemCode})=>{

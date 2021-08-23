@@ -6,9 +6,6 @@ type Query {
     items: [Item!]!
     item(id: ID!): Item!
     getItemByCode(itemCode: String!): Item
-   
-    
-    
 }
 type categories{
     categoryName:String!
@@ -44,7 +41,7 @@ type Mutation{
     createItem(itemCode:String!,categories:[inputCategories]!):Item!
     updateItem(itemCode:String!,categories:[inputCategories]!):Item
     deleteItem(itemCode:String!):String
-    getItemByCategory(itemCode:String!,categoryName:String!,item:[inputItems]):[categories]
+    getItemByCategory(itemCode:String!,categoryName:String!,item:[inputItems]):String!
 }
 
 `
