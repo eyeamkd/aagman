@@ -4,28 +4,28 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
-import {onError} from '@apollo/client/link/error';
-import {ApolloClient, InMemoryCache, ApolloProvider,HttpLink,from,} from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, } from '@apollo/client';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
 
 
-  const errorLink= onError(({graphqlErrors,networkError})=>{
-    if(graphqlErrors){
-        graphqlErrors.map(({message,location,path})=>{
-            alert(`GraphQL error ${message}`);
-        });
+  const errorLink = onError(({ graphqlErrors, networkError }) => {
+    if (graphqlErrors) {
+      graphqlErrors.map(({ message, location, path }) => {
+        alert(`GraphQL error ${message}`);
+      });
     }
-})
-const link = from([
+  })
+  const link = from([
     errorLink,
-    new HttpLink({uri:"http://localhost:5000/graphql"}),
-]);
-const client =new ApolloClient({
-   cache:new InMemoryCache(),
-   link:link,
-})
+    new HttpLink({ uri: "http://localhost:5000/graphql" }),
+  ]);
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: link,
+  })
 
 
   React.useEffect(() => {
@@ -44,11 +44,11 @@ const client =new ApolloClient({
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       </Head>
       <ThemeProvider theme={theme}>
-      <ApolloProvider client={client}>
         {" "}
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <ApolloProvider client={client}>
+          <Component {...pageProps} />
         </ApolloProvider>;
       </ThemeProvider>
     </React.Fragment>

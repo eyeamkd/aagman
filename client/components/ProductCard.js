@@ -33,7 +33,7 @@ const useStyles = makeStyles({
         height: 50,
     },
     product: {
-        margin: "10px 0 0 0px" 
+        margin: "10px 0 0 0px"
     },
     cardContent: {
         padding: "16px"
@@ -65,16 +65,16 @@ const ProductCard = ({ product }) => {
                     <CardContent className={classes.cardContent}>
                         <CardMedia
                             className={classes.cardMedia}
-                            image={product.image}
-                            title={product.imageTitle}
+                            image={"https://picsum.photos/50"}
+                            title={product.name}
                         />
                         <div className={classes.product}>
-                        <Typography variant="subtitle1" color="textSecondary" style={{ fontWeight: "500" }}>
-                            {product.price}
-                        </Typography>
-                        <Typography component="h2" variant="h5" style={{ fontWeight: "500" }}>
-                            {product.title}
-                        </Typography>
+                            <Typography variant="subtitle1" color="textSecondary" style={{ fontWeight: "500" }}>
+                                ₹{product.cost}
+                            </Typography>
+                            <Typography component="h2" variant="h5" style={{ fontWeight: "500" }}>
+                                {product.name}
+                            </Typography>
                         </div>
                     </CardContent>
                 </div>
