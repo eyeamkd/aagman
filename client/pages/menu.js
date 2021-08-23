@@ -17,7 +17,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {
-    LOAD_ITEMS,
+    GET_ITEMS_BY_ID,
     GET_ITEMS
 } from '../GraphQL/Queries/ItemsQueries';
 import { useQuery, gql } from '@apollo/client';
@@ -62,16 +62,17 @@ const menu = (props) => {
     const router = useRouter();
     const { query } = useRouter();
     const [value, setValue] = useState(0);
-    const [menuId, setmenuId] = useState("671288");
-    const { data, loading, error } = useQuery(GET_ITEMS,
+    const [menuId, setmenuId] = useState("611fbba407fec733841908e2");
+    const { data, loading, error } = useQuery(GET_ITEMS_BY_ID,
         {
             variables: {
-                getItemByCodeItemCode: menuId
+                itemId: menuId
             }
         });
 
     useEffect(() => {
         console.log("This is the menu's document id received.", query.menuId);
+        //setmenuId(query.menuId);
     }, [])
 
     if (loading) return 'Loading...';
