@@ -21,7 +21,7 @@ import {
     GET_ITEMS
 } from '../GraphQL/Queries/ItemsQueries';
 import { useQuery, gql } from '@apollo/client';
-
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const menu = () => {
+const menu = (props) => {
     const lightTheme = createTheme({
         palette: {
             type: "light",
@@ -59,8 +59,8 @@ const menu = () => {
     });
 
     const classes = useStyles();
-
-
+    const router = useRouter();
+    const { query } = useRouter();
     const [value, setValue] = useState(0);
     const [menuId, setmenuId] = useState("671288");
     const { data, loading, error } = useQuery(GET_ITEMS,
@@ -70,6 +70,9 @@ const menu = () => {
             }
         });
 
+    useEffect(() => {
+        console.log("This is the menu's document id received.", query.menuId);
+    }, [])
 
     if (loading) return 'Loading...';
 
