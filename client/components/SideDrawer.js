@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -9,7 +9,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Icon from '@material-ui/core/Icon'
-import { sections } from "../Data/Data";
+import { GET_ITEMS } from '../GraphQL/Queries/ItemsQueries';
+import { useQuery, gql } from '@apollo/client';
 
 const useStyles = makeStyles({
     list: {
@@ -24,6 +25,19 @@ const useStyles = makeStyles({
 export default function TemporaryDrawer({ children }) {
     const classes = useStyles();
     const [state, setState] = React.useState({ left: false });
+    const [menuId, setmenuId] = useState("671288");
+    const { data, loading, error } = useQuery(GET_ITEMS,
+        {
+            variables: {
+                getItemByCodeItemCode: menuId
+            }
+        });
+
+    if (loading) return 'Loading...';
+
+    if (error) return `Error! ${error.message}`;
+
+    const menu = Object.values(data);
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (
@@ -50,11 +64,13 @@ export default function TemporaryDrawer({ children }) {
             </List>
             <Divider />
             <List>
-                {sections.map((text, index) => (
-                    <ListItem button key={text.title}>
-                        <ListItemText primary={text.title} />
-                    </ListItem>
-                ))}
+                {menu.map(value =>
+                    value.categories.map(category =>
+                        <ListItem button key={category.categoryName}>
+                            <ListItemText primary={category.categoryName} />
+                        </ListItem>
+                    )
+                )}
             </List>
         </div>
     );
