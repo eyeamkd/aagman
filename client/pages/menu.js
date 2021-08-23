@@ -17,6 +17,10 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import {LOAD_ITEMS,
+        GET_ITEMS} from '../GraphQL/Queries/ItemsQueries';
+import {useQuery,gql} from '@apollo/client';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,10 +59,21 @@ const menu = () => {
 
     const classes = useStyles();
 
+
+
     const [value, setValue] = useState(0);
+    const [menuId,setmenuId]=useState("671288");
+    const {data:singleMenuItem,refetch}=useQuery(GET_ITEMS,
+        {variables:{
+            getItemByCodeItemCode:menuId
+        }});
+
+       
+
 
     return (
         <div className={styles.menu}>
+     
             <ThemeProvider theme={lightTheme}>
                 <Container>
                     <Header />
@@ -100,6 +115,7 @@ const menu = () => {
                 </Container>
                 <Footer />
             </ThemeProvider>
+           
         </div>
     );
 }

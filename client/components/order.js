@@ -6,6 +6,7 @@ import {LOAD_ORDERS,
         ORDERS_GET_ORDERS_STATUS,
         GET_ORDERS_BY_CODE} from '../GraphQL/Queries/OrdersQueries';
 import {CREATE_ORDERS,
+
          UPDATE_ORDER_STATUS,
          UPDATE_PAYMENT_STATUS,
          DELETE_ORDER} from '../GraphQL/Mutations/OrdersMutation';
@@ -19,12 +20,12 @@ function order(){
     });
     const{data:data_orderstatus}=useQuery(ORDERS_GET_ORDERS_STATUS,{
         variables:{
-            getOrderByOrderStatusItemStatus:"Finished"
+            getOrderByOrderStatusItemStatus:"Available"
         }
     })
     const{data:data_ordercode}=useQuery(GET_ORDERS_BY_CODE,{
         variables:{
-            getOrderByCodeOrderCode:24567
+            getOrderByCodeOrderId:89987
         }
     })
     const [createOrders]= useMutation(CREATE_ORDERS);
@@ -52,8 +53,8 @@ function order(){
     const createOrdersFunction=(e)=>{
         createOrders({
             variables:{
-                createOrderOrderCode:10938,
-                createOrderCost:15,
+                createOrderOrderId:10938,
+                createOrderTotalCost:15,
                 createOrderItemStatus:"Packing",
                 createOrderPaymentMode:"Cash",
                 createOrderItemList:[{"itemName":"Cheese","itemCost":15,"itemQuantity":1}],
@@ -65,7 +66,7 @@ function order(){
     const updateOrderStatusFunction=(e)=>{
         updateOrderStatus({
             variables:{
-                updateOrderStatusOrderCode:10938,
+                updateOrderStatusOrderId:10938,
                 updateOrderStatusItemStatus:"Finished"
             }
         })
@@ -74,7 +75,7 @@ function order(){
     const updatePaymentStatusFunction=(e)=>{
          updatePaymentStatus({
              variables:{
-                updatePaymentStatusOrderCode:10938,
+                updatePaymentStatusOrderId:10938,
                 updatePaymentStatusPaymentStatus:"Done"
              }
          })
@@ -83,7 +84,7 @@ function order(){
     const deleteOrderFunction=(e)=>{
          deleteOrder({
              variables:{
-                deleteOrderOrderCode:10938
+                deleteOrderOrderId:10938
              }
          })
     }

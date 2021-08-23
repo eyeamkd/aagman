@@ -2,29 +2,39 @@ import {gql} from '@apollo/client'
 
 
 export const CREATE_ITEMS=gql`
-mutation CreateItemMutation($createItemItemCode: String!, $createItemItemSubTopic: [inputItemSubTopic]!) {
-  createItem(itemCode: $createItemItemCode, itemSubTopic: $createItemItemSubTopic) {
+mutation Mutation($createItemItemCode: String!, $createItemCategories: [inputCategories]!) {
+  createItem(itemCode: $createItemItemCode, categories: $createItemCategories) {
     itemCode
-  }
-}
-`
-
-export const UPDATE_ITEMS=gql`
-mutation Mutation($updateItemItemCode: String!, $updateItemItemSubTopic: [inputItemSubTopic]!) {
-  updateItem(itemCode: $updateItemItemCode, itemSubTopic: $updateItemItemSubTopic) {
-    itemCode
-    itemSubTopic {
-      itemsName
+    categories {
+      categoryName
       items {
-        Name
-        Description
-        Status
-        Quantity
-        Cost
+        description
+        status
+        cost
+        name
       }
     }
   }
 }
+
+`
+
+export const UPDATE_ITEMS=gql`
+mutation Mutation($updateItemItemCode: String!, $updateItemCategories: [inputCategories]!) {
+  updateItem(itemCode: $updateItemItemCode, categories: $updateItemCategories) {
+    itemCode
+    categories {
+      categoryName
+      items {
+        name
+        description
+        status
+        cost
+      }
+    }
+  }
+}
+
 `
 
 export const DELETE_ITEMS=gql`

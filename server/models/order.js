@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
 export const Order = mongoose.model("Order", { 
-    orderCode:Number,
+    orderId:Number,
     itemList:[{
         itemName:String,
         itemCost:Number,
         itemQuantity:Number,
     }],
-    cost:Number,
+    totalCost:Number,
     itemStatus:String,
     paymentMode:String,
     paymentStatus:String

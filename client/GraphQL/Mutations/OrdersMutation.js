@@ -1,33 +1,56 @@
 import {gql} from '@apollo/client'
 export const CREATE_ORDERS=gql`
-mutation Mutation($createOrderOrderCode: Int!, $createOrderCost: Int!, $createOrderItemStatus: String!, $createOrderPaymentMode: String!, $createOrderItemList: [inputItemList!]!, $createOrderPaymentStatus: String!) {
-    createOrder(orderCode: $createOrderOrderCode, cost: $createOrderCost, itemStatus: $createOrderItemStatus, paymentMode: $createOrderPaymentMode, itemList: $createOrderItemList, paymentStatus: $createOrderPaymentStatus) {
-      orderCode
-      itemStatus
-      cost
+mutation Mutation($createOrderOrderId: Int!, $createOrderTotalCost: Int!, $createOrderItemStatus: String!, $createOrderPaymentMode: String!, $createOrderItemList: [inputItemList!]!, $createOrderPaymentStatus: String!) {
+  createOrder(orderId: $createOrderOrderId, totalCost: $createOrderTotalCost, itemStatus: $createOrderItemStatus, paymentMode: $createOrderPaymentMode, itemList: $createOrderItemList, paymentStatus: $createOrderPaymentStatus) {
+    orderId
+    itemList {
+      itemName
+      itemCost
+      itemQuantity
     }
+    totalCost
+    itemStatus
+    paymentMode
+    paymentStatus
   }
+}
 `
 
 export const UPDATE_ORDER_STATUS=gql`
-mutation Mutation($updateOrderStatusOrderCode: Int!, $updateOrderStatusItemStatus: String!) {
-    updateOrderStatus(orderCode: $updateOrderStatusOrderCode, itemStatus: $updateOrderStatusItemStatus) {
-      orderCode
-      cost
-      itemStatus
+mutation Mutation($updateOrderStatusOrderId: Int!, $updateOrderStatusItemStatus: String!) {
+  updateOrderStatus(orderId: $updateOrderStatusOrderId, itemStatus: $updateOrderStatusItemStatus) {
+    orderId
+    itemList {
+      itemName
+      itemCost
+      itemQuantity
     }
+    totalCost
+    itemStatus
+    paymentMode
+    paymentStatus
   }
+}
 `
 export const UPDATE_PAYMENT_STATUS=gql`
-mutation Mutation($updatePaymentStatusOrderCode: Int!, $updatePaymentStatusPaymentStatus: String) {
-    updatePaymentStatus(orderCode: $updatePaymentStatusOrderCode, paymentStatus: $updatePaymentStatusPaymentStatus) {
-      orderCode
-      paymentStatus
+mutation Mutation($updatePaymentStatusOrderId: Int!, $updatePaymentStatusPaymentStatus: String) {
+  updatePaymentStatus(orderId: $updatePaymentStatusOrderId, paymentStatus: $updatePaymentStatusPaymentStatus) {
+    orderId
+    itemList {
+      itemName
+      itemCost
+      itemQuantity
     }
+    totalCost
+    itemStatus
+    paymentMode
+    paymentStatus
   }
+}
 `
 
 export const DELETE_ORDER=gql`
-mutation Mutation($deleteOrderOrderCode: Int!) {
-    deleteOrder(orderCode: $deleteOrderOrderCode)
-  }`
+mutation Mutation($deleteOrderOrderId: Int!) {
+  deleteOrder(orderId: $deleteOrderOrderId)
+}
+  `

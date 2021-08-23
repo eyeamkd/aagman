@@ -18,8 +18,8 @@ export default {
     },
 
     Mutation: {
-        createUser: async(_, { email, fullName,restaurantName,GSTNumber,location, phoneNumber  }) => {
-            const user = new User({ email, fullName, restaurantName,GSTNumber,location, phoneNumber });
+        createUser: async(_, { email, fullName,storeName,GSTNumber,location, phoneNumber  }) => {
+            const user = new User({ email, fullName, storeName,GSTNumber,location, phoneNumber });
             await user.save();
             return user;
         },
@@ -33,9 +33,9 @@ export default {
             const user = await User.findOneAndUpdate(filter,update, {new: true});
             return user;
         },
-        updateRestaurantName:async(_,{email,restaurantName})=>{
+        updateRestaurantName:async(_,{email,storeName})=>{
             const filter ={email:email}
-            const update = {restaurantName:restaurantName};
+            const update = {storeName:storeName};
             const user= await User.findOneAndUpdate(filter,update,{new:true});
             return user;
         },

@@ -14,7 +14,7 @@ type User {
     id: ID!
     email: String!
     fullName: String!
-    restaurantName:String!
+    storeName:String!
     GSTNumber:String!
     location:String!
     phoneNumber: String!
@@ -24,7 +24,7 @@ type User {
 type Mutation {
     createUser(email: String!
                fullName: String!
-               restaurantName: String!
+               storeName: String!
                GSTNumber: String!
                location:String!
                phoneNumber: String!): User!,
@@ -33,7 +33,7 @@ type Mutation {
     updateOtp(email: String!
               otp: String!): User!,
     updateRestaurantName(email:String!
-        restaurantName:String!):User!,
+        storeName:String!):User!,
     updateLocation(email:String!,location:String!):User!,
     updatePhoneNumber(email:String!,phoneNumber:String!):User!
 }

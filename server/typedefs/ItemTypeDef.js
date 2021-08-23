@@ -6,44 +6,45 @@ type Query {
     items: [Item!]!
     item(id: ID!): Item!
     getItemByCode(itemCode: String!): Item
+   
+    
     
 }
-type ItemSubTopic{
-    itemsName:String!
+type categories{
+    categoryName:String!
     items:[Items]!
 }
 
-input inputItemSubTopic{
-    itemsName:String!
+input inputCategories{
+    categoryName:String!
     items:[inputItems]!
 }
 
 input inputItems{
-    Name:String!
-    Description:String!
-    Quantity:Int!
-    Status:String!
-    Cost:Int!
+    name:String!
+    description:String!
+    status:String!
+    cost:Int!
 }
 
 type Items{
-    Name:String!
-    Description:String!
-    Quantity:Int!
-    Status:String!
-    Cost:Int!
+    name:String!
+    description:String!
+    status:String!
+    cost:Int!
 }
 
 type Item {
     id: ID!
     itemCode:String!
-    itemSubTopic:[ItemSubTopic]!
+    categories:[categories]!
 }
 
 type Mutation{
-    createItem(itemCode:String!,itemSubTopic:[inputItemSubTopic]!):Item!
-    updateItem(itemCode:String!,itemSubTopic:[inputItemSubTopic]!):Item
+    createItem(itemCode:String!,categories:[inputCategories]!):Item!
+    updateItem(itemCode:String!,categories:[inputCategories]!):Item
     deleteItem(itemCode:String!):String
+    getItemByCategory(itemCode:String!,categoryName:String!,item:[inputItems]):[categories]
 }
 
 `

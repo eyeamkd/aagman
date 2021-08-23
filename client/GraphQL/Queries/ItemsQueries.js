@@ -4,31 +4,33 @@ export const LOAD_ITEMS=gql`
 query Query {
     items {
       itemCode
-      itemSubTopic {
-        itemsName
+      categories {
+        categoryName
         items {
-          Name
-          Description
-          Quantity
-          Status
-          Cost
+          name
+          description
+     
+          status
+          cost
         }
       }
     }
   }
 `
 export const GET_ITEMS=gql`
+
+
+
 query Query($getItemByCodeItemCode: String!) {
   getItemByCode(itemCode: $getItemByCodeItemCode) {
     itemCode
-    itemSubTopic {
-      itemsName
+    categories {
+      categoryName
       items {
-        Name
-        Description
-        Quantity
-        Status
-        Cost
+        name
+        description
+        status
+        cost
       }
     }
   }

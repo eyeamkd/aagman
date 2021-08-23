@@ -6,7 +6,7 @@ query Query {
       id
       email
       fullName
-      restaurantName
+      storeName
       GSTNumber
       location
       phoneNumber
@@ -19,7 +19,7 @@ query Query($userExistsEmail: String!) {
     userExists(email: $userExistsEmail) {
       email
       fullName
-      restaurantName
+      storeName
       GSTNumber
       location
       phoneNumber
@@ -28,13 +28,13 @@ query Query($userExistsEmail: String!) {
 `
 export const GET_USERS_BY_LOCATION=gql`
 query Query($getUsersByLocationLocation: String!) {
-    getUsersByLocation(location: $getUsersByLocationLocation) {
-      email
-      fullName
-      restaurantName
-      GSTNumber
-      location
-      phoneNumber
-    }
+  getUsersByLocation(location: $getUsersByLocationLocation) {
+    email
+    fullName
+    storeName
+    GSTNumber
+    location
+    phoneNumber
   }
+}
 `

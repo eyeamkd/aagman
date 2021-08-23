@@ -2,14 +2,13 @@ import mongoose from "mongoose";
 
 export const Item = mongoose.model("Item", { 
     itemCode:String,
-    itemSubTopic:[{
-        itemsName:String,
+    categories:[{
+        categoryName:String,
         items:[{
-            Name:String,
-            Description:String,
-            Quantity:Number,
-            Status:String,
-            Cost:Number
+            name:String,
+            description:String,
+            status:String,
+            cost:Number
         }]
     }],
 

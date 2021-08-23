@@ -5,7 +5,7 @@ export default gql`
 type Query {
     orders: [Order!]!
     order(id: ID!): Order!
-    getOrderByCode(orderCode: Int!): Order
+    getOrderByCode(orderId: Int!): Order
     getOrderByPaymentStatus(paymentStatus:String!):[Order]
     getOrderByOrderStatus(itemStatus:String!):[Order]
    
@@ -13,9 +13,9 @@ type Query {
 
 type Order {
     id: ID!
-    orderCode:Int!
+    orderId:Int!
     itemList:[ItemList!]!
-    cost:Int!
+    totalCost:Int!
     itemStatus:String!
     paymentMode:String!
     paymentStatus:String!
@@ -34,15 +34,15 @@ input inputItemList{
 }
 
 type Mutation {
-    createOrder( orderCode:Int!,
-        cost:Int!,
+    createOrder( orderId:Int!,
+        totalCost:Int!,
         itemStatus:String!,
         paymentMode:String!,
         itemList:[inputItemList!]!,
         paymentStatus:String!): Order!,
-    updateOrderStatus(orderCode:Int!,itemStatus:String!):Order!,
-    updatePaymentStatus(orderCode:Int!,paymentStatus:String):Order!,
-    deleteOrder(orderCode:Int!):String,
+    updateOrderStatus(orderId:Int!,itemStatus:String!):Order!,
+    updatePaymentStatus(orderId:Int!,paymentStatus:String):Order!,
+    deleteOrder(orderId:Int!):String,
    
    
 }

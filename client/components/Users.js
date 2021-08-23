@@ -15,7 +15,7 @@ function Users(){
     const {error, loading,data:dataEntire} = useQuery(LOAD_USERS)
     const {data:dataSingleUser}=useQuery(GET_USER_BY_CODE,
         {variables:{
-            userExistsEmail:"k@gmail"
+            userExistsEmail:"manasa@gmail"
         }})
     const {data:dataUsersLocation}=useQuery(GET_USERS_BY_LOCATION,{
         variables:{
@@ -47,7 +47,7 @@ function Users(){
               variables:{
                 createUserEmail:"manasa@gmail",
                 createUserFullName:"manasa V",
-                createUserRestaurantName:"burgers",
+                createUserStoreName:"burgers",
                 createUserGstNumber:"WWWWWW7634782",
                 createUserLocation:"Mumbai",
                 createUserPhoneNumber:"56571287"
@@ -60,7 +60,7 @@ function Users(){
         updateRestaurantName({
             variables:{
                 updateRestaurantNameEmail:"manasa@gmail",
-                updateRestaurantNameRestaurantName:"Pizzas"
+                updateRestaurantNameStoreName:"sweet"
             }
         })
 
@@ -69,7 +69,7 @@ function Users(){
         updateLocation({
             variables:{
                 updateLocationEmail:"manasa@gmail",
-                updateLocationLocation:"chennai"
+                updateLocationLocation:"bangalore"
             }
         })
     }
@@ -77,7 +77,7 @@ function Users(){
         updatePhoneNumber({
             variables:{
                 updatePhoneNumberEmail:"manasa@gmail",
-                updatePhoneNumberPhoneNumber:"2334454"
+                updatePhoneNumberPhoneNumber:"892378798"
             }
         })
         
