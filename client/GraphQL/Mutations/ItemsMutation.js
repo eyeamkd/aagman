@@ -8,10 +8,10 @@ mutation Mutation($createItemItemCode: String!, $createItemCategories: [inputCat
     categories {
       categoryName
       items {
+        name
         description
         status
         cost
-        name
       }
     }
   }
@@ -22,6 +22,7 @@ mutation Mutation($createItemItemCode: String!, $createItemCategories: [inputCat
 export const UPDATE_ITEMS=gql`
 mutation Mutation($updateItemItemCode: String!, $updateItemCategories: [inputCategories]!) {
   updateItem(itemCode: $updateItemItemCode, categories: $updateItemCategories) {
+    id
     itemCode
     categories {
       categoryName

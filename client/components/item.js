@@ -39,7 +39,7 @@ function order(){
             createItems({
                 variables:{
                     createItemItemCode:qrCodeData,
-                    createItemCategories:[{"Category": "Vegetables","items":[{"Name": "Tomato","Description": "Red Color","Status":"Available","Cost": 23},{"Name": "Onion","Description": "purple","Status":"Not Available","Cost":34}]}]
+                    createItemCategories:[{"categoryName": "Vegetables","items":[{"name": "Tomato","description": "Red Color","status":"Available","cost": 23},{"name": "Onion","description": "purple","status":"Not Available","cost":34}]}]
                 }
             })
         }
@@ -73,7 +73,7 @@ function order(){
          updateItems({
              variables:{
                 updateItemItemCode:scanResultFile,
-                updateItemCategories:[{"Category": "Vegies","items":[{"Name": "Tomato","Description": "Red Color","Status":"Available","Cost": 23},{"Name": "Onion","Description": "purple","Status":"Not Available","Cost":34}]}]
+                updateItemCategories:[{"categoryName": "Vegies","items":[{"name": "Tomato","description": "Red Color","status":"Available","cost": 23},{"name": "Onion","description": "purple","status":"Not Available","cost":34}]}]
              }
          })
      }
