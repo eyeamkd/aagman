@@ -14,7 +14,7 @@ import dynamic from 'next/dynamic';
 const QrReader = dynamic(() => import('react-qr-scanner'), {
     ssr: false
 });
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const qrScanner = () => {
     const classes = useStyles();
     const [scanResultFile, setScanResultFile] = useState("");
+    const router = useRouter();
 
     const handleErrorFile = (error) => {
         console.log(error);
@@ -54,7 +55,10 @@ const qrScanner = () => {
         if (result) {
             setScanResultFile(result.text);
             console.log(scanResultFile);
-            Router.push('/menu');
+            router.push({
+                pathname: '/menu',
+                query: { menuId: scanResultFile },
+              })
         }
     }
 
