@@ -31,6 +31,7 @@ export default function Signup() {
     const [restaurantName,setRestaurantName]=useState("");
 
     const onSubmit = (e) => {
+        
     }
     const backHomePage =(e)=>{
         

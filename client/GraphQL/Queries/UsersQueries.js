@@ -38,3 +38,15 @@ query Query($getUsersByLocationLocation: String!) {
   }
 }
 `
+export const CHECK_IF_USER_EXISTS=gql`
+query Query($userExistsEmail2: String!) {
+  userExists(email: $userExistsEmail2) {
+    email
+    fullName
+    storeName
+    GSTNumber
+    location
+    phoneNumber
+}
+}
+`

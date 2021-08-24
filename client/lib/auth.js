@@ -28,23 +28,21 @@ export const signUpUser = async (email, fullName, phoneNumber) =>{
 }
 
 export const checkIfUserExists = async(email) =>{
-    const {data} = await client.query({
-        query: gql`
-        query UserExists($email: String!) {
-            userExists(email: $email) {
-              id
-              email
-              fullName
-              phoneNumber
-            }
-          }
-      `,
-      variables: {
-        email: email,
-      }
+  const { data, loading, error } = useQuery(CHECK_IF_USER_EXISTS,
+    {
+        variables: {
+          userExistsEmail2: email
+        }
     });
 
-    return data.userExists;
+    
+    if (loading) return 'Loading...';
+
+    if (error) return `Error! ${error.message}`;
+
+    const user = Object.values(data);
+
+    return user;
 }
 
 export const postOtp = async(email) => {

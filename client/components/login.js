@@ -9,6 +9,7 @@ import logo from '../public/images/3071357.jpg';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Image from 'next/image';
+import { checkIfUserExists, postOtp } from '../lib/auth';
 
 export default function Login() {
     const variants = {
@@ -25,6 +26,26 @@ export default function Login() {
     const [email, setEmail] = useState("");
 
     const onSubmit = (e) => {
+        e.preventDefault();
+        checkIfUserExists(email).then(res => {
+            if(res !== undefined)
+            {
+                postOtp(email).then(res => {
+                    if(res === true)
+                    {
+                        alert("Email has been sent along with the verification otp.")
+                    }
+                    else
+                    {
+                        alert("Email has not been sent due to some error.");
+                    }
+                });
+            }
+            else
+            {
+                alert("Email id does not exist already sign up to continue.");
+            }
+        })
     }
     const backHomePage = (e) => {
     }
