@@ -28,7 +28,7 @@ export default {
         const items= await Item.findOneAndUpdate(filter,update,{new:true});
         return items;
       },
-      getItemByCategory:async(_,{itemCode,categoryName,item})=>{
+      getItemByCategory:async(_,{itemCode,categoryName})=>{
         const filterCode={itemCode:itemCode}
         const filterCategory={categoryName:categoryName}
         const updateitem={item:item}
