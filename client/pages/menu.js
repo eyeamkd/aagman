@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const menu = (props) => {
+const menu = () => {
     const lightTheme = createTheme({
         palette: {
             type: "light",
@@ -62,17 +62,17 @@ const menu = (props) => {
     const router = useRouter();
     const { query } = useRouter();
     const [value, setValue] = useState(0);
-    const [menuId, setmenuId] = useState("611fbba407fec733841908e2");
-    const { data, loading, error } = useQuery(GET_ITEMS_BY_ID,
+    const [menuId, setmenuId] = useState("");
+    const { data, loading, error } = useQuery(GET_ITEMS,
         {
             variables: {
-                itemId: menuId
+                getItemByCodeItemCode: menuId
             }
         });
 
     useEffect(() => {
         console.log("This is the menu's document id received.", query.menuId);
-        //setmenuId(query.menuId);
+        setmenuId(query.menuId);
     }, [])
 
     if (loading) return 'Loading...';
