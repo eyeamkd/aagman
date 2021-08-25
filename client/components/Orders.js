@@ -73,7 +73,7 @@ export default function Orders() {
                       
                       <td>{subrow.itemName}</td>
                       <td>{subrow.itemQuantity}</td>
-                      <td>{subrow.itemCost}</td>
+                      <td>₹{subrow.itemCost}</td>
                       
                       </tr>
                      
@@ -84,7 +84,7 @@ export default function Orders() {
               </TableCell>
                 
           
-              <TableCell>{row.totalCost}</TableCell>
+              <TableCell>₹{row.totalCost}</TableCell>
               <TableCell>{row.paymentMode}</TableCell>
               <TableCell>{row.paymentStatus}</TableCell>
               <TableCell align="right">{row.itemStatus}</TableCell>

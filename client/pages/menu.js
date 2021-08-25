@@ -90,11 +90,13 @@ const menu = () => {
 
     const placeOrder = () => {
         console.log(itemList);
+        let totalCost = 0;
+        itemList.map(item => totalCost = totalCost + (item.itemCost*item.itemQuantity));
         createOrders({
                 variables:{
                     createOrderEmail:"gj7097@srmist.edu.in",
                     createOrderOrderId:10938,
-                    createOrderTotalCost:15,
+                    createOrderTotalCost:totalCost,
                     createOrderItemStatus:"Order Received",
                     createOrderPaymentMode:"Cash",
                     createOrderItemList:itemList,

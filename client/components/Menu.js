@@ -159,7 +159,7 @@ export default function Menu() {
                                 <TableCell>{row.name}</TableCell>
                                 <TableCell>{row.description}</TableCell>
                                 <TableCell>{row.status}</TableCell>
-                                <TableCell>{row.cost}</TableCell>
+                                <TableCell>₹{row.cost}</TableCell>
                                 <TableCell>{row.category}</TableCell>
                                 <TableCell align="right">
                                     <IconButton aria-label="edit" className={classes.margin} onClick={() => { openInPopup(row) }} className={classes.tableIconButton}>
