@@ -59,7 +59,7 @@ export default function Home() {
       <motion.div initial="hidden" animate="visible" variants={variantButton}>
      
       <Link href="/form"><a className={styles.button}>Sign Up</a></Link>
-  
+      <Link href="/qrscanner"><a className={styles.button}>Scan QR Code</a></Link>
      </motion.div>
     </div>
   )
