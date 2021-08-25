@@ -6,7 +6,6 @@ import {LOAD_ORDERS,
         ORDERS_GET_ORDERS_STATUS,
         GET_ORDERS_BY_CODE} from '../GraphQL/Queries/OrdersQueries';
 import {CREATE_ORDERS,
-
          UPDATE_ORDER_STATUS,
          UPDATE_PAYMENT_STATUS,
          DELETE_ORDER} from '../GraphQL/Mutations/OrdersMutation';
