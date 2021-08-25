@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +10,8 @@ import CardActions from '@material-ui/core/CardActions';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import DoneIcon from '@material-ui/icons/Done';
 
 const useStyles = makeStyles({
     card: {
@@ -45,9 +47,10 @@ const useStyles = makeStyles({
     }
 });
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, setItem }) => {
     const [counter, setCounter] = useState(0);
-
+    const [itemCard, setItemCard] = useState({})
+    const [disable, setDisable] = useState(false);
     const classes = useStyles();
 
     const incrementCounter = () => {
@@ -56,6 +59,21 @@ const ProductCard = ({ product }) => {
 
     const decrementCounter = () => {
         counter > 0 ? setCounter(counter - 1) : alert("Products quantity is already 0.");
+    }
+
+    useEffect(() => {
+        if (counter >= 0) {
+            itemCard["itemName"] = product.name
+            itemCard["itemCost"] = product.cost
+            itemCard["itemQuantity"] = counter 
+            setItemCard({...itemCard})
+            console.log(itemCard);
+        }
+    }, [counter])
+
+    const confirm = () => {
+        setItem(itemCard);
+        setDisable(true);
     }
 
     return (
@@ -83,11 +101,14 @@ const ProductCard = ({ product }) => {
                         Quantity: {counter}
                     </Typography>
                     <CardActions className={classes.cardActions}>
-                        <IconButton color="primary" aria-label="add to shopping cart" onClick={incrementCounter}>
+                        <IconButton disabled={disable} color="primary" aria-label="add to shopping cart" onClick={incrementCounter}>
                             <AddShoppingCartIcon />
                         </IconButton>
-                        <IconButton aria-label="delete" onClick={decrementCounter}>
+                        <IconButton disabled={disable} aria-label="delete" onClick={decrementCounter}>
                             <DeleteIcon />
+                        </IconButton>
+                        <IconButton disabled={disable} aria-label="confirm" onClick={confirm}>
+                            <DoneIcon/>
                         </IconButton>
                     </CardActions>
                 </div>
