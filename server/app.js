@@ -40,7 +40,7 @@ const server = async () => {
 
   try{
       
-      await mongoose.connect("mongodb+srv://greeta123:greeta123@aagman-cluster.coau9.mongodb.net/Aagman?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true })
+      await mongoose.connect(process.env.CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true })
       console.log(mongoose.connection.readyState);
     }catch(err){
       console.log(err)
@@ -111,6 +111,13 @@ const server = async () => {
 
   app.get('/', (req, res) => res.send('Welcome to Aagman Server'))
 
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static("client/build"));
+    app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    });
+  }
+  
   app.listen(PORT, () => {
     console.log("server is running on", PORT);
   })
