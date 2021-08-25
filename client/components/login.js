@@ -1,17 +1,17 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import { useForm } from "react-hook-form";
 import styles from '../styles/Login.module.css'
 import { useState } from "react";
-import Typography from '@material-ui/core/Typography';
 import { motion } from "framer-motion";
-import logo from '../public/images/3071357.jpg';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Image from 'next/image';
-import { checkIfUserExists, postOtp } from '../lib/auth';
+import { checkIfUserExists, postOtp, verifyUser } from '../lib/auth';
+import { VerifyUser } from './VerifyUser';
+import { useRouter } from 'next/router'
 
 export default function Login() {
+    const [openPopup, setOpenPopup] = useState(false)
+    const router = useRouter();
+
     const variants = {
         hidden: { opacity: 0, x: -200, y: 0 },
         enter: { opacity: 1, x: 0, y: 0 },
@@ -25,15 +25,31 @@ export default function Login() {
 
     const [email, setEmail] = useState("");
 
+    const verifyOtp = (item, resetForm) => {
+        verifyUser(email, item.otp).then(res => {
+            if(res)
+            {
+                router.push('/dashboard');
+            }
+            else
+            {
+                alert("OTP entered does not match. Try logging in again.")
+            }
+        });
+        resetForm();
+        setOpenPopup(false);
+    }
+
     const onSubmit = (e) => {
         e.preventDefault();
         checkIfUserExists(email).then(res => {
-            if(res !== undefined)
+            if(res !== null)
             {
                 postOtp(email).then(res => {
                     if(res === true)
                     {
-                        alert("Email has been sent along with the verification otp.")
+                        alert("Email has been sent along with the verification otp.");
+                        setOpenPopup(true);
                     }
                     else
                     {
@@ -75,6 +91,12 @@ export default function Login() {
                  
           </form> 
   </motion.main>
+  <VerifyUser
+                title="OTP Verification Form"
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}
+                verifyOtp={verifyOtp}
+            />
         </>
     );
 };
