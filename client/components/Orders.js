@@ -41,6 +41,14 @@ export default function Orders() {
     {variables:{
         userExistsEmail:"gj7097@srmist.edu.in"
     }})
+    
+   // if (loading) return 'Loading...';
+
+   // if (error) return `Error! ${error.message}`;
+    
+    
+   // const orders=Object.values(dataSingleUser)[0].orders
+
 
 
 

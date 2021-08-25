@@ -20,6 +20,8 @@ import {
     GET_ITEMS_BY_ID,
     GET_ITEMS
 } from '../GraphQL/Queries/ItemsQueries';
+import {CREATE_ORDERS} from '../GraphQL/Mutations/OrdersMutation';
+import {useMutation} from '@apollo/client';
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 
@@ -71,6 +73,7 @@ const menu = () => {
                 getItemByCodeItemCode: menuId
             }
         });
+    const [createOrders]= useMutation(CREATE_ORDERS);
 
     useEffect(() => {
         console.log("This is the menu's document id received.", query.menuId);
@@ -87,6 +90,18 @@ const menu = () => {
 
     const placeOrder = () => {
         console.log(itemList);
+        createOrders({
+                variables:{
+                    createOrderEmail:"gj7097@srmist.edu.in",
+                    createOrderOrderId:10938,
+                    createOrderTotalCost:15,
+                    createOrderItemStatus:"Order Received",
+                    createOrderPaymentMode:"Cash",
+                    createOrderItemList:itemList,
+                    createOrderPaymentStatus:"Not Done"
+                }
+        })
+        
     }
 
     if (loading) return 'Loading...';
