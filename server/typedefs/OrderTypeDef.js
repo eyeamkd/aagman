@@ -34,14 +34,19 @@ input inputItemList{
 }
 
 type Mutation {
-    createOrder( orderId:Int!,
+    createOrder( 
+        email:String!
+        orderId:Int!,
         totalCost:Int!,
         itemStatus:String!,
         paymentMode:String!,
         itemList:[inputItemList!]!,
         paymentStatus:String!): Order!,
+
     updateOrderStatus(orderId:Int!,itemStatus:String!):Order!,
+
     updatePaymentStatus(orderId:Int!,paymentStatus:String):Order!,
+    
     deleteOrder(orderId:Int!):String,
    
    

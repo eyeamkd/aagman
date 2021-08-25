@@ -53,6 +53,7 @@ function order(){
     const createOrdersFunction=(e)=>{
         createOrders({
             variables:{
+                createOrderEmail:"gj7097@srmist.edu.in",
                 createOrderOrderId:10938,
                 createOrderTotalCost:15,
                 createOrderItemStatus:"Packing",

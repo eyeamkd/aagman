@@ -16,15 +16,28 @@ query Query {
 `
 export const GET_USER_BY_CODE=gql`
 query Query($userExistsEmail: String!) {
-    userExists(email: $userExistsEmail) {
-      email
-      fullName
-      storeName
-      GSTNumber
-      location
-      phoneNumber
+  userExists(email: $userExistsEmail) {
+    email
+    fullName
+    storeName
+    GSTNumber
+    location
+    phoneNumber
+    orders {
+      id
+      orderId
+      itemList {
+        itemName
+        itemCost
+        itemQuantity
+      }
+      totalCost
+      itemStatus
+      paymentMode
+      paymentStatus
     }
   }
+}
 `
 export const GET_USERS_BY_LOCATION=gql`
 query Query($getUsersByLocationLocation: String!) {

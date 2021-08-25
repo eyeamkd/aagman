@@ -7,5 +7,6 @@ export const User = mongoose.model("User", {
     GSTNumber:String,
     location:String,
     phoneNumber: String,
+    orders:[{type:mongoose.Schema.Types.ObjectId,ref:"Order"}],
     otp: String
 })

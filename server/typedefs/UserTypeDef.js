@@ -18,6 +18,7 @@ type User {
     GSTNumber:String!
     location:String!
     phoneNumber: String!
+    orders:[Order]
     otp: String!
 }
 
@@ -30,11 +31,15 @@ type Mutation {
                phoneNumber: String!): User!,
 
     deleteUser(id: ID!): String,
+
     updateOtp(email: String!
               otp: String!): User!,
+
     updateRestaurantName(email:String!
         storeName:String!):User!,
+
     updateLocation(email:String!,location:String!):User!,
+    
     updatePhoneNumber(email:String!,phoneNumber:String!):User!
 }
 

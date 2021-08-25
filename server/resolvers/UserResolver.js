@@ -6,7 +6,7 @@ export default {
         user:(parent, {id}) => User.findById(id),
         userExists: (_, {email}) =>{
             const filter = { email: email }
-            const user = User.findOne(filter);
+            const user = User.findOne(filter).populate('orders'); 
             return user;
         },
         getUsersByLocation:(_,{location})=>{
@@ -19,7 +19,7 @@ export default {
 
     Mutation: {
         createUser: async(_, { email, fullName,storeName,GSTNumber,location, phoneNumber  }) => {
-            const user = new User({ email, fullName, storeName,GSTNumber,location, phoneNumber });
+            const user = new User({ email, fullName, storeName,GSTNumber,location, phoneNumber ,orders:[]});
             await user.save();
             return user;
         },

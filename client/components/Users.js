@@ -15,7 +15,7 @@ function Users(){
     const {error, loading,data:dataEntire} = useQuery(LOAD_USERS)
     const {data:dataSingleUser}=useQuery(GET_USER_BY_CODE,
         {variables:{
-            userExistsEmail:"manasa@gmail"
+            userExistsEmail:"gj7097@srmist.edu.in"
         }})
     const {data:dataUsersLocation}=useQuery(GET_USERS_BY_LOCATION,{
         variables:{

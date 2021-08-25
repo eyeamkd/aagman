@@ -1,17 +1,13 @@
 import {gql} from '@apollo/client'
 export const CREATE_ORDERS=gql`
-mutation Mutation($createOrderOrderId: Int!, $createOrderTotalCost: Int!, $createOrderItemStatus: String!, $createOrderPaymentMode: String!, $createOrderItemList: [inputItemList!]!, $createOrderPaymentStatus: String!) {
-  createOrder(orderId: $createOrderOrderId, totalCost: $createOrderTotalCost, itemStatus: $createOrderItemStatus, paymentMode: $createOrderPaymentMode, itemList: $createOrderItemList, paymentStatus: $createOrderPaymentStatus) {
+mutation Mutation($createOrderEmail: String!, $createOrderOrderId: Int!, $createOrderTotalCost: Int!, $createOrderItemStatus: String!, $createOrderPaymentMode: String!, $createOrderItemList: [inputItemList!]!, $createOrderPaymentStatus: String!) {
+  createOrder(email: $createOrderEmail, orderId: $createOrderOrderId, totalCost: $createOrderTotalCost, itemStatus: $createOrderItemStatus, paymentMode: $createOrderPaymentMode, itemList: $createOrderItemList, paymentStatus: $createOrderPaymentStatus) {
     orderId
     itemList {
       itemName
       itemCost
       itemQuantity
     }
-    totalCost
-    itemStatus
-    paymentMode
-    paymentStatus
   }
 }
 `

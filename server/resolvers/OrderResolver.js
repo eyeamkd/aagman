@@ -1,4 +1,5 @@
 import { Order } from "./../models/order"
+import {User} from './../models/user'
 
 
 export default {
@@ -24,9 +25,16 @@ export default {
     },
 
     Mutation: {
-        createOrder: async(_, { orderId, totalCost, itemStatus ,paymentMode,paymentStatus,itemList }) => {
+        createOrder: async(_, {email, orderId, totalCost, itemStatus ,paymentMode,paymentStatus,itemList }) => {
             const order = new Order({ orderId, totalCost, itemStatus ,paymentMode,paymentStatus,itemList });
-            await order.save();
+            await order.save().then(result=>{
+                return User.findOne({email:email})
+            })
+            .then(user=>{
+                console.log(user)
+            user.orders.push(order);
+            return user.save()
+            });
             return order;
         },
         updateOrderStatus:async(_,{orderId,itemStatus})=>{
