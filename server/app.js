@@ -66,16 +66,22 @@ const server = async () => {
   const saveOTP = async (email, otp) => {
     const response = await client.request(
       `
-      mutation UpdateOtpMutation($email: String!, $otp: String!) {
-          updateOtp(email: $email, otp: $otp) {
-            id
-            email
-          }
+      mutation UpdateOtpMutation($updateOtpEmail: String!, $updateOtpOtp: String!) {
+        updateOtp(email: $updateOtpEmail, otp: $updateOtpOtp) {
+          email
+          fullName
+          storeName
+          GSTNumber
+          location
+          phoneNumber
+          otp
         }
+      }
+      
     `,
     {
-      email: email,
-      otp: otp
+      updateOtpEmail: email,
+      updateOtpOtp: otp
     }
   );
   console.log(response);
