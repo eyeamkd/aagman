@@ -45,12 +45,12 @@ function Users(){
     const createUserFunction=(e)=>{
         createUser({
               variables:{
-                createUserEmail:"manasa@gmail",
-                createUserFullName:"manasa V",
-                createUserStoreName:"burgers",
-                createUserGstNumber:"WWWWWW7634782",
-                createUserLocation:"Mumbai",
-                createUserPhoneNumber:"56571287"
+                createUserEmail:"greeta1999kavitha@gmail.com",
+                createUserFullName:"Greeta Kavitha Jayaraj",
+                createUserStoreName:"kfc",
+                createUserGstNumber:"HKS98787",
+                createUserLocation:"chennai",
+                createUserPhoneNumber:"987767576"
                 
                 
               }
