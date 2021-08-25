@@ -14,20 +14,7 @@ import {LOAD_USERS,
   GET_USERS_BY_LOCATION} from '../GraphQL/Queries/UsersQueries';
 
 // Generate Order Data
-function createData(orderCode, orders, totalCost, paymentMode, paymentStatus, itemStatus) {
-  return { orderCode, orders, totalCost, paymentMode, paymentStatus, itemStatus };
-}
 
-function createSubRow(name,cost,quantity){
-  return {name,cost,quantity}
-}
-
-const rows = [
-  createData(1234, ['Name ','Cost ','Quantity'], '300.00', 'Cash', 'Completed', 'InProgress'),
-];
-const subRow=[
-  createSubRow('Pizza',123,2)
-]
 function preventDefault(event) {
   event.preventDefault();
 }
@@ -35,31 +22,23 @@ function preventDefault(event) {
 const useStyles = makeStyles((theme) => ({
 }));
 
-export default function Orders() {
 
-  const {data:dataSingleUser,loading, error}=useQuery(GET_USER_BY_CODE,
+export default function Orders() {
+  const {data,loading, error}=useQuery(GET_USER_BY_CODE,
     {variables:{
         userExistsEmail:"gj7097@srmist.edu.in"
     }})
-    
-   // if (loading) return 'Loading...';
-
-   // if (error) return `Error! ${error.message}`;
-    
-    
-   // const orders=Object.values(dataSingleUser)[0].orders
-
-
-
-
-
-
-
-   
-  
-    
-
+ 
   const classes = useStyles();
+  if (loading) 
+      return (<div>Loading...</div>);
+
+  else if (error) 
+      return (<div>Error! ${error.message}</div>);
+
+  else
+  {
+    const orders=Object.values(data)[0].orders
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
@@ -75,11 +54,34 @@ export default function Orders() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {orders.map((row) => (
             <TableRow key={row.orderId}>
               <TableCell>{row.orderId}</TableCell>
              
-              <TableCell>orders</TableCell>
+              <TableCell>
+                
+                  <tr>
+                  <TableCell><b>Name</b></TableCell>
+                  <TableCell><b>Quantity</b></TableCell>
+                  <TableCell><b>Cost</b></TableCell>
+                  </tr>
+                
+          
+                  {
+                    row.itemList.map((subrow)=>(
+                      <tr align="center"  key={subrow.itemName}>
+                      
+                      <td>{subrow.itemName}</td>
+                      <td>{subrow.itemQuantity}</td>
+                      <td>{subrow.itemCost}</td>
+                      
+                      </tr>
+                     
+                      
+                    ))
+                  }
+            
+              </TableCell>
                 
           
               <TableCell>{row.totalCost}</TableCell>
@@ -91,5 +93,5 @@ export default function Orders() {
         </TableBody>
       </Table>
     </React.Fragment>
-  );
+  );}
 }
