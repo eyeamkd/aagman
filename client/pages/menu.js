@@ -58,6 +58,8 @@ const menu = () => {
         },
     });
 
+    const [itemList, setItemList] = useState([]);
+    const [item, setItem] = useState({});
     const classes = useStyles();
     const router = useRouter();
     const { query } = useRouter();
@@ -75,6 +77,18 @@ const menu = () => {
         setmenuId(query.menuId);
     }, [])
 
+    useEffect(() => {
+        console.log("Confirmed item", item)
+        if(Object.entries(item).length !== 0)
+        {
+            setItemList(itemList => [...itemList, item]);
+        }
+    }, [item])
+
+    const placeOrder = () => {
+        console.log(itemList);
+    }
+
     if (loading) return 'Loading...';
 
     if (error) return `Error! ${error.message}`;
@@ -90,10 +104,10 @@ const menu = () => {
                     <StoreCover />
                     <br />
                     <Grid container spacing={1}>
-                        {productCards.map(value => 
-                            value.categories.map(category => 
-                                category.items.map((product) => 
-                                    (<ProductCard key={product.name} product={product}/>)
+                        {productCards.map(value =>
+                            value.categories.map(category =>
+                                category.items.map((product) =>
+                                    (<ProductCard key={product.name} product={product} setItem={setItem} />)
                                 )
                             )
                         )}
@@ -107,6 +121,7 @@ const menu = () => {
                                     className={classes.button}
                                     endIcon={<Icon>send</Icon>}
                                     className={classes.button}
+                                    onClick={placeOrder}
                                 >
                                     Proceed to checkout
                                 </Button>

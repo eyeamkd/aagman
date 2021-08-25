@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 
 const qrScanner = () => {
     const classes = useStyles();
-    const [scanResultFile, setScanResultFile] = useState("");
     const router = useRouter();
 
     const handleErrorFile = (error) => {
@@ -53,11 +52,9 @@ const qrScanner = () => {
     const handleScanFile = (result) => {
 
         if (result) {
-            setScanResultFile(result.text);
-            console.log(scanResultFile);
             router.push({
                 pathname: '/menu',
-                query: { menuId: scanResultFile },
+                query: { menuId: result.text },
               })
         }
     }
