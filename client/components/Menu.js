@@ -136,7 +136,7 @@ export default function Menu() {
                         inputProps={{ 'aria-label': 'search' }}
                     />
                 </div>
-                <IconButton aria-label="add" className={classes.margin} onClick={() => { setOpenPopup(true) }} className={classes.iconButton}>
+                <IconButton aria-label="add" className={[classes.margin,classes.tableIconButton]} onClick={() => { setOpenPopup(true) }}>
                     <AddIcon fontSize="small" />
                 </IconButton>
             </Toolbar>
@@ -162,10 +162,10 @@ export default function Menu() {
                                 <TableCell>₹{row.cost}</TableCell>
                                 <TableCell>{row.category}</TableCell>
                                 <TableCell align="right">
-                                    <IconButton aria-label="edit" className={classes.margin} onClick={() => { openInPopup(row) }} className={classes.tableIconButton}>
+                                    <IconButton aria-label="edit" className={[classes.margin,classes.tableIconButton]} onClick={() => { openInPopup(row) }}>
                                         <EditIcon fontSize="small" />
                                     </IconButton>
-                                    <IconButton aria-label="delete" className={classes.margin} onClick={() => deleteItem(row.id)} className={classes.tableIconButton}>
+                                    <IconButton aria-label="delete" className={[classes.margin,classes.tableIconButton]} onClick={() => deleteItem(row.id)}>
                                         <DeleteIcon fontSize="small" />
                                     </IconButton></TableCell>
                             </TableRow>

@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const qrScanner = () => {
+const QRScanner = () => {
     const classes = useStyles();
     const router = useRouter();
 
@@ -102,4 +102,4 @@ const qrScanner = () => {
     );
 }
 
-export default qrScanner;
+export default QRScanner;

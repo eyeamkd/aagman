@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const menu = () => {
+const Menu = () => {
     const lightTheme = createTheme({
         palette: {
             type: "light",
@@ -137,7 +137,6 @@ const menu = () => {
                                     color="primary"
                                     className={classes.button}
                                     endIcon={<Icon>send</Icon>}
-                                    className={classes.button}
                                     onClick={placeOrder}
                                 >
                                     Proceed to checkout
@@ -167,7 +166,7 @@ const menu = () => {
 }
 
 
-export default menu
+export default Menu
 
 export async function getServerSideProps(context) {
     return {

@@ -10,7 +10,7 @@ import {CREATE_ORDERS,
          UPDATE_PAYMENT_STATUS,
          DELETE_ORDER} from '../GraphQL/Mutations/OrdersMutation';
 
-function order(){
+function Order(){
     const {error, loading,data:data_entire} = useQuery(LOAD_ORDERS)
     const {data:data_payment}=useQuery(ORDERS_GET_PAYMENT_STATUS,{
         variables:{
@@ -108,4 +108,4 @@ function order(){
     )
 }
 
-export default order;
+export default Order;
