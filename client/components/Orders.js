@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Orders() {
+export default function Orders(props) {
   const {data,loading, error}=useQuery(GET_USER_BY_CODE,
     {variables:{
-        userExistsEmail:"gj7097@srmist.edu.in"
+        userExistsEmail:props.email
     }})
  
   const classes = useStyles();

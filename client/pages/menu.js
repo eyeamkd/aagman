@@ -94,7 +94,7 @@ const menu = () => {
         itemList.map(item => totalCost = totalCost + (item.itemCost*item.itemQuantity));
         createOrders({
                 variables:{
-                    createOrderEmail:"gj7097@srmist.edu.in",
+                    createOrderEmail:"kunal.viper99@gmail.com",
                     createOrderOrderId:10938,
                     createOrderTotalCost:totalCost,
                     createOrderItemStatus:"Order Received",
@@ -168,3 +168,9 @@ const menu = () => {
 
 
 export default menu
+
+export async function getServerSideProps(context) {
+    return {
+      props: {}, // will be passed to the page component as props
+    };
+  }

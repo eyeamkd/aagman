@@ -22,6 +22,7 @@ import { mainListItems, secondaryListItems } from '../components/listItems';
 import Orders from '../components/Orders';
 import Menu from '../components/Menu';
 import Footer from '../components/Footer';
+import { useRouter } from 'next/router'
 
 const drawerWidth = 240;
 
@@ -112,8 +113,13 @@ export default function Dashboard() {
     const classes = useStyles();
 
     const [open, setOpen] = useState(true);
+    const [email, setEmail] = useState("");
+    const { query } = useRouter();
 
-    
+    useEffect(() => {
+        console.log("This is the email id received.", query.email);
+        setEmail(query.email);
+    }, [])
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -169,7 +175,7 @@ export default function Dashboard() {
                         {/* Recent Orders */}
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
-                                <Orders />
+                                <Orders email={email}/>
                             </Paper>
                         </Grid>
                         <Grid item xs={12}>
@@ -186,3 +192,9 @@ export default function Dashboard() {
         </div>
     );
 }
+
+export async function getServerSideProps(context) {
+    return {
+      props: {}, // will be passed to the page component as props
+    };
+  }

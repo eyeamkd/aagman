@@ -29,7 +29,10 @@ export default function Login() {
         verifyUser(email, item.otp).then(res => {
             if(res)
             {
-                router.push('/dashboard');
+                router.push({
+                    pathname: '/dashboard',
+                    query: {email : email },
+                  })
             }
             else
             {
