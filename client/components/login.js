@@ -82,7 +82,7 @@ export default function Login() {
     transition={{ type: 'linear' }} // Set the transition to linear
     
 >
-<form className={styles.login}>
+<form onSubmit={onSubmit} className={styles.login}>
         <h1 className={styles.heading}>Login</h1><br/><br/>
         <TextField label="Email" variant="outlined" id="EmailInput" color= "primary"  value={email}
                         onChange={(e) => {
@@ -90,7 +90,7 @@ export default function Login() {
                         }}/>
                         <br/><br/>
                        
-          <button className={styles.button1} onClick={onSubmit}>Login</button> <br/>
+          <button type="submit" className={styles.button1}>Login</button> <br/>
                  
           </form> 
   </motion.main>
