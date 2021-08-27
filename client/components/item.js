@@ -5,7 +5,9 @@ import {v1 as uuidv1} from 'uuid';
 import QRCode from 'qrcode';
 import {LOAD_ITEMS,
     GET_ITEMS} from '../GraphQL/Queries/ItemsQueries';
-import {CREATE_ITEMS,
+import {CREATE_ITEM,
+        ADD_CATEGORY,
+        ADD_ITEMLIST,
         DELETE_ITEMS,
         UPDATE_ITEMS
         } from '../GraphQL/Mutations/ItemsMutation';
@@ -15,13 +17,15 @@ const QrReader = dynamic(() => import('react-qr-scanner'), {
 })
 
 function order(){
-    const {error, loading,data} = useQuery(LOAD_ITEMS);
+    //const {error, loading,data} = useQuery(LOAD_ITEMS);
     const [scanResultFile,setScanResultFile]=useState("");
     const {data:dataSingleOrder,refetch}=useQuery(GET_ITEMS,
         {variables:{
             getItemByCodeItemCode:scanResultFile
         }})
-    const [createItems]= useMutation(CREATE_ITEMS);
+    const [createItems]= useMutation(CREATE_ITEM);
+    const [addCategory]= useMutation(ADD_CATEGORY);
+    const [addItemsList]= useMutation(ADD_ITEMLIST);
     const [deleteItems]= useMutation(DELETE_ITEMS);
     const [updateItems]=useMutation(UPDATE_ITEMS);
     const [qrCode,setQrCode]=useState("");
@@ -34,12 +38,13 @@ function order(){
         
         try{
             setQrCodeData(uuidv1());
-            setQrCode(await QRCode.toDataURL(qrCodeData));
+            if(qrCodeData=="") return;
+            setQrCode(await QRCode.toDataURL("https://aagman.herokuapp.com/menu?menuId="+qrCodeData));
             setImageUrl(qrCode);
             createItems({
                 variables:{
                     createItemItemCode:qrCodeData,
-                    createItemCategories:[{"categoryName": "Vegetables","items":[{"name": "Tomato","description": "Red Color","status":"Available","cost": 23},{"name": "Onion","description": "purple","status":"Not Available","cost":34}]}]
+                    createItemEmail:"gj7097@srmist.edu.in"
                 }
             })
         }
@@ -48,6 +53,27 @@ function order(){
         }
 
        
+    }
+
+    const addCategoryFunction=(e)=>{
+        console.log(scanResultFile);
+        addCategory({
+            variables:{
+            addCategoryItemCode:scanResultFile,
+            addCategoryCategoryName:"Main Course"
+            }
+        })
+    }
+    const addItemsListFunction=(e)=>{
+        addItemsList({
+            variables:{
+            addItemsCategoryId:"6128ac81f424c94f6c2e302b",
+            addItemsName:"Noodles",
+            addItemsDescription:"Its Fried",
+            addItemsCost:100,
+            addItemsStatus:"Not Available"
+            }
+        })
     }
 
     const handleErrorFile=(error)=>{
@@ -105,6 +131,9 @@ function order(){
         onScan={handleScanFile}
         />
        <h3>Scanned Code:</h3>
+ 
+       <h1 onClick={addCategoryFunction}>Add Category</h1>
+       <h1 onClick={addItemsListFunction}>Add Item List</h1>
        <h1 onClick={updateItemsFunction}>Update Items</h1>
         <h1 onClick={deleteItemsFunction}>Delete Item</h1>
     

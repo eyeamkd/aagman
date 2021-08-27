@@ -1,8 +1,8 @@
-import { Order } from "./../models/order"
-import {User} from './../models/user'
+const Order =require("./../models/order");
+const User=require("./../models/user");
 
 
-export default {
+module.exports= {
     Query: {
         orders:() => Order.find(),
         order:(parent, {id}) => Order.findById(id),

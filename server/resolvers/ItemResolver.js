@@ -1,48 +1,62 @@
-import { Item } from "./../models/item"
-import {Category} from "./../models/categories"
+const Item =require("./../models/item");
+const Categories=require("./../models/categories");
+const User =require('./../models/user')
+const ItemsList =require("../models/items");
 
 
-export default {
+module.exports= {
     Query: {
         items:() => Item.find(),
         item:(parent, {id}) => Item.findById(id),
         getItemByCode: (_, {itemCode}) =>{
             const filter = { itemCode: itemCode }
-            const items = Item.findOne(filter);
+            const items = Item.findOne(filter).populate({
+                path:'categories',
+                populate:{
+                    path:'items'
+                }
+            })
             return items;
-        },
+        }, 
        
-
-        
     },
 
     Mutation: {
-      createItem: async(_,{itemCode,categories})=>{
-          const item = new Item({itemCode,categories});
-          await item.save();
+      createItem: async(_,{itemCode,email})=>{
+          const item = new Item({itemCode,categories:[],ownerUser:[]});
+          await item.save()
+          .then(result=>{
+              return User.findOne({email:email})
+          })
+          .then(user=>{
+              item.ownerUser.push(user);
+              item.save();
+          })
           return item;
       },
-      updateItem:async(_,{itemCode,categories})=>{
-        const filter ={itemCode:itemCode}
-        const update = {categories:categories};
-        const items= await Item.findOneAndUpdate(filter,update,{new:true});
-        return items;
+      addCategory:async(_,{categoryName,itemCode})=>{
+          const category= new Categories({categoryName,ItemsList:[]});
+          await category.save().then(result=>{
+              return Item.findOne({itemCode:itemCode})
+          })
+          .then(item=>{
+              console.log(item)
+              item.categories.push(category);
+              return item.save()
+          });
+          return category;
       },
-      getItemByCategory:async(_,{itemCode,categoryName})=>{
-        const filterCode={itemCode:itemCode}
-        const filterCategory={categoryName:categoryName}
-        const updateitem={item:item}
-        const up=await Item.categoryName.findOneAndUpdate(filterCategory,updateitem,{new:true})
-        return "Updated!";
-    },
-    
-      deleteItem:async(_,{itemCode})=>{
-        const filter={itemCode:itemCode}
-        const item=await Item.findOneAndDelete(filter);
-        return "Item Deleted";
-    }
-
-       
-       
+      addItems:async(_,{categoryId,name,description,cost,status})=>{
+          const item=new ItemsList({name,description,status,cost});
+          await item.save()
+          .then(result=>{
+              return Categories.findById(categoryId)
+          })
+          .then(category=>{
+              category.items.push(item);
+              return category.save();
+          })
+          return item;
+      }     
     }
 }

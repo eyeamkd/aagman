@@ -1,31 +1,37 @@
-import { gql } from 'apollo-server-express'
+const {gql}=require("apollo-server-express");
 
-export default gql`
+module.exports= gql`
 
 type Query {
     items: [Item!]!
     item(id: ID!): Item!
-    getItemByCode(itemCode: String!): Item
-   
+    getItemByCode(itemCode: String!): Item 
 }
-type categories{
+
+type Categories{
+    id: ID!
     categoryName:String!
-    items:[Items]!
+    items:[ItemsList]!
+}
+
+type categoryId{
+    id:ID!
 }
 
 input inputCategories{
     categoryName:String!
-    items:[inputItems]!
+    items:[inputItemsList]!
 }
 
-input inputItems{
+input inputItemsList{
     name:String!
     description:String!
     status:String!
     cost:Int!
 }
 
-type Items{
+type ItemsList{
+    id: ID!
     name:String!
     description:String!
     status:String!
@@ -35,15 +41,14 @@ type Items{
 type Item {
     id: ID!
     itemCode:String!
-    categories:[categories]!
+    ownerUser:[User!]
+    categories:[Categories]!
 }
 
 type Mutation{
-    createItem(itemCode:String!,categories:[inputCategories]!):Item!
-    updateItem(itemCode:String!,categories:[inputCategories]!):Item
-    deleteItem(itemCode:String!):String
-    getItemByCategory(itemCode:String!,categoryName:String!):String
-
+    createItem(itemCode:String!,email:String!):Item!
+    addCategory(categoryName:String!,itemCode:String!):Categories!
+    addItems(categoryId:String!,name:String!,description:String!,cost:Int!,status:String!):ItemsList!
 }
 
 `

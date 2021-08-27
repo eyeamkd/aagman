@@ -37,7 +37,6 @@ query Query($getItemByCodeItemCode: String!) {
 export const GET_ITEMS_BY_ID=gql`
 query Query($itemId: ID!) {
   item(id: $itemId) {
-    id
     itemCode
     categories {
       categoryName
@@ -49,4 +48,5 @@ query Query($itemId: ID!) {
       }
     }
   }
-}`
+}
+`

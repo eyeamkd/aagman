@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+const mongoose =require("mongoose");
 
-export const Order = mongoose.model("Order", { 
+module.exports = mongoose.model("Order", { 
     orderId:Number,
     itemList:[{
         itemName:String,
@@ -12,3 +12,4 @@ export const Order = mongoose.model("Order", {
     paymentMode:String,
     paymentStatus:String
 })
+

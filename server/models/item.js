@@ -1,16 +1,12 @@
-import mongoose from "mongoose";
+const mongoose =require("mongoose");
 
 
-export const Item = mongoose.model("Item", { 
+module.exports = mongoose.model("Item", { 
     itemCode:String,
+    ownerUser:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}],
     categories:[{
-        categoryName:String,
-        items:[{
-            name:String,
-            description:String,
-            status:String,
-            cost:Number
-        }]
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Categories"
     }],
 
 })

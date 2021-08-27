@@ -1,19 +1,19 @@
-import express from "express";
-import mongoose from "mongoose";
-import { ApolloServer} from "apollo-server-express";
-import OrderResolvers from "./resolvers/OrderResolver";
-import OrderTypeDef from "./typedefs/OrderTypeDef";
-import UserResolvers from "./resolvers/UserResolver";
-import ItemResolvers from "./resolvers/ItemResolver";
-import ItemTypeDef from "./typedefs/ItemTypeDef";
-import GMR from 'graphql-merge-resolvers';
-import UserTypeDef from "./typedefs/UserTypeDef";
-import nodemailer from "nodemailer";
-import sendGridTransport from "nodemailer-sendgrid-transport";
-import dotenv from "dotenv";
+const express = require("express");
+const mongoose = require("mongoose");
+const { ApolloServer} = require("apollo-server-express");
+const OrderResolvers = require("./resolvers/OrderResolver");
+const OrderTypeDef = require("./typedefs/OrderTypeDef");
+const UserResolvers = require("./resolvers/UserResolver");
+const ItemResolvers = require("./resolvers/ItemResolver");
+const ItemTypeDef = require("./typedefs/ItemTypeDef");
+const GMR = require('graphql-merge-resolvers');
+const UserTypeDef = require("./typedefs/UserTypeDef");
+const nodemailer = require("nodemailer");
+const sendGridTransport = require("nodemailer-sendgrid-transport");
+const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
-import cors from "cors";
-import { GraphQLClient } from 'graphql-request';
+const cors = require("cors");
+const { GraphQLClient } = require('graphql-request');
 
 const endpoint = 'http://localhost:5000/graphql';
 const client = new GraphQLClient(endpoint, {

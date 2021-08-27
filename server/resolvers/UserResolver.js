@@ -1,6 +1,6 @@
-import { User } from "./../models/user"
+const User=require("./../models/user");
 
-export default {
+module.exports= {
     Query: {
         users:() => User.find(),
         user:(parent, {id}) => User.findById(id),

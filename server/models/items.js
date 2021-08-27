@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+const mongoose =require("mongoose");
 
-export const Items = mongoose.model("Items", { 
+module.exports = mongoose.model("ItemsList", { 
 
             name:String,
             description:String,
