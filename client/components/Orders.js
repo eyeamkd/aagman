@@ -77,7 +77,8 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     borderRadius: "20px",
-    background: "linear-gradient(to right, #5c258d, #4389a2)",
+    backgroundColor: "#0d47a1",
+    color: "white"
   }
 }));
 

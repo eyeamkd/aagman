@@ -17,7 +17,7 @@ import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {
-        background: "linear-gradient(to right, #7f7fd5, #86a8e7, #91eae4)",
+        backgroundColor: "#42a5f5",
         padding: theme.spacing(2),
         position: 'absolute',
         top: theme.spacing(5),
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: '0px'
     },
     paper: {
-        background: "linear-gradient(to right, #d9a7c7, #fffcdc)",
+        backgroundColor: "white",
         borderRadius: "20px",
         border: '1px solid #654ea3',
         boxShadow: theme.shadows[5],
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        background: "linear-gradient(to right, #8e2de2, #4a00e0)",
+        backgroundColor: "#0d47a1",
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -49,8 +49,11 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(2, 0, 1),
-        borderRadius: "50px",
-        background: "linear-gradient(to right, #654ea3, #eaafc8)"
+        backgroundColor: "#0596f5",
+        color: "#ffffff",
+        padding: "10px",
+        borderRadius: "40px",
+        textAlign: "center"
     },
 }));
 

@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
         ...theme.mixins.toolbar,
     },
     appBar: {
-        background: "linear-gradient(to right, #5c258d, #4389a2)",
         zIndex: theme.zIndex.drawer + 1,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
@@ -66,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     drawerPaper: {
-        background: "linear-gradient(to right, #b993d6, #8ca6db)",
+        backgroundColor: "#83c3f7",
         position: 'relative',
         whiteSpace: 'nowrap',
         width: drawerWidth,
@@ -97,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(4),
     },
     paper: {
-        background: "linear-gradient(to right, #b993d6, #8ca6db)",
+        backgroundColor: "#4dabf5",
         borderRadius: "20px",
         padding: theme.spacing(2),
         display: 'flex',

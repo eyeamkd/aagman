@@ -1,19 +1,29 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import { useForm } from "react-hook-form";
 import styles from '../styles/SignUp.module.css';
 import { motion } from "framer-motion";
 import { useState } from "react";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Image from 'next/image';
-import cx from 'classnames';
 import { useMutation } from '@apollo/client';
 import { CREATE_USERS } from '../GraphQL/Mutations/UsersMutation';
 import { useRouter } from 'next/router'
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles({
+  button: {
+    margin: "20px",
+    backgroundColor: "#0596f5",
+    color: "#ffffff",
+    padding: "20px",
+    borderRadius: "40px",
+    textAlign:"center"
+  }
+});
 
 export default function Signup() {
+    const classes = useStyles();
+
     const {
         register,
         handleSubmit,
@@ -87,7 +97,7 @@ export default function Signup() {
                     <br /><br />
                     <TextField label="GST Number" variant="outlined" color="primary" value={gstNumber} onChange={(e) => { setGstNumber(e.target.value); }} />
                     <br /><br />
-                    <button type="submit" className={styles.button1}>Register</button> <br />
+                    <Button type="submit" variant="contained" color="secondary" className={classes.button}>Register</Button> <br />
 
                 </form>
 

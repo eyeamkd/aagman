@@ -11,10 +11,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Container from '@material-ui/core/Container';
 import CloseIcon from '@material-ui/icons/Close';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {
-        background: "linear-gradient(to right, #7f7fd5, #86a8e7, #91eae4)",
+        backgroundColor: "#42a5f5",
         padding: theme.spacing(2),
         position: 'absolute',
         top: theme.spacing(5),
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: '0px'
     },
     paper: {
-        background: "linear-gradient(to right, #d9a7c7, #fffcdc)",
+        backgroundColor: "white",
         borderRadius: "20px",
         border: '1px solid #654ea3',
         boxShadow: theme.shadows[5],
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        background: "linear-gradient(to right, #8e2de2, #4a00e0)",
+        backgroundColor: "#0d47a1",
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -46,8 +47,11 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(2, 0, 1),
-        borderRadius: "50px",
-        background: "linear-gradient(to right, #654ea3, #eaafc8)"
+        backgroundColor: "#0596f5",
+        color: "#ffffff",
+        padding: "10px",
+        borderRadius: "40px",
+        textAlign: "center"
     },
 }));
 
@@ -117,25 +121,29 @@ export const VerifyUser = (props) => {
                                     autoComplete="otp"
                                     autoFocus
                                 />
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                >
-                                    Submit
-                                </Button>
-                                <Button
-                                    type="reset"
-                                    fullWidth
-                                    variant="contained"
-                                    color="secondary"
-                                    className={classes.submit}
-                                    onClick={resetForm}
-                                >
-                                    Reset
-                                </Button>
+                                <Grid container spacing={2}  direction="row" justifyContent="center" alignItems="center">
+                                    <Grid container xs={12} sm={6} justifyContent="center" alignItems="center">
+                                        <Button
+                                            type="submit"
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.submit}
+                                        >
+                                            Submit
+                                        </Button>
+                                    </Grid>
+                                    <Grid container xs={12} sm={6} justifyContent="center" alignItems="center">
+                                        <Button
+                                            type="reset"
+                                            variant="contained"
+                                            color="secondary"
+                                            className={classes.submit}
+                                            onClick={resetForm}
+                                        >
+                                            Reset
+                                        </Button>
+                                    </Grid>
+                                </Grid>
                             </form>
                         </div>
                     </Container>

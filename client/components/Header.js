@@ -10,6 +10,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import SideDrawer from "./SideDrawer";
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+import AppBar from '@material-ui/core/AppBar';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -70,43 +71,44 @@ function Header() {
 
     return (
         <>
-            <Toolbar>
-                <SideDrawer>
-                    <IconButton color="inherit">
-                        <MenuIcon />
-                    </IconButton>
-                </SideDrawer>
-                <Typography variant="h6" className={classes.title} noWrap>
-                    Aagman Menu
-                </Typography>
-                <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon />
+            <AppBar position="static">
+                <Toolbar>
+                    <SideDrawer>
+                        <IconButton color="inherit">
+                            <MenuIcon />
+                        </IconButton>
+                    </SideDrawer>
+                    <Typography variant="h6" className={classes.title} noWrap>
+                        Aagman Menu
+                    </Typography>
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Search…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
                     </div>
-                    <InputBase
-                        placeholder="Search…"
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
-                </div>
-                <IconButton color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <IconButton color="inherit">
-                    <AccountCircle />
-                </IconButton>
-            </Toolbar>
+                    <IconButton color="inherit">
+                        <Badge badgeContent={4} color="secondary">
+                            <NotificationsIcon />
+                        </Badge>
+                    </IconButton>
+                    <IconButton color="inherit">
+                        <AccountCircle />
+                    </IconButton>
+                </Toolbar>
+                </AppBar>
+                <Divider />
 
-            <Divider />
-
-            <Toolbar className={classes.tagline}>
-                ORDER WITHOUT Hassle
-            </Toolbar>
+                <Toolbar className={classes.tagline}>
+                    ORDER WITHOUT Hassle
+                </Toolbar>
         </>
     );
 }

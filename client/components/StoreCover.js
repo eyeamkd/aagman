@@ -5,10 +5,8 @@
 
   const useStyles = makeStyles({
     cover: {
-      background: "linear-gradient(to right, #ad5389, #3c1053)",
+      backgroundColor: "#0d47a1",
       padding: "35px 25px",
-      borderRadius: "20px",
-      margin: "10px",
       color: "white",
     },
     title: {

@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { createTheme, makeStyles, responsiveFontSizes, ThemeProvider } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActions from '@material-ui/core/CardActions';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import RemoveIcon from '@material-ui/icons/Remove';
+import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import DoneIcon from '@material-ui/icons/Done';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     card: {
         display: "flex",
         borderRadius: "20px",
-        background: "linear-gradient(to right, #654ea3, #eaafc8)",
-        color: "white",
+        backgroundColor: "#4dabf5",
+        color: "black",
         margin: "10px 10px 0",
         padding: "10px"
     },
     cardActions: {
-        justifyContent: "center"
+        justifyContent: "center",
     },
     cardDetails: {
         flex: 1,
@@ -42,38 +42,45 @@ const useStyles = makeStyles({
         marginTop: "auto",
         padding: "16px",
         textAlign: "center",
+    },
+    iconButtons: {
+        backgroundColor: "#0596f5",
+        color: "#ffffff",
     }
-});
+}));
+
+let theme = createTheme();
+theme = responsiveFontSizes(theme);
 
 const ProductCard = ({ product, setItem }) => {
-    const [counter, setCounter] = useState(0);
+    const [quantity, setQuantity] = useState(0);
     const [itemCard, setItemCard] = useState({})
     const [disable, setDisable] = useState(false);
     const classes = useStyles();
 
-    const incrementCounter = () => {
-        setCounter(counter + 1);
+    const incrementQuantity = () => {
+        setQuantity(quantity + 1);
     }
 
-    const decrementCounter = () => {
-        counter > 0 ? setCounter(counter - 1) : alert("Products quantity is already 0.");
+    const decrementQuantity = () => {
+        quantity > 0 ? setQuantity(quantity - 1) : alert("Products quantity is already 0.");
     }
 
     useEffect(() => {
-        if (counter >= 0) {
+        if (quantity >= 0) {
             itemCard["itemName"] = product.name
             itemCard["itemCost"] = product.cost
-            itemCard["itemQuantity"] = counter
+            itemCard["itemQuantity"] = quantity
             setItemCard({ ...itemCard })
         }
-    }, [counter])
+    }, [quantity])
 
     const confirm = () => {
-        if (counter === 0) {
+        if (quantity === 0) {
             alert("You can't place an order for 0 items. Add to the item's quantity to place the order.");
         }
         else {
-            if (window.confirm(`Are you sure you want to place the order for ${counter} ${product.name} worth ₹ ${product.cost * counter}`)) {
+            if (window.confirm(`Are you sure you want to place the order for ${quantity} ${product.name} worth ₹ ${product.cost * quantity}`)) {
                 setItem(itemCard);
                 setDisable(true);
             }
@@ -81,6 +88,7 @@ const ProductCard = ({ product, setItem }) => {
     }
 
     return (
+        <ThemeProvider theme={theme}>
         <Grid item xs={12} md={4}>
             <Card className={classes.card} variant="outlined">
                 <div className={classes.cardDetails}>
@@ -102,22 +110,23 @@ const ProductCard = ({ product, setItem }) => {
                 </div>
                 <div className={classes.productQuantity}>
                     <Typography variant="h6" color="inherit">
-                        Quantity: {counter}
+                        Quantity: {quantity}
                     </Typography>
                     <CardActions className={classes.cardActions}>
-                        <IconButton disabled={disable} color="primary" aria-label="add to shopping cart" onClick={incrementCounter}>
-                            <AddShoppingCartIcon />
+                        <IconButton disabled={disable} variant="contained" color="secondary" aria-label="add" onClick={incrementQuantity} className={classes.iconButtons}>
+                            <AddIcon />
                         </IconButton>
-                        <IconButton disabled={disable} color="primary" aria-label="delete" onClick={decrementCounter}>
-                            <DeleteIcon />
+                        <IconButton disabled={disable} variant="contained" color="secondary" aria-label="remove" onClick={decrementQuantity} className={classes.iconButtons}>
+                            <RemoveIcon />
                         </IconButton>
-                        <IconButton disabled={disable} color="primary" aria-label="confirm" onClick={confirm}>
+                        <IconButton disabled={disable} variant="contained" color="secondary" aria-label="confirm" onClick={confirm} className={classes.iconButtons}>
                             <DoneIcon />
                         </IconButton>
                     </CardActions>
                 </div>
             </Card>
         </Grid>
+        </ThemeProvider>
     );
 }
 

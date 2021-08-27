@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
@@ -8,7 +8,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 import Footer from "../components/Footer";
 import dynamic from 'next/dynamic';
 const QrReader = dynamic(() => import('react-qr-scanner'), {
@@ -17,9 +16,6 @@ const QrReader = dynamic(() => import('react-qr-scanner'), {
 import { useRouter } from 'next/router'
 
 const useStyles = makeStyles((theme) => ({
-    appBar: {
-        background: "linear-gradient(to right, #0f0c29, #302b63, #24243e)",
-    },
     icon: {
         marginRight: theme.spacing(2),
     },
@@ -28,9 +24,8 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(6, 0, 4),
     },
     cardGrid: {
-        background: "linear-gradient(to right, #0f0c29, #302b63, #24243e)",
+        background: "linear-gradient(to right, #1c92d2, #f2fcfe)",
         borderRadius: "20px",
-        border: "2px solid black",
         marginTop: theme.spacing(2),
         padding: theme.spacing(1),
     },
@@ -62,7 +57,7 @@ const QrScanner = () => {
     return (
         <React.Fragment>
             <CssBaseline />
-            <AppBar position="relative" className={classes.appBar}>
+            <AppBar position="relative">
                 <Toolbar>
                     <CameraIcon className={classes.icon} />
                     <Typography variant="h6" color="inherit" noWrap>

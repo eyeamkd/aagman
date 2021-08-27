@@ -6,16 +6,10 @@ import { dark } from '@material-ui/core/styles/createPalette';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#556cd6',
+      main: '#42a5f5',
     },
     secondary: {
-      main: '#19857b',
-    },
-    error: {
-      main: red.A400,
-    },
-    background: {
-      default: '#fff',
+      main: '#0d47a1',
     },
   },
 });
