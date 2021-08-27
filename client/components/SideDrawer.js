@@ -11,6 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Icon from '@material-ui/core/Icon'
 import { GET_ITEMS } from '../GraphQL/Queries/ItemsQueries';
 import { useQuery, gql } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles({
     list: {
@@ -25,7 +26,13 @@ const useStyles = makeStyles({
 export default function TemporaryDrawer({ children }) {
     const classes = useStyles();
     const [state, setState] = React.useState({ left: false });
-    const [menuId, setmenuId] = useState("671288");
+    const [menuId, setmenuId] = useState("");
+    const { query } = useRouter();
+    useEffect(() => {
+        console.log("This is the menu's document id received.", query.menuId);
+        setmenuId(query.menuId);
+    }, []);
+
     const { data, loading, error } = useQuery(GET_ITEMS,
         {
             variables: {
