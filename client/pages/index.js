@@ -46,7 +46,7 @@ export default function Home() {
       
     }}>
       <Image
-                            src="/../public/images/a_logo3_nobg.png"
+                            src="/images/a_logo3_nobg.png"
                             alt="App Logo"
                             width={300}
                             height={240}

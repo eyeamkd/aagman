@@ -5,12 +5,10 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Hidden from "@material-ui/core/Hidden";
 import CardActions from '@material-ui/core/CardActions';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import DoneIcon from '@material-ui/icons/Done';
 
 const useStyles = makeStyles({
@@ -65,15 +63,21 @@ const ProductCard = ({ product, setItem }) => {
         if (counter >= 0) {
             itemCard["itemName"] = product.name
             itemCard["itemCost"] = product.cost
-            itemCard["itemQuantity"] = counter 
-            setItemCard({...itemCard})
-            console.log(itemCard);
+            itemCard["itemQuantity"] = counter
+            setItemCard({ ...itemCard })
         }
     }, [counter])
 
     const confirm = () => {
-        setItem(itemCard);
-        setDisable(true);
+        if (counter === 0) {
+            alert("You can't place an order for 0 items. Add to the item's quantity to place the order.");
+        }
+        else {
+            if (window.confirm(`Are you sure you want to place the order for ${counter} ${product.name} worth ₹ ${product.cost * counter}`)) {
+                setItem(itemCard);
+                setDisable(true);
+            }
+        }
     }
 
     return (
@@ -87,7 +91,7 @@ const ProductCard = ({ product, setItem }) => {
                             title={product.name}
                         />
                         <div className={classes.product}>
-                            <Typography variant="subtitle1" color="textSecondary" style={{ fontWeight: "500" }}>
+                            <Typography variant="subtitle1" color="inherit" style={{ fontWeight: "500" }}>
                                 ₹{product.cost}
                             </Typography>
                             <Typography component="h2" variant="h5" style={{ fontWeight: "500" }}>
@@ -97,18 +101,18 @@ const ProductCard = ({ product, setItem }) => {
                     </CardContent>
                 </div>
                 <div className={classes.productQuantity}>
-                    <Typography variant="h6" style={{ color: "rgb(193, 227, 247)" }}>
+                    <Typography variant="h6" color="inherit">
                         Quantity: {counter}
                     </Typography>
                     <CardActions className={classes.cardActions}>
                         <IconButton disabled={disable} color="primary" aria-label="add to shopping cart" onClick={incrementCounter}>
                             <AddShoppingCartIcon />
                         </IconButton>
-                        <IconButton disabled={disable} aria-label="delete" onClick={decrementCounter}>
+                        <IconButton disabled={disable} color="primary" aria-label="delete" onClick={decrementCounter}>
                             <DeleteIcon />
                         </IconButton>
-                        <IconButton disabled={disable} aria-label="confirm" onClick={confirm}>
-                            <DoneIcon/>
+                        <IconButton disabled={disable} color="primary" aria-label="confirm" onClick={confirm}>
+                            <DoneIcon />
                         </IconButton>
                     </CardActions>
                 </div>

@@ -20,8 +20,8 @@ import {
     GET_ITEMS_BY_ID,
     GET_ITEMS
 } from '../GraphQL/Queries/ItemsQueries';
-import {CREATE_ORDERS} from '../GraphQL/Mutations/OrdersMutation';
-import {useMutation} from '@apollo/client';
+import { CREATE_ORDERS } from '../GraphQL/Mutations/OrdersMutation';
+import { useMutation } from '@apollo/client';
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const menu = () => {
+const Menu = () => {
     const lightTheme = createTheme({
         palette: {
             type: "light",
@@ -73,7 +73,7 @@ const menu = () => {
                 getItemByCodeItemCode: menuId
             }
         });
-    const [createOrders]= useMutation(CREATE_ORDERS);
+    const [createOrders] = useMutation(CREATE_ORDERS);
 
     useEffect(() => {
         console.log("This is the menu's document id received.", query.menuId);
@@ -81,9 +81,7 @@ const menu = () => {
     }, [])
 
     useEffect(() => {
-        console.log("Confirmed item", item)
-        if(Object.entries(item).length !== 0)
-        {
+        if (Object.entries(item).length !== 0) {
             setItemList(itemList => [...itemList, item]);
         }
     }, [item])
@@ -91,24 +89,26 @@ const menu = () => {
     const placeOrder = () => {
         console.log(itemList);
         let totalCost = 0;
-        itemList.map(item => totalCost = totalCost + (item.itemCost*item.itemQuantity));
+        itemList.map(item => totalCost = totalCost + (item.itemCost * item.itemQuantity));
         createOrders({
-                variables:{
-                    createOrderEmail:"kunal.viper99@gmail.com",
-                    createOrderOrderId:10938,
-                    createOrderTotalCost:totalCost,
-                    createOrderItemStatus:"Order Received",
-                    createOrderPaymentMode:"Cash",
-                    createOrderItemList:itemList,
-                    createOrderPaymentStatus:"Not Done"
-                }
+            variables: {
+                createOrderEmail: "kunal.viper99@gmail.com",
+                createOrderOrderId: 10938,
+                createOrderTotalCost: totalCost,
+                createOrderItemStatus: "Order Received",
+                createOrderPaymentMode: "Cash",
+                createOrderItemList: itemList,
+                createOrderPaymentStatus: "Not Done"
+            }
         })
-        
+        alert("Your order has been placed successfully.");
     }
 
-    if (loading) return 'Loading...';
+    if (loading)
+        return (<div>Loading...</div>);
 
-    if (error) return `Error! ${error.message}`;
+    if (error)
+        return (<div>Error! ${error.message}</div>);
 
     const productCards = Object.values(data);
 
@@ -137,7 +137,6 @@ const menu = () => {
                                     color="primary"
                                     className={classes.button}
                                     endIcon={<Icon>send</Icon>}
-                                    className={classes.button}
                                     onClick={placeOrder}
                                 >
                                     Proceed to checkout
@@ -167,10 +166,10 @@ const menu = () => {
 }
 
 
-export default menu
+export default Menu
 
 export async function getServerSideProps(context) {
     return {
-      props: {}, // will be passed to the page component as props
+        props: {}, // will be passed to the page component as props
     };
-  }
+}

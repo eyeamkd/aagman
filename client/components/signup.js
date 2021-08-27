@@ -29,7 +29,6 @@ export default function Signup() {
     const [email, setEmail] = useState("");
     const [fullName, setFullName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const [userName, setUserName] = useState("");
     const [gstNumber, setGstNumber] = useState("");
     const [location, setLocation] = useState("");
     const [storeName, setStoreName] = useState("");
@@ -76,12 +75,11 @@ export default function Signup() {
 
                     <h1 className={styles.heading}>Sign Up</h1><br /><br />
 
-                    <TextField label="Email" variant="outlined" color="primary" value={email} onChange={(e) => { setEmail(e.target.value); }} />    <br /><br />
-                    <TextField label="User Name" variant="outlined" color="primary" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
+                    <TextField label="Email" variant="outlined" color="primary" value={email} onChange={(e) => { setEmail(e.target.value); }} />    
                     <br /><br />
                     <TextField label="Full Name" variant="outlined" color="primary" value={fullName} onChange={(e) => { setFullName(e.target.value); }} />
                     <br /><br />
-                    <TextField label="Restaurant Name" variant="outlined" color="primary" value={storeName} onChange={(e) => { setStoreName(e.target.value); }} />
+                    <TextField label="Store Name" variant="outlined" color="primary" value={storeName} onChange={(e) => { setStoreName(e.target.value); }} />
                     <br /><br />
                     <TextField label="Location" variant="outlined" color="primary" value={location} onChange={(e) => { setLocation(e.target.value); }} />
                     <br /><br />
@@ -89,7 +87,6 @@ export default function Signup() {
                     <br /><br />
                     <TextField label="GST Number" variant="outlined" color="primary" value={gstNumber} onChange={(e) => { setGstNumber(e.target.value); }} />
                     <br /><br />
-
                     <button type="submit" className={styles.button1}>Register</button> <br />
 
                 </form>
