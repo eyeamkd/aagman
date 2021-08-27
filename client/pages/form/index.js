@@ -53,7 +53,7 @@ export default function Form() {
 
 
                     <div className={styles.signInImages}>
-                        <Image src="/../public/images/3071357.jpg" alt="App Logo" width={400} height={400} />
+                        <Image src="/images/3071357.jpg" alt="App Logo" width={400} height={400} />
                     </div>
 
 

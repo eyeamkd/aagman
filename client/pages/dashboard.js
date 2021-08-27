@@ -20,7 +20,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from '../components/listItems';
 import Orders from '../components/Orders';
-import Menu from '../components/Menu';
+import MenuTable from '../components/Menu';
 import Footer from '../components/Footer';
 import { useRouter } from 'next/router'
 
@@ -180,7 +180,7 @@ export default function Dashboard() {
                         </Grid>
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
-                                <Menu />
+                                <MenuTable />
                             </Paper>
                         </Grid>
                     </Grid>
