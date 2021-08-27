@@ -22,16 +22,15 @@ import { useRouter } from 'next/router';
 import Head from 'next/head'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        background: "linear-gradient(to right, #c9d6ff, #e2e2e2)",
+    bottomNav: {
+        backgroundColor: "#bbdefb",
         borderRadius: "20px",
         position: "fixed",
         bottom: "0px",
         margin: "10px",
         boxSizing: "border-box",
         width: "calc(100% - 52px)",
-        paddingTop: "10px",
-        display: "block",
+        padding: "10px 0",
         textAlign: "center",
         [theme.breakpoints.up('sm')]: {
             display: 'none',
@@ -51,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "40px",
         textAlign:"center"
     },
-    navIcons: {
-        color: "rgba(192,174,246,255)"
-    }
+    // navIcons: {
+    //     color: rgb(192,174,246,255)
+    // }
 }));
 
 const Menu = () => {
@@ -147,12 +146,12 @@ const Menu = () => {
                         setValue(newValue);
                     }}
                     showLabels
-                    className={classes.root}
+                    className={classes.bottomNav}
                 >
-                    <BottomNavigationAction icon={<HomeIcon />} className={classes.navIcons} />
-                    <BottomNavigationAction icon={<MenuIcon />} className={classes.navIcons} />
-                    <BottomNavigationAction icon={<PersonIcon />} className={classes.navIcons} />
-                    <BottomNavigationAction icon={<ArrowBackIosIcon />} className={classes.navIcons} />
+                    <BottomNavigationAction icon={<HomeIcon />}/>
+                    <BottomNavigationAction icon={<MenuIcon />}/>
+                    <BottomNavigationAction icon={<PersonIcon />}/>
+                    <BottomNavigationAction icon={<ArrowBackIosIcon />}/>
                 </BottomNavigation>
             </Container>
             <Footer />
