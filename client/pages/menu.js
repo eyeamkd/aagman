@@ -81,7 +81,6 @@ const Menu = () => {
     }, [])
 
     useEffect(() => {
-        console.log("Confirmed item", item)
         if (Object.entries(item).length !== 0) {
             setItemList(itemList => [...itemList, item]);
         }
