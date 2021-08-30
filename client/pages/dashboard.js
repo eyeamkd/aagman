@@ -24,6 +24,14 @@ import MenuTable from '../components/Menu';
 import Footer from '../components/Footer';
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import PersonIcon from '@material-ui/icons/Person';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 
 const drawerWidth = 240;
 
@@ -116,6 +124,10 @@ export default function Dashboard() {
     const [email, setEmail] = useState("");
     const { query } = useRouter();
 
+    const [ordersOpen, setOrdersOpen] = useState(true)
+    const [menuItemsOpen, setMenuItemsOpen] = useState(false)
+    const [revenueOpen, setRevenueOpen] = useState(false)
+
     useEffect(() => {
         console.log("This is the email id received.", query.email);
         setEmail(query.email);
@@ -128,6 +140,18 @@ export default function Dashboard() {
         setOpen(false);
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+    const toggleOrdersOpen = () => {
+        setOrdersOpen(!ordersOpen);
+    }
+
+    const toggleMenuItemsOpen = () => {
+        setMenuItemsOpen(!menuItemsOpen);
+    }
+
+    const toggleRevenueOpen = () => {
+        setRevenueOpen(!revenueOpen);
+    }
 
     return (
         <>
@@ -170,29 +194,59 @@ export default function Dashboard() {
                         </IconButton>
                     </div>
                     <Divider />
-                    <List>{mainListItems}</List>
+                    <List>
+                        <div>
+                            <ListItem button onClick={() => toggleOrdersOpen()}>
+                                <ListItemIcon>
+                                    <ShoppingCartIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Orders" />
+                            </ListItem>
+                            <ListItem button onClick={() => toggleRevenueOpen()}>
+                                <ListItemIcon>
+                                    <AccountBalanceWalletIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Total Revenue" />
+                            </ListItem>
+                            <ListItem button onClick={() => toggleMenuItemsOpen()}>
+                                <ListItemIcon>
+                                    <MenuBookIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Menu Items" />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <PersonIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Profile"/>
+                            </ListItem>
+                        </div>
+                    </List>
                 </Drawer>
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} />
                     <Container maxWidth="lg" className={classes.container}>
                         <Grid container spacing={3}>
                             {/* Recent Deposits */}
+                            {revenueOpen ?
                             <Grid item xs={12} md={4} lg={3}>
                                 <Paper className={fixedHeightPaper}>
                                     <Deposits />
                                 </Paper>
-                            </Grid>
+                            </Grid> : null}
                             {/* Recent Orders */}
+                            {ordersOpen ?
                             <Grid item xs={12}>
                                 <Paper className={classes.paper}>
                                     <Orders email={email} />
                                 </Paper>
-                            </Grid>
+                            </Grid> : null}
+                            {menuItemsOpen ?
                             <Grid item xs={12}>
                                 <Paper className={classes.paper}>
                                     <MenuTable />
                                 </Paper>
-                            </Grid>
+                            </Grid> : null}
                         </Grid>
                         <Box pt={4}>
                             <Footer />
