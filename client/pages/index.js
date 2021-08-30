@@ -82,7 +82,7 @@ export default function Home() {
       </motion.div>
       <motion.div initial="hidden" animate="visible" variants={variantHeading}>
         <Image
-          src="/images/aagman.png"
+          src="/images/aagmanRoboto.png"
           alt="App Name"
           width={450}
           height={100}

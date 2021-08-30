@@ -15,7 +15,7 @@ import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {
-        backgroundColor: "#42a5f5",
+        backgroundColor: "#83c3f7",
         padding: theme.spacing(2),
         position: 'absolute',
         top: theme.spacing(5),

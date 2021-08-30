@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(4),
     },
     paper: {
-        backgroundColor: "#4dabf5",
+        backgroundColor: "#83c3f7",
         borderRadius: "20px",
         padding: theme.spacing(2),
         display: 'flex',

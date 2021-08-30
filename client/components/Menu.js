@@ -240,7 +240,7 @@ export default function MenuTable() {
                 </Table>
             </div>
             <AddMenu
-                title="Menu Form"
+                title="Menu"
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
                 recordForEdit={recordForEdit}
