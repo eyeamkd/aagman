@@ -13,7 +13,8 @@ import dynamic from 'next/dynamic';
 const QrReader = dynamic(() => import('react-qr-scanner'), {
     ssr: false
 });
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -50,50 +51,55 @@ const QrScanner = () => {
             router.push({
                 pathname: '/menu',
                 query: { menuId: result.text },
-              })
+            })
         }
     }
 
     return (
-        <React.Fragment>
-            <CssBaseline />
-            <AppBar position="relative">
-                <Toolbar>
-                    <CameraIcon className={classes.icon} />
-                    <Typography variant="h6" color="inherit" noWrap>
-                        QR Code Scanner
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <main>
-                <div className={classes.heroContent}>
-                    <Container maxWidth="sm">
-                        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+        <>
+            <Head>
+                <title>QR Scanner</title>
+            </Head>
+            <React.Fragment>
+                <CssBaseline />
+                <AppBar position="relative">
+                    <Toolbar>
+                        <CameraIcon className={classes.icon} />
+                        <Typography variant="h6" color="inherit" noWrap>
                             QR Code Scanner
                         </Typography>
-                        <Typography variant="h5" align="center" color="textSecondary" paragraph>
-                            Scan the QR code below to get redirected to the menu page of the store.
-                        </Typography>
-                    </Container>
-                </div>
-                <Container className={classes.cardGrid} maxWidth="sm">
-                    <Grid container direction="column" justifyContent="center" alignItems="center" spacing={0}>
-                        <Grid item xs={12}>
-                            <Card className={classes.card}>
-                                <QrReader
+                    </Toolbar>
+                </AppBar>
+                <main>
+                    <div className={classes.heroContent}>
+                        <Container maxWidth="sm">
+                            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                                QR Code Scanner
+                            </Typography>
+                            <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                                Scan the QR code below to get redirected to the menu page of the store.
+                            </Typography>
+                        </Container>
+                    </div>
+                    <Container className={classes.cardGrid} maxWidth="sm">
+                        <Grid container direction="column" justifyContent="center" alignItems="center" spacing={0}>
+                            <Grid item xs={12}>
+                                <Card className={classes.card}>
+                                    <QrReader
 
-                                    delay={300}
-                                    style={{ width: '100%' }}
-                                    onError={handleErrorFile}
-                                    onScan={handleScanFile}
-                                />
-                            </Card>
+                                        delay={300}
+                                        style={{ width: '100%' }}
+                                        onError={handleErrorFile}
+                                        onScan={handleScanFile}
+                                    />
+                                </Card>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Container>
-            </main>
-            <Footer />
-        </React.Fragment>
+                    </Container>
+                </main>
+                <Footer />
+            </React.Fragment>
+        </>
     );
 }
 
