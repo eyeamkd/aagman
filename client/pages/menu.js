@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         color: "#ffffff",
         padding: "20px",
         borderRadius: "40px",
-        textAlign:"center"
+        textAlign: "center"
     },
     // navIcons: {
     //     color: rgb(192,174,246,255)
@@ -81,10 +81,35 @@ const Menu = () => {
         }
     }, [item])
 
+    // const generateOrderCode = () => {
+    //     var result = "";
+    //     var characters = "0123456789";
+    //     var charactersLength = characters.length;
+    //     for (var i = 0; i < 5; i++) {
+    //       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    //     }
+    //     return result;
+    //   }
+
     const placeOrder = () => {
         console.log(itemList);
         let totalCost = 0;
         itemList.map(item => totalCost = totalCost + (item.itemCost * item.itemQuantity));
+
+        // let newCodeGenerated = false;
+        // let randomOrderCode = generateOrderCode();
+        // while (!newCodeGenerated) {
+        //     const foundCode = checkIfCodeExists(randomOrderCode);
+
+        //     if (foundCode) {
+        //         randomOrderCode = generateOrderCode();
+
+        //     }
+        //     else {
+        //         newCodeGenerated = true;
+        //     }
+        // }
+
         createOrders({
             variables: {
                 createOrderEmail: "kunal.viper99@gmail.com",
@@ -148,10 +173,10 @@ const Menu = () => {
                     showLabels
                     className={classes.bottomNav}
                 >
-                    <BottomNavigationAction icon={<HomeIcon />}/>
-                    <BottomNavigationAction icon={<MenuIcon />}/>
-                    <BottomNavigationAction icon={<PersonIcon />}/>
-                    <BottomNavigationAction icon={<ArrowBackIosIcon />}/>
+                    <BottomNavigationAction icon={<HomeIcon />} />
+                    <BottomNavigationAction icon={<MenuIcon />} />
+                    <BottomNavigationAction icon={<PersonIcon />} />
+                    <BottomNavigationAction icon={<ArrowBackIosIcon />} />
                 </BottomNavigation>
             </Container>
             <Footer />
