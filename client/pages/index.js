@@ -84,8 +84,8 @@ export default function Home() {
         <Image
           src="/images/aagmanRoboto.png"
           alt="App Name"
-          width={450}
-          height={100}
+          width={280}
+          height={55}
         />
       </motion.div>
 
