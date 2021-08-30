@@ -14,6 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { AddCategory } from './AddCategory';
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const AddMenu = (props) => {
     const classes = useStyles();
+    const [openCategoryPopup, setOpenCategoryPopup] = useState(false)
     const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit } = props;
 
     const initialFValues = {
@@ -100,121 +102,135 @@ export const AddMenu = (props) => {
         addOrEdit(item, resetForm);
 
     }
+    
+    const addCategory = (item, resetForm) => {
+        resetForm()
+        setOpenCategoryPopup(false)
+    }
+
 
     return (
-        <Dialog open={openPopup} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
-            <DialogTitle className={classes.dialogTitle}>
-                <div style={{ display: 'flex' }}>
-                    <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
-                        {title}
-                    </Typography>
-                    <Button
-                        color="secondary"
-                        onClick={() => { setOpenPopup(false) }}>
-                        <CloseIcon />
-                    </Button>
-                </div>
-            </DialogTitle>
-            <DialogContent dividers>
-                <div className={classes.paper}>
-                    <Container component="main" maxWidth="xs">
-                        <CssBaseline />
-                        <div className={classes.formPaper}>
-                            <Avatar className={classes.avatar}>
-                                <AddShoppingCartIcon />
-                            </Avatar>
-                            <form className={classes.form} noValidate onSubmit={handleSubmit}>
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="name"
-                                    value={item.name}
-                                    onChange={handleInputChange}
-                                    label="Name"
-                                    type="text"
-                                    name="name"
-                                    autoComplete="name"
-                                    autoFocus
-                                />
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    fullWidth
-                                    id="description"
-                                    value={item.description}
-                                    onChange={handleInputChange}
-                                    label="Description"
-                                    type="text"
-                                    name="description"
-                                    autoComplete="description"
-                                    autoFocus
-                                />
-                                <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="status" autoFocus>
-                                    <InputLabel htmlFor="status">Status</InputLabel>
-                                    <Select
-                                        native
-                                        name="status"
-                                        value={item.status}
+        <>
+            <Dialog open={openPopup} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
+                <DialogTitle className={classes.dialogTitle}>
+                    <div style={{ display: 'flex' }}>
+                        <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
+                            {title}
+                        </Typography>
+                        <Button
+                            color="secondary"
+                            onClick={() => { setOpenPopup(false) }}>
+                            <CloseIcon />
+                        </Button>
+                    </div>
+                </DialogTitle>
+                <DialogContent dividers>
+                    <div className={classes.paper}>
+                        <Container component="main" maxWidth="xs">
+                            <CssBaseline />
+                            <div className={classes.formPaper}>
+                                <Avatar className={classes.avatar}>
+                                    <AddShoppingCartIcon />
+                                </Avatar>
+                                <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="name"
+                                        value={item.name}
                                         onChange={handleInputChange}
-                                        label="Status"
+                                        label="Name"
+                                        type="text"
+                                        name="name"
+                                        autoComplete="name"
+                                        autoFocus
+                                    />
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        fullWidth
+                                        id="description"
+                                        value={item.description}
+                                        onChange={handleInputChange}
+                                        label="Description"
+                                        type="text"
+                                        name="description"
+                                        autoComplete="description"
+                                        autoFocus
+                                    />
+                                    <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="status" autoFocus>
+                                        <InputLabel htmlFor="status">Status</InputLabel>
+                                        <Select
+                                            native
+                                            name="status"
+                                            value={item.status}
+                                            onChange={handleInputChange}
+                                            label="Status"
+                                        >
+                                            <option aria-label="None" value="" />
+                                            <option value={"Available"}>Available</option>
+                                            <option value={"Unavailable"}>Unavailable</option>
+                                        </Select>
+                                    </FormControl>
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        name="cost"
+                                        label="Cost"
+                                        type="text"
+                                        id="cost"
+                                        value={item.cost}
+                                        onChange={handleInputChange}
+                                        autoComplete="cost"
+                                    />
+                                    <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="status" autoFocus>
+                                        <InputLabel htmlFor="category">Category</InputLabel>
+                                        <Select
+                                            native
+                                            name="category"
+                                            value={item.category}
+                                            onChange={handleInputChange}
+                                            label="Category"
+                                        >
+                                            <option aria-label="None" value="" />
+                                        </Select>
+                                        <Button color="primary" onClick={() => { setOpenCategoryPopup(true) }}>Add Category (If not already existing.)</Button>
+                                    </FormControl>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.submit}
                                     >
-                                        <option aria-label="None" value=""/>
-                                        <option value={"Available"}>Available</option>
-                                        <option value={"Unavailable"}>Unavailable</option>
-                                    </Select>
-                                </FormControl>
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="cost"
-                                    label="Cost"
-                                    type="text"
-                                    id="cost"
-                                    value={item.cost}
-                                    onChange={handleInputChange}
-                                    autoComplete="cost"
-                                />
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="category"
-                                    label="Category"
-                                    type="text"
-                                    id="category"
-                                    value={item.category}
-                                    onChange={handleInputChange}
-                                    autoComplete="category"
-                                />
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                >
-                                    Save
-                                </Button>
-                                <Button
-                                    type="reset"
-                                    fullWidth
-                                    variant="contained"
-                                    color="secondary"
-                                    className={classes.submit}
-                                    onClick={resetForm}
-                                >
-                                    Reset
-                                </Button>
-                            </form>
-                        </div>
-                    </Container>
-                </div>
-            </DialogContent>
-        </Dialog>
+                                        Save
+                                    </Button>
+                                    <Button
+                                        type="reset"
+                                        fullWidth
+                                        variant="contained"
+                                        color="secondary"
+                                        className={classes.submit}
+                                        onClick={resetForm}
+                                    >
+                                        Reset
+                                    </Button>
+                                </form>
+                            </div>
+                        </Container>
+                    </div>
+                </DialogContent>
+            </Dialog>
+            <AddCategory
+                title="Add Category"
+                openCategoryPopup={openCategoryPopup}
+                setOpenCategoryPopup={setOpenCategoryPopup}
+                addCategory={addCategory}
+            />
+        </>
     );
 }
