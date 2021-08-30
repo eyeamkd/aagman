@@ -14,12 +14,12 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from '../components/listItems';
 import Orders from '../components/Orders';
+import Deposits from '../components/Deposits';
 import MenuTable from '../components/Menu';
 import Footer from '../components/Footer';
 import { useRouter } from 'next/router'
@@ -171,10 +171,16 @@ export default function Dashboard() {
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
+                        {/* Recent Deposits */}
+                        <Grid item xs={12} md={4} lg={3}>
+                            <Paper className={fixedHeightPaper}>
+                                <Deposits />
+                            </Paper>
+                        </Grid>
                         {/* Recent Orders */}
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
-                                <Orders email={email}/>
+                                <Orders email={email} />
                             </Paper>
                         </Grid>
                         <Grid item xs={12}>
@@ -184,7 +190,7 @@ export default function Dashboard() {
                         </Grid>
                     </Grid>
                     <Box pt={4}>
-                        <Footer/>
+                        <Footer />
                     </Box>
                 </Container>
             </main>
@@ -194,6 +200,6 @@ export default function Dashboard() {
 
 export async function getServerSideProps(context) {
     return {
-      props: {}, // will be passed to the page component as props
+        props: {}, // will be passed to the page component as props
     };
-  }
+}
