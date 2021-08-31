@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -9,8 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Container from '@material-ui/core/Container';
+import CategoryIcon from '@material-ui/icons/Category';
 import CloseIcon from '@material-ui/icons/Close';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,12 +55,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const VerifyUser = (props) => {
+export const AddCategory = (props) => {
     const classes = useStyles();
-    const { title, openPopup, setOpenPopup, verifyOtp } = props;
+    const { title, openCategoryPopup, setOpenCategoryPopup, addCategory } = props;
 
     const initialFValues = {
-        otp: ''
+        id: '',
+        name: ''
     }
 
     const resetForm = () => {
@@ -80,12 +81,13 @@ export const VerifyUser = (props) => {
     const handleSubmit = e => {
         e.preventDefault()
 
-        verifyOtp(item, resetForm);
+        addCategory(item, resetForm);
 
     }
 
     return (
-        <Dialog open={openPopup} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
+
+        <Dialog open={openCategoryPopup} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
             <DialogTitle className={classes.dialogTitle}>
                 <div style={{ display: 'flex' }}>
                     <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
@@ -93,7 +95,7 @@ export const VerifyUser = (props) => {
                     </Typography>
                     <Button
                         color="secondary"
-                        onClick={() => { setOpenPopup(false) }}>
+                        onClick={() => { setOpenCategoryPopup(false) }}>
                         <CloseIcon />
                     </Button>
                 </div>
@@ -104,7 +106,7 @@ export const VerifyUser = (props) => {
                         <CssBaseline />
                         <div className={classes.formPaper}>
                             <Avatar className={classes.avatar}>
-                                <VerifiedUserIcon />
+                                <CategoryIcon />
                             </Avatar>
                             <form className={classes.form} noValidate onSubmit={handleSubmit}>
                                 <TextField
@@ -112,16 +114,16 @@ export const VerifyUser = (props) => {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="otp"
-                                    value={item.otp}
+                                    id="name"
+                                    value={item.name}
                                     onChange={handleInputChange}
-                                    label="OTP"
+                                    label="Category Name"
                                     type="text"
-                                    name="otp"
-                                    autoComplete="otp"
+                                    name="name"
+                                    autoComplete="name"
                                     autoFocus
                                 />
-                                <Grid container spacing={2}  direction="row" justifyContent="center" alignItems="center">
+                                <Grid container spacing={2} direction="row" justifyContent="center" alignItems="center">
                                     <Grid container xs={12} sm={6} justifyContent="center" alignItems="center">
                                         <Button
                                             type="submit"
@@ -150,5 +152,6 @@ export const VerifyUser = (props) => {
                 </div>
             </DialogContent>
         </Dialog>
+
     );
 }

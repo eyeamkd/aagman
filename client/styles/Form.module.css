@@ -3,8 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #008080;
-    
+    background-color: #42a5f5;
 }
 
 @media only screen and (min-width:768px)
@@ -29,12 +28,12 @@ height: 550px;
 
 .formSignInWrapper {
 text-align: center;
-border: solid 15px #40E0D0;
+border: solid 15px #0d47a1;
 border-radius: 40px;
 background-color: white;
 padding: 20px;
 
-margin: 0 auto;
+margin: 20px auto;
 }
 
 
@@ -47,7 +46,7 @@ display: none;
 
 .formSignInWrapper {
     text-align: center;
-    border: solid 15px #40E0D0;
+    border: solid 15px #0d47a1;
     border-radius: 40px;
     background-color: white;
     padding: 20px;

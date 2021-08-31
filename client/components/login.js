@@ -7,8 +7,23 @@ import TextField from '@material-ui/core/TextField';
 import { checkIfUserExists, postOtp, verifyUser } from '../lib/auth';
 import { VerifyUser } from './VerifyUser';
 import { useRouter } from 'next/router'
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  button: {
+    margin: "20px",
+    backgroundColor: "#0596f5",
+    color: "#ffffff",
+    padding: "20px",
+    borderRadius: "40px",
+    textAlign:"center"
+  }
+});
 
 export default function Login() {
+    const classes = useStyles();
+
     const [openPopup, setOpenPopup] = useState(false)
     const router = useRouter();
 
@@ -90,8 +105,7 @@ export default function Login() {
                         }}/>
                         <br/><br/>
                        
-          <button type="submit" className={styles.button1}>Login</button> <br/>
-                 
+          <Button type="submit" variant="contained" color="secondary" className={classes.button}>Login</Button> <br/>  
           </form> 
   </motion.main>
   <VerifyUser

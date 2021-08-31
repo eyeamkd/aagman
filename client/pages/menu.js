@@ -1,4 +1,3 @@
-import { createTheme, ThemeProvider } from '@material-ui/core/styles'
 import React, { useState, useEffect } from 'react'
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -7,7 +6,6 @@ import StoreCover from "../components/StoreCover";
 import ProductCard from "../components/ProductCard";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import styles from "../styles/Menu.module.css"
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon'
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -16,26 +14,23 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import {
-    GET_ITEMS_BY_ID,
-    GET_ITEMS
-} from '../GraphQL/Queries/ItemsQueries';
+import { GET_ITEMS } from '../GraphQL/Queries/ItemsQueries';
 import { CREATE_ORDERS } from '../GraphQL/Mutations/OrdersMutation';
 import { useMutation } from '@apollo/client';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
+import Head from 'next/head'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        background: "linear-gradient(to right, #c9d6ff, #e2e2e2)",
+    bottomNav: {
+        backgroundColor: "#bbdefb",
         borderRadius: "20px",
         position: "fixed",
         bottom: "0px",
         margin: "10px",
         boxSizing: "border-box",
         width: "calc(100% - 52px)",
-        paddingTop: "10px",
-        display: "block",
+        padding: "10px 0",
         textAlign: "center",
         [theme.breakpoints.up('sm')]: {
             display: 'none',
@@ -44,26 +39,26 @@ const useStyles = makeStyles((theme) => ({
     mainGrid: {
         marginTop: theme.spacing(3),
     },
-    button: {
-        margin: "10px",
-        borderRadius: "50px",
+    navigateButtons: {
+        textAlign: "center"
     },
-    navIcons: {
-        color: "rgba(192,174,246,255)"
-    }
+    button: {
+        margin: "20px",
+        backgroundColor: "#0596f5",
+        color: "#ffffff",
+        padding: "20px",
+        borderRadius: "40px",
+        textAlign: "center"
+    },
+    // navIcons: {
+    //     color: rgb(192,174,246,255)
+    // }
 }));
 
 const Menu = () => {
-    const lightTheme = createTheme({
-        palette: {
-            type: "light",
-        },
-    });
-
     const [itemList, setItemList] = useState([]);
     const [item, setItem] = useState({});
     const classes = useStyles();
-    const router = useRouter();
     const { query } = useRouter();
     const [value, setValue] = useState(0);
     const [menuId, setmenuId] = useState("");
@@ -86,10 +81,35 @@ const Menu = () => {
         }
     }, [item])
 
+    // const generateOrderCode = () => {
+    //     var result = "";
+    //     var characters = "0123456789";
+    //     var charactersLength = characters.length;
+    //     for (var i = 0; i < 5; i++) {
+    //       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    //     }
+    //     return result;
+    //   }
+
     const placeOrder = () => {
         console.log(itemList);
         let totalCost = 0;
         itemList.map(item => totalCost = totalCost + (item.itemCost * item.itemQuantity));
+
+        // let newCodeGenerated = false;
+        // let randomOrderCode = generateOrderCode();
+        // while (!newCodeGenerated) {
+        //     const foundCode = checkIfCodeExists(randomOrderCode);
+
+        //     if (foundCode) {
+        //         randomOrderCode = generateOrderCode();
+
+        //     }
+        //     else {
+        //         newCodeGenerated = true;
+        //     }
+        // }
+
         createOrders({
             variables: {
                 createOrderEmail: "kunal.viper99@gmail.com",
@@ -113,55 +133,54 @@ const Menu = () => {
     const productCards = Object.values(data);
 
     return (
-        <div className={styles.menu}>
-
-            <ThemeProvider theme={lightTheme}>
-                <Container>
-                    <Header />
-                    <StoreCover />
-                    <br />
-                    <Grid container spacing={1}>
-                        {productCards.map(value =>
-                            value.categories.map(category =>
-                                category.items.map((product) =>
-                                    (<ProductCard key={product.name} product={product} setItem={setItem} />)
-                                )
+        <>
+            <Head>
+                <title>Menu</title>
+            </Head>
+            <Header />
+            <StoreCover />
+            <Container>
+                <br />
+                <Grid container spacing={1}>
+                    {productCards.map(value =>
+                        value.categories.map(category =>
+                            category.items.map((product) =>
+                                (<ProductCard key={product.name} product={product} setItem={setItem} />)
                             )
-                        )}
-                    </Grid>
-                    <div className={styles.navigateButtons}>
-                        <Grid container spacing={4}>
-                            <Grid item xs={12}>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.button}
-                                    endIcon={<Icon>send</Icon>}
-                                    onClick={placeOrder}
-                                >
-                                    Proceed to checkout
-                                </Button>
-                            </Grid>
+                        )
+                    )}
+                </Grid>
+                <div className={classes.navigateButtons}>
+                    <Grid container spacing={4}>
+                        <Grid item xs={12}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                                endIcon={<Icon>send</Icon>}
+                                onClick={placeOrder}
+                            >
+                                Proceed to checkout
+                            </Button>
                         </Grid>
-                    </div>
-                    <BottomNavigation
-                        value={value}
-                        onChange={(event, newValue) => {
-                            setValue(newValue);
-                        }}
-                        showLabels
-                        className={classes.root}
-                    >
-                        <BottomNavigationAction icon={<HomeIcon />} className={classes.navIcons} />
-                        <BottomNavigationAction icon={<MenuIcon />} className={classes.navIcons} />
-                        <BottomNavigationAction icon={<PersonIcon />} className={classes.navIcons} />
-                        <BottomNavigationAction icon={<ArrowBackIosIcon />} className={classes.navIcons} />
-                    </BottomNavigation>
-                </Container>
-                <Footer />
-            </ThemeProvider>
-
-        </div>
+                    </Grid>
+                </div>
+                <BottomNavigation
+                    value={value}
+                    onChange={(event, newValue) => {
+                        setValue(newValue);
+                    }}
+                    showLabels
+                    className={classes.bottomNav}
+                >
+                    <BottomNavigationAction icon={<HomeIcon />} />
+                    <BottomNavigationAction icon={<MenuIcon />} />
+                    <BottomNavigationAction icon={<PersonIcon />} />
+                    <BottomNavigationAction icon={<ArrowBackIosIcon />} />
+                </BottomNavigation>
+            </Container>
+            <Footer />
+        </>
     );
 }
 

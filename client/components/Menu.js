@@ -97,7 +97,11 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         borderRadius: "20px",
-        background: "linear-gradient(to right, #5c258d, #4389a2)",
+        backgroundColor: "#0d47a1",
+        color: "white"
+    },
+    menuItem: {
+        backgroundColor: "#83c3f7"
     }
 }));
 
@@ -129,7 +133,6 @@ export default function MenuTable() {
         console.log("Delete the item with id ", id);
     }
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -153,7 +156,7 @@ export default function MenuTable() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem onClick={() => { setOpenPopup(true) }} color="inherit">
+            <MenuItem onClick={() => { setOpenPopup(true) }} color="inherit" className={classes.menuItem}>
                 <IconButton aria-label="add">
                     <AddIcon />
                 </IconButton>
@@ -237,7 +240,7 @@ export default function MenuTable() {
                 </Table>
             </div>
             <AddMenu
-                title="Menu Form"
+                title="Menu"
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
                 recordForEdit={recordForEdit}

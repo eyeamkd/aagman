@@ -4,34 +4,6 @@
     margin: 5px;
 }
 
-@media only screen and (max-width:768px)
-{
-    .button1{
-        font-size: 20px;
-        background-color:#008080; 
-        color:  white;
-        border-radius: 10px;
-        width: 100px;
-        height: 50px;
-    }
-}
-@media only screen and (min-width:768px)
-{
-    .button1{
-        font-size: 30px;
-        background-color:#008080; 
-        color:  white;
-        border-radius: 10px;
-        width: 150px;
-        height: 70px;
-    }
-}
-
-.button1:hover{
-    background-color: #40E0D0 ;
-    color:#008080  ;
-}
-
 .errors{
     color: red;
     font-size: small;

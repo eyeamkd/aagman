@@ -13,8 +13,10 @@ import { useRouter } from 'next/router';
 
 const useStyles = makeStyles({
     list: {
+        backgroundColor: "#83c3f7",
         width: 250,
-        fontSize: 20,
+        fontSize: 25,
+        fontWeight: 500
     },
     fullList: {
         width: "auto",

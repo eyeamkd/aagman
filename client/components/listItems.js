@@ -15,7 +15,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => setOrdersOpen(true)}>
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
