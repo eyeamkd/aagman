@@ -107,6 +107,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuTable() {
     const classes = useStyles();
+    const [categories, setCategories] = useState([]);
     const [openPopup, setOpenPopup] = useState(false)
     const [recordForEdit, setRecordForEdit] = useState(null)
     const openInPopup = item => {
@@ -246,6 +247,8 @@ export default function MenuTable() {
                 recordForEdit={recordForEdit}
                 setRecordForEdit={setRecordForEdit}
                 addOrEdit={addOrEdit}
+                categories={categories}
+                setCategories={setCategories}
             />
         </React.Fragment>
     );

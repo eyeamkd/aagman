@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: "#0d47a1",
+        color: "white"
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -56,12 +57,15 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "40px",
         textAlign: "center"
     },
+    formControl: {
+        margin: "5px 0"
+    }
 }));
 
 export const AddMenu = (props) => {
     const classes = useStyles();
     const [openCategoryPopup, setOpenCategoryPopup] = useState(false)
-    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit } = props;
+    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit, categories, setCategories } = props;
 
     const initialFValues = {
         id: '',
@@ -104,17 +108,17 @@ export const AddMenu = (props) => {
     }
     
     const addCategory = (item, resetForm) => {
+        setCategories(categories => [...categories, {"id": item.id , "name": item.name}])
         resetForm()
         setOpenCategoryPopup(false)
     }
-
 
     return (
         <>
             <Dialog open={openPopup} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
                 <DialogTitle className={classes.dialogTitle}>
                     <div style={{ display: 'flex' }}>
-                        <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
+                        <Typography variant="h6" component="div" style={{ flexGrow: 1, textAlign: "center" }}>
                             {title}
                         </Typography>
                         <Button
@@ -197,6 +201,9 @@ export const AddMenu = (props) => {
                                             label="Category"
                                         >
                                             <option aria-label="None" value="" />
+                                        {categories.map((category, index) =>
+                                            <option key={index} value={category.name}>{category.name}</option>
+                                        )}
                                         </Select>
                                         <Button color="primary" onClick={() => { setOpenCategoryPopup(true) }}>Add Category (If not already existing.)</Button>
                                     </FormControl>

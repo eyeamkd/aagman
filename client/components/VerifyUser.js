@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: "#0d47a1",
+        color: "white"
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -88,7 +89,7 @@ export const VerifyUser = (props) => {
         <Dialog open={openPopup} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
             <DialogTitle className={classes.dialogTitle}>
                 <div style={{ display: 'flex' }}>
-                    <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
+                    <Typography variant="h6" component="div" style={{ flexGrow: 1,textAlign: "center" }}>
                         {title}
                     </Typography>
                     <Button
