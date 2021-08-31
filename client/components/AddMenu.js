@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 export const AddMenu = (props) => {
     const classes = useStyles();
     const [openCategoryPopup, setOpenCategoryPopup] = useState(false)
-    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit, categories } = props;
+    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit, categories, setCategories } = props;
 
     const initialFValues = {
         id: '',
@@ -108,10 +108,10 @@ export const AddMenu = (props) => {
     }
     
     const addCategory = (item, resetForm) => {
+        setCategories(categories => [...categories, {"id": item.id , "name": item.name}])
         resetForm()
         setOpenCategoryPopup(false)
     }
-
 
     return (
         <>

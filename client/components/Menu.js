@@ -248,6 +248,7 @@ export default function MenuTable() {
                 setRecordForEdit={setRecordForEdit}
                 addOrEdit={addOrEdit}
                 categories={categories}
+                setCategories={setCategories}
             />
         </React.Fragment>
     );

@@ -71,7 +71,7 @@ const Menu = () => {
     const [paymentModes, setPaymentModes] = useState(["Cash", "CreditCard", "UPI", "DebitCard", "Check", "NetBanking"])
     const [paymentStatusTypes, setPaymentStatusTypes] = useState(["Paid", "NotPaid"])
     const [orderStatusTypes, setOrderStatustypes] = useState(["Order", "Received", "Preparing", "Completed"])
-    const [orderCodes, setOrderCodes] = useState([1,2,3])
+    const [orderCodes, setOrderCodes] = useState([1,2,3,4])
     const { data, loading, error } = useQuery(GET_ITEMS,
         {
             variables: {
