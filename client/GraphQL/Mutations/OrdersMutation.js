@@ -1,4 +1,24 @@
 import {gql} from '@apollo/client'
+
+
+export const ADD_ORDERS=gql`
+mutation Mutation($addOrderOrderCode: Int!,
+  $addOrderOrderStatus: StatusOfOrder!,
+   $addOrderItems: [ItemsListInput]!,
+    $addOrderStoreId: String!,
+     $addOrderTotalCost: Float!,
+      $addOrderPaymentMode: PaymentTypes!,
+       $addOrderPaymentStatus: PaymentStatusTypes!) {
+ addOrder(OrderCode: $addOrderOrderCode,
+      OrderStatus: $addOrderOrderStatus,
+       items: $addOrderItems,
+        StoreId: $addOrderStoreId,
+         TotalCost: $addOrderTotalCost,
+          PaymentMode: $addOrderPaymentMode,
+           PaymentStatus: $addOrderPaymentStatus)
+}
+`
+
 export const CREATE_ORDERS=gql`
 mutation Mutation($createOrderEmail: String!, $createOrderOrderId: Int!, $createOrderTotalCost: Int!, $createOrderItemStatus: String!, $createOrderPaymentMode: String!, $createOrderItemList: [inputItemList!]!, $createOrderPaymentStatus: String!) {
   createOrder(email: $createOrderEmail, orderId: $createOrderOrderId, totalCost: $createOrderTotalCost, itemStatus: $createOrderItemStatus, paymentMode: $createOrderPaymentMode, itemList: $createOrderItemList, paymentStatus: $createOrderPaymentStatus) {
@@ -50,3 +70,4 @@ mutation Mutation($deleteOrderOrderId: Int!) {
   deleteOrder(orderId: $deleteOrderOrderId)
 }
   `
+

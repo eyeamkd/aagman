@@ -9,6 +9,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { AddMenu } from './AddMenu';
+import {ADD_MENU_ITEMS} from "../GraphQL/Mutations/MenuMutation";
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
@@ -116,14 +117,14 @@ export default function MenuTable() {
     }
 
     const addOrEdit = (item, resetForm) => {
-        // if (employee.id === "")
-        // {
-        //     menuService.addMenu(item)
-        // }
-        // else
-        // {
-        //     menuService.updateMenu(item)
-        // }
+         if (item.id === "")
+         {
+            menuService.addMenu(item)
+        }
+        else
+        {
+            menuService.updateMenu(item)
+        }
 
         resetForm()
         setRecordForEdit(null)

@@ -76,8 +76,8 @@ const ProductCard = ({ product, setItem }) => {
         }
     }
 
-    itemCard["itemName"] = product.name
-    itemCard["itemCost"] = product.cost
+    itemCard["itemName"] = product.Name
+    itemCard["itemCost"] = product.Price
 
     const updateOrder = () => {
         itemCard["itemQuantity"] = quantity;
@@ -94,14 +94,14 @@ const ProductCard = ({ product, setItem }) => {
                             <CardMedia
                                 className={classes.cardMedia}
                                 image={"https://picsum.photos/50"}
-                                title={product.name}
+                                title={product.Name}
                             />
                             <div className={classes.product}>
                                 <Typography variant="subtitle1" color="inherit" style={{ fontWeight: "500" }}>
-                                    ₹{product.cost}
+                                    ₹{product.Price}
                                 </Typography>
                                 <Typography component="h2" variant="h5" style={{ fontWeight: "500" }}>
-                                    {product.name}
+                                    {product.Name}
                                 </Typography>
                             </div>
                         </CardContent>

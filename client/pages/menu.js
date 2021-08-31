@@ -14,8 +14,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { GET_ITEMS } from '../GraphQL/Queries/ItemsQueries';
-import { CREATE_ORDERS } from '../GraphQL/Mutations/OrdersMutation';
+import { DISPLAY_MENU } from '../GraphQL/Queries/MenuQueries';
+import { ADD_ORDERS } from '../GraphQL/Mutations/OrdersMutation';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
@@ -72,13 +72,13 @@ const Menu = () => {
     const [paymentStatusTypes, setPaymentStatusTypes] = useState(["Paid", "NotPaid"])
     const [orderStatusTypes, setOrderStatustypes] = useState(["Order", "Received", "Preparing", "Completed"])
     const [orderCodes, setOrderCodes] = useState([1,2,3,4])
-    const { data, loading, error } = useQuery(GET_ITEMS,
+    const { data, loading, error } = useQuery(DISPLAY_MENU,
         {
             variables: {
-                getItemByCodeItemCode: menuId
+                displayMenuMenuId: menuId
             }
         });
-    const [createOrders] = useMutation(CREATE_ORDERS);
+    const [createOrders] = useMutation(ADD_ORDERS);
 
     useEffect(() => {
         console.log("This is the menu's document id received.", query.menuId);
@@ -123,6 +123,7 @@ const Menu = () => {
         return (<div>Error! ${error.message}</div>);
 
     const productCards = Object.values(data);
+    console.log(productCards);
 
     const verifyOrder = (order, resetForm) => {
         placeOrder(order);
@@ -187,9 +188,9 @@ const Menu = () => {
                     <br />
                     <Grid container spacing={1}>
                         {productCards.map(value =>
-                            value.categories.map(category =>
-                                category.items.map((product) =>
-                                    (<ProductCard key={product.name} product={product} setItem={setItem} />)
+                            value.Categories.map(category =>
+                                category.Items.map((product) =>
+                                (<ProductCard key={product.Name} product={product} setItem={setItem} />)
                                 )
                             )
                         )}

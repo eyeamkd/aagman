@@ -5,51 +5,47 @@ module.exports= gql`
 type Query {
     orders: [Order!]!
     order(id: ID!): Order!
-    getOrderByCode(orderId: Int!): Order
-    getOrderByPaymentStatus(paymentStatus:String!):[Order]
-    getOrderByOrderStatus(itemStatus:String!):[Order]
-   
+    
 }
 
 type Order {
-    id: ID!
-    orderId:Int!
-    itemList:[ItemList!]!
-    totalCost:Int!
-    itemStatus:String!
-    paymentMode:String!
-    paymentStatus:String!
+    Id: String! 
+    OrderCode : Int! 
+    OrderStatus : StatusOfOrder!           
+    ItemsList : [ItemsList!]!   
+    Store: Store!               
+    Bill : Bill!
 }
 
-type ItemList{
-    itemName:String!
-    itemCost:Int!
-    itemQuantity:Int!
+type ItemsList {
+    Id: String! 
+    Name: String!
+    Quantity: Int!
+    Price: Float!
+
 }
 
-input inputItemList{
-    itemName:String!
-    itemCost:Int!
-    itemQuantity:Int!
+input ItemsListInput {
+  
+    Name: String!
+    Quantity: Int!
+    Price: Float!
 }
 
-type Mutation {
-    createOrder( 
-        email:String!
-        orderId:Int!,
-        totalCost:Int!,
-        itemStatus:String!,
-        paymentMode:String!,
-        itemList:[inputItemList!]!,
-        paymentStatus:String!): Order!,
-
-    updateOrderStatus(orderId:Int!,itemStatus:String!):Order!,
-
-    updatePaymentStatus(orderId:Int!,paymentStatus:String):Order!,
-    
-    deleteOrder(orderId:Int!):String,
-   
-   
+enum StatusOfOrder{
+    OrderReceived, Preparing, Completed
 }
+
+type Mutation{
+    createOrder(OrderCode:String! ,OrderStatus:StatusOfOrder!,StoreId:String! ):String!
+    addOrder(OrderCode:Int!,
+             OrderStatus:StatusOfOrder!,
+             items:[ItemsListInput]!,
+             StoreId:String!,
+             TotalCost:Float!,
+             PaymentMode:PaymentTypes! ,
+             PaymentStatus:PaymentStatusTypes!):String!
+}
+
 
 `

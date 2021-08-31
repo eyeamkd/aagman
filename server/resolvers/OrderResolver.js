@@ -1,61 +1,54 @@
-const Order =require("./../models/order");
-const User=require("./../models/user");
+const Order=require("./../models/Order");
+const Store=require("./../models/Store");
 
+const Bill=require("./../models/Bill");
 
 module.exports= {
     Query: {
         orders:() => Order.find(),
         order:(parent, {id}) => Order.findById(id),
-        getOrderByCode: (_, {orderId}) =>{
-            const filter = { orderId: orderId }
-            const orders = Order.findOne(filter);
-            return orders;
-        },
-        getOrderByPaymentStatus:(_,{paymentStatus})=>{
-            const filter ={ paymentStatus:paymentStatus}
-            const orders=Order.find(filter);
-            return orders;
-        },
-        getOrderByOrderStatus:(_,{itemStatus})=>{
-            const filter={itemStatus:itemStatus}
-            const orders=Order.find(filter);
-            return orders;
-        }
         
     },
 
     Mutation: {
-        createOrder: async(_, {email, orderId, totalCost, itemStatus ,paymentMode,paymentStatus,itemList }) => {
-            const order = new Order({ orderId, totalCost, itemStatus ,paymentMode,paymentStatus,itemList });
-            await order.save().then(result=>{
-                return User.findOne({email:email})
+        createOrder: async(_, { OrderCode ,OrderStatus,StoreId }) => {
+            const orders = new Order({ OrderCode ,OrderStatus,Store:StoreId});
+            await orders
+            .save().then(result=>{
+                return Store.findById(StoreId);
             })
-            .then(user=>{
-                console.log(user)
-            user.orders.push(order);
-            return user.save()
+            .then(store=>{
+                store.Orders.push(orders);
+                return store.save()
             });
-            return order;
-        },
-        updateOrderStatus:async(_,{orderId,itemStatus})=>{
-            const filter={orderId:orderId}
-            const update ={itemStatus:itemStatus};
-            const order=await Order.findOneAndUpdate(filter,update,{new:true});
-            return order;
-        },
-     
-        updatePaymentStatus:async(_,{orderId,paymentStatus})=>{
-            const filter={orderId:orderId}
-            const update={paymentStatus:paymentStatus};
-            const order= await Order.findOneAndUpdate(filter,update,{new:true});
-            return order;
-        },
-        deleteOrder:async(_,{orderId})=>{
-            const filter={orderId:orderId}
-            const order=await Order.findOneAndDelete(filter);
-            return "Order Deleted";
+            return "Order Created";
+        }, 
+        //items here is an array of {itemCode, name, quantity, customization}   const order  = new Order({items})
+
+        addOrder:async(_,{OrderCode,OrderStatus,items,StoreId,TotalCost,PaymentMode,PaymentStatus})=>{
+            //Add Orders to collection
+            const orders=new Order({OrderCode,OrderStatus,Store:StoreId,ItemsList:items})
+            await orders.save().then(result=>{
+                return Store.findById(StoreId);
+            }).then(store=>{
+                store.Orders.push(orders);
+                return store.save()
+            }) 
+            //Create Bill and map it with orders and revenue
+            const bills = new Bill({ TotalCost,PaymentMode , PaymentStatus});
+            await bills
+            .save().then(result=>{
+                return Order.findById(orders.id);
+            })
+            .then(order=>{
+                order.Bill=bills;
+                return order.save()
+            })
+
+
+
+            return "Order Added";
         }
-      
-       
+
     }
 }

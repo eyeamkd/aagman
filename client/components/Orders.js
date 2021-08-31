@@ -6,6 +6,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useQuery } from '@apollo/client';
 import { GET_USER_BY_CODE } from '../GraphQL/Queries/UsersQueries';
+import {GET_STORE_MENU_ITEMS} from '../GraphQL/Queries/StoreQueries';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -84,10 +85,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Orders(props) {
-  const { data, loading, error } = useQuery(GET_USER_BY_CODE,
+  const { data, loading, error } = useQuery(GET_STORE_MENU_ITEMS,
     {
       variables: {
-        userExistsEmail: props.email
+        ordersDashboardStoreId: "612ce82e79045644d4ea287f"
       }
     })
 
@@ -99,7 +100,8 @@ export default function Orders(props) {
     return (<div>Error! ${error.message}</div>);
 
   else {
-    const orders = Object.values(data)[0].orders
+    const orders = Object.values(data)[0].Orders
+    console.log(orders);
     return (
       <React.Fragment>
         <div className={classes.root}>
@@ -138,8 +140,8 @@ export default function Orders(props) {
             </TableHead>
             <TableBody>
               {orders.map((row) => (
-                <TableRow key={row.orderId}>
-                  <TableCell>{row.orderId}</TableCell>
+                <TableRow key={row.OrderCode}>
+                  <TableCell>{row.OrderCode}</TableCell>
 
                   <TableCell>
 
@@ -151,12 +153,12 @@ export default function Orders(props) {
 
 
                     {
-                      row.itemList.map((subrow) => (
+                      row.ItemsList.map((subrow) => (
                         <tr align="center" key={subrow.itemName}>
 
-                          <td>{subrow.itemName}</td>
-                          <td>{subrow.itemQuantity}</td>
-                          <td>₹{subrow.itemCost}</td>
+                          <td>{subrow.Name}</td>
+                          <td>{subrow.Quantity}</td>
+                          <td>₹{subrow.Cost}</td>
 
                         </tr>
 
@@ -165,10 +167,10 @@ export default function Orders(props) {
                     }
 
                   </TableCell>
-                  <TableCell>₹{row.totalCost}</TableCell>
-                  <TableCell>{row.paymentMode}</TableCell>
-                  <TableCell>{row.paymentStatus}</TableCell>
-                  <TableCell align="right">{row.itemStatus}</TableCell>
+                  <TableCell>₹{row.Bill.TotalCost}</TableCell>
+                  <TableCell>{row.Bill.PaymentMode}</TableCell>
+                  <TableCell>{row.Bill.PaymentStatus}</TableCell>
+                  <TableCell align="right">{row.OrderStatus}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

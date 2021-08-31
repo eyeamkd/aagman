@@ -7,7 +7,7 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { GET_ITEMS } from '../GraphQL/Queries/ItemsQueries';
+import { DISPLAY_MENU } from '../GraphQL/Queries/MenuQueries';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 
@@ -33,10 +33,10 @@ export default function TemporaryDrawer({ children }) {
         setmenuId(query.menuId);
     }, []);
 
-    const { data, loading, error } = useQuery(GET_ITEMS,
+    const { data, loading, error } = useQuery(DISPLAY_MENU,
         {
             variables: {
-                getItemByCodeItemCode: menuId
+                displayMenuMenuId: menuId
             }
         });
 
@@ -73,9 +73,9 @@ export default function TemporaryDrawer({ children }) {
             <Divider />
             <List>
                 {menu.map(value =>
-                    value.categories.map(category =>
-                        <ListItem button key={category.categoryName}>
-                            <ListItemText primary={category.categoryName} />
+                    value.Categories.map(category =>
+                        <ListItem button key={category.Name}>
+                            <ListItemText primary={category.Name} />
                         </ListItem>
                     )
                 )}

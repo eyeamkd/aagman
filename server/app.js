@@ -1,20 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { ApolloServer} = require("apollo-server-express");
-const OrderResolvers = require("./resolvers/OrderResolver");
-const OrderTypeDef = require("./typedefs/OrderTypeDef");
-const UserResolvers = require("./resolvers/UserResolver");
-const ItemResolvers = require("./resolvers/ItemResolver");
-const ItemTypeDef = require("./typedefs/ItemTypeDef");
 const GMR = require('graphql-merge-resolvers');
-const UserTypeDef = require("./typedefs/UserTypeDef");
 const nodemailer = require("nodemailer");
 const sendGridTransport = require("nodemailer-sendgrid-transport");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 const cors = require("cors");
 const { GraphQLClient } = require('graphql-request');
-
+const ResolverTypeDefModule = require('./ResolverTypeDef');
+const Resolver = ResolverTypeDefModule.resolver;
+const TypeDef =ResolverTypeDefModule.typedef
+const LocationResolvers = require("./resolvers/LocationResolver");
+const LocationTypeDef = require("./typedefs/LocationTypeDef");
 const endpoint = 'http://localhost:5000/graphql';
 const client = new GraphQLClient(endpoint, {
   credentials: 'include',
@@ -28,11 +26,9 @@ const server = async () => {
   app.use(express.json());
   app.use(cors());
   const server = new ApolloServer({
-    typeDefs: [ UserTypeDef, OrderTypeDef,ItemTypeDef],
+    typeDefs: [ TypeDef],
     
-    resolvers:GMR.merge([
-      UserResolvers, OrderResolvers,ItemResolvers
-    ])
+    resolvers:Resolver
   })
 
   await server.start()
