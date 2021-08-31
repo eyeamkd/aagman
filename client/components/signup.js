@@ -59,7 +59,7 @@ export default function Signup() {
         })
         alert("User has been registered successfully.")
         router.push({
-            pathname: '/dashboard',
+            pathname: '/orders',
             query: {email : email },
           })
     }

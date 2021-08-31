@@ -45,7 +45,7 @@ export default function Login() {
             if(res)
             {
                 router.push({
-                    pathname: '/dashboard',
+                    pathname: '/orders',
                     query: {email : email },
                   })
             }
@@ -109,7 +109,7 @@ export default function Login() {
           </form> 
   </motion.main>
   <VerifyUser
-                title="OTP Verification Form"
+                title="OTP Verification"
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
                 verifyOtp={verifyOtp}

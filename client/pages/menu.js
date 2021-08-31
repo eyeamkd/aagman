@@ -20,6 +20,7 @@ import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import Head from 'next/head'
+import { VerifyOrder } from '../components/VerifyOrder';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -59,12 +60,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Menu = () => {
+    const [openPopup, setOpenPopup] = useState(false)
+    const [totalCost, setTotalCost] = useState(0)
     const [itemList, setItemList] = useState([]);
     const [item, setItem] = useState({});
     const classes = useStyles();
     const { query } = useRouter();
     const [value, setValue] = useState(0);
     const [menuId, setmenuId] = useState("");
+    const [paymentModes, setPaymentModes] = useState(["Cash", "CreditCard", "UPI", "DebitCard", "Check", "NetBanking"])
+    const [paymentStatusTypes, setPaymentStatusTypes] = useState(["Paid", "NotPaid"])
+    const [orderStatusTypes, setOrderStatustypes] = useState(["Order", "Received", "Preparing", "Completed"])
+    const [orderCodes, setOrderCodes] = useState([1,2,3])
     const { data, loading, error } = useQuery(GET_ITEMS,
         {
             variables: {
@@ -117,15 +124,18 @@ const Menu = () => {
 
     const productCards = Object.values(data);
 
-    const placeOrder = () => {
+    const verifyOrder = (order, resetForm) => {
+        placeOrder(order);
+        resetForm()
+        setOpenPopup(false)
+    }
+
+    const placeOrder = (order) => {
         console.log(itemList);
         if (itemList.length === 0) {
             alert("No items have been added. Add items to place an order.")
         }
         else {
-            let totalCost = 0;
-            itemList.map(item => totalCost = totalCost + (item.itemCost * item.itemQuantity));
-
             // let newCodeGenerated = false;
             // let randomOrderCode = generateOrderCode();
             // while (!newCodeGenerated) {
@@ -140,70 +150,92 @@ const Menu = () => {
             //     }
             // }
 
+            let orderCode = Math.max(...orderCodes)+1;
+            setOrderCodes(orderCodes => [...orderCodes, orderCode]);
+
             createOrders({
                 variables: {
                     createOrderEmail: "kunal.viper99@gmail.com",
-                    createOrderOrderId: 10938,
+                    createOrderOrderId: orderCode,
                     createOrderTotalCost: totalCost,
                     createOrderItemStatus: "Order Received",
-                    createOrderPaymentMode: "Cash",
+                    createOrderPaymentMode: order.paymentMode,
                     createOrderItemList: itemList,
-                    createOrderPaymentStatus: "Not Done"
+                    createOrderPaymentStatus: order.paymentStatus
                 }
             })
             alert("Your order has been placed successfully.");
         }
     }
+    
+    const checkout = () => {
+        let cost = 0;
+        itemList.map(item => cost = cost + (item.itemCost * item.itemQuantity));
+        setTotalCost(cost)
+        setOpenPopup(true);
+    }
 
     return (
-        <div className={classes.root}>
-            <Head>
-                <title>Menu</title>
-            </Head>
-            <Header />
-            <StoreCover />
-            <Container>
-                <br />
-                <Grid container spacing={1}>
-                    {productCards.map(value =>
-                        value.categories.map(category =>
-                            category.items.map((product) =>
-                                (<ProductCard key={product.name} product={product} setItem={setItem} />)
+        <>
+            <div className={classes.root}>
+                <Head>
+                    <title>Menu</title>
+                </Head>
+                <Header />
+                <StoreCover />
+                <Container>
+                    <br />
+                    <Grid container spacing={1}>
+                        {productCards.map(value =>
+                            value.categories.map(category =>
+                                category.items.map((product) =>
+                                    (<ProductCard key={product.name} product={product} setItem={setItem} />)
+                                )
                             )
-                        )
-                    )}
-                </Grid>
-                <div className={classes.navigateButtons}>
-                    <Grid container spacing={4}>
-                        <Grid item xs={12}>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                className={classes.button}
-                                endIcon={<Icon>send</Icon>}
-                                onClick={placeOrder}
-                            >
-                                Proceed to checkout
-                            </Button>
-                        </Grid>
+                        )}
                     </Grid>
-                </div>
-                <BottomNavigation
-                    value={value}
-                    onChange={(event, newValue) => {
-                        setValue(newValue);
-                    }}
-                    showLabels
-                    className={classes.bottomNav}
-                >
-                    <BottomNavigationAction icon={<HomeIcon />} />
-                    <BottomNavigationAction icon={<MenuIcon />} />
-                    <BottomNavigationAction icon={<PersonIcon />} />
-                    <BottomNavigationAction icon={<ArrowBackIosIcon />} />
-                </BottomNavigation>
-            </Container>
-            <Footer />
-        </div>
+                    <div className={classes.navigateButtons}>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12}>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    className={classes.button}
+                                    endIcon={<Icon>send</Icon>}
+                                    onClick={checkout}
+                                >
+                                    Proceed to checkout
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </div>
+                    <BottomNavigation
+                        value={value}
+                        onChange={(event, newValue) => {
+                            setValue(newValue);
+                        }}
+                        showLabels
+                        className={classes.bottomNav}
+                    >
+                        <BottomNavigationAction icon={<HomeIcon />} />
+                        <BottomNavigationAction icon={<MenuIcon />} />
+                        <BottomNavigationAction icon={<PersonIcon />} />
+                        <BottomNavigationAction icon={<ArrowBackIosIcon />} />
+                    </BottomNavigation>
+                </Container>
+                <Footer />
+                <VerifyOrder
+                    title="Verify Order"
+                    openPopup={openPopup}
+                    setOpenPopup={setOpenPopup}
+                    verifyOrder={verifyOrder}
+                    itemList={itemList}
+                    paymentModes={paymentModes}
+                    paymentStatusTypes={paymentStatusTypes}
+                    totalCost = {totalCost}
+                />
+            </div>
+        </>
     );
 }
 
