@@ -59,11 +59,6 @@ const useStyles = makeStyles((theme) => ({
             },
         },
     },
-    tagline: {
-        fontSize: 25,
-        textTransform: "uppercase",
-        justifyContent: "center",
-    },
 }));
 
 function Header() {
@@ -105,10 +100,6 @@ function Header() {
                 </Toolbar>
                 </AppBar>
                 <Divider />
-
-                <Toolbar className={classes.tagline}>
-                    ORDER WITHOUT Hassle
-                </Toolbar>
         </>
     );
 }

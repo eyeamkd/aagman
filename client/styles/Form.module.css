@@ -1,9 +1,7 @@
 .signUpWrap {
-    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #42a5f5;
 }
 
 @media only screen and (min-width:768px)

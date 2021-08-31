@@ -9,6 +9,9 @@ const theme = createTheme({
     secondary: {
       main: '#0d47a1',
     },
+    background: {
+      default: "#42a5f5",
+    }
   },
   overrides: {
     MuiCssBaseline: {

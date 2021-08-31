@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -17,26 +16,15 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from '../components/listItems';
-import Orders from '../components/Orders';
-import Deposits from '../components/Deposits';
-import MenuTable from '../components/Menu';
+import { mainListItems } from '../components/listItems';
 import Footer from '../components/Footer';
-import { useRouter } from 'next/router'
 import Head from 'next/head'
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PersonIcon from '@material-ui/icons/Person';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        background: "#ffffff",
         display: 'flex',
     },
     toolbar: {
@@ -105,7 +93,6 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(4),
     },
     paper: {
-        backgroundColor: "#83c3f7",
         borderRadius: "20px",
         padding: theme.spacing(2),
         display: 'flex',
@@ -117,21 +104,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Dashboard() {
+export default function Dashboard({children}) {
     const classes = useStyles();
 
     const [open, setOpen] = useState(true);
-    const [email, setEmail] = useState("");
-    const { query } = useRouter();
-
-    const [ordersOpen, setOrdersOpen] = useState(true)
-    const [menuItemsOpen, setMenuItemsOpen] = useState(false)
-    const [revenueOpen, setRevenueOpen] = useState(false)
-
-    useEffect(() => {
-        console.log("This is the email id received.", query.email);
-        setEmail(query.email);
-    }, [])
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -140,18 +116,6 @@ export default function Dashboard() {
         setOpen(false);
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-    const toggleOrdersOpen = () => {
-        setOrdersOpen(!ordersOpen);
-    }
-
-    const toggleMenuItemsOpen = () => {
-        setMenuItemsOpen(!menuItemsOpen);
-    }
-
-    const toggleRevenueOpen = () => {
-        setRevenueOpen(!revenueOpen);
-    }
 
     return (
         <>
@@ -195,63 +159,21 @@ export default function Dashboard() {
                     </div>
                     <Divider />
                     <List>
-                        <div>
-                            <ListItem button onClick={() => toggleOrdersOpen()}>
-                                <ListItemIcon>
-                                    <ShoppingCartIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Orders" />
-                            </ListItem>
-                            <ListItem button onClick={() => toggleRevenueOpen()}>
-                                <ListItemIcon>
-                                    <AccountBalanceWalletIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Total Revenue" />
-                            </ListItem>
-                            <ListItem button onClick={() => toggleMenuItemsOpen()}>
-                                <ListItemIcon>
-                                    <MenuBookIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Menu Items" />
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <PersonIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Profile"/>
-                            </ListItem>
-                        </div>
+                      {mainListItems}
                     </List>
                 </Drawer>
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} />
                     <Container maxWidth="lg" className={classes.container}>
                         <Grid container spacing={3}>
-                            {/* Recent Deposits */}
-                            {revenueOpen ?
-                            <Grid item xs={12} md={4} lg={3}>
-                                <Paper className={fixedHeightPaper}>
-                                    <Deposits />
-                                </Paper>
-                            </Grid> : null}
-                            {/* Recent Orders */}
-                            {ordersOpen ?
-                            <Grid item xs={12}>
-                                <Paper className={classes.paper}>
-                                    <Orders email={email} />
-                                </Paper>
-                            </Grid> : null}
-                            {menuItemsOpen ?
-                            <Grid item xs={12}>
-                                <Paper className={classes.paper}>
-                                    <MenuTable />
-                                </Paper>
-                            </Grid> : null}
+                                <Grid item xs={12}>
+                                    <Paper className={classes.paper} elevation={10} >
+                                        {children}
+                                    </Paper>
+                                </Grid>
                         </Grid>
-                        <Box pt={4}>
-                            <Footer />
-                        </Box>
                     </Container>
+                    <Footer />
                 </main>
             </div>
         </>

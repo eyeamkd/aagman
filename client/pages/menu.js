@@ -22,6 +22,9 @@ import { useRouter } from 'next/router';
 import Head from 'next/head'
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        backgroundColor: "white",
+    },
     bottomNav: {
         backgroundColor: "#bbdefb",
         borderRadius: "20px",
@@ -153,7 +156,7 @@ const Menu = () => {
     }
 
     return (
-        <>
+        <div className={classes.root}>
             <Head>
                 <title>Menu</title>
             </Head>
@@ -200,7 +203,7 @@ const Menu = () => {
                 </BottomNavigation>
             </Container>
             <Footer />
-        </>
+        </div>
     );
 }
 

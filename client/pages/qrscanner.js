@@ -17,6 +17,9 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        backgroundColor: "white",
+    },
     icon: {
         marginRight: theme.spacing(2),
     },
@@ -56,7 +59,7 @@ const QrScanner = () => {
     }
 
     return (
-        <>
+        <div className={classes.root}>
             <Head>
                 <title>QR Scanner</title>
             </Head>
@@ -99,7 +102,7 @@ const QrScanner = () => {
                 </main>
                 <Footer />
             </React.Fragment>
-        </>
+        </div>
     );
 }
 

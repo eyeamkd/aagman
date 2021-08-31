@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     card: {
         display: "flex",
         borderRadius: "20px",
-        backgroundColor: "#4dabf5",
+        backgroundColor: "#90caf9",
         color: "black",
         margin: "10px 10px 0",
         padding: "10px"
@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     },
     iconButtons: {
         backgroundColor: "#0596f5",
+        "&:hover": {
+            backgroundColor: '#0d47a1',
+        },
         color: "#ffffff",
     }
 }));
