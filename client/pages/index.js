@@ -4,11 +4,10 @@ import Link from 'next/link'
 import { motion } from "framer-motion";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: "linear-gradient(to right, #00c6ff, #0072ff)",
-    minHeight: "100vh",
     padding: "0 0.5rem",
     display: "flex",
     flexDirection: "column",
@@ -17,10 +16,10 @@ const useStyles = makeStyles((theme) => ({
   },
   buttons: {
     margin: "10px",
-	  display: "flex",
-	  flexDirection: "column",
-	  justifyContent: "center",
-	  alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   button: {
     margin: "20px",
@@ -28,8 +27,13 @@ const useStyles = makeStyles((theme) => ({
     color: "#ffffff",
     padding: "20px",
     borderRadius: "40px",
-    textAlign:"center"
-  }
+    textAlign: "center"
+  },
+  tagline: {
+    fontSize: 20,
+    textTransform: "uppercase",
+    justifyContent: "center",
+  },
 }));
 
 export default function Home() {
@@ -88,7 +92,9 @@ export default function Home() {
           height={55}
         />
       </motion.div>
-
+      <Toolbar className={classes.tagline}>
+        ORDER WITHOUT Hassle
+      </Toolbar>
       <motion.div initial="hidden" animate="visible" variants={variantButton}>
         <div className={classes.buttons}>
           <Link href="/form" passHref><Button variant="contained" color="secondary" className={classes.button}>Sign Up</Button></Link>

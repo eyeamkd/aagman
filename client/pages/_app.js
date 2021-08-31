@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
+import "../styles/slide.css";
 import { onError } from '@apollo/client/link/error';
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, } from '@apollo/client';
 

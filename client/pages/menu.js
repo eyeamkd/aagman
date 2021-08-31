@@ -22,6 +22,9 @@ import { useRouter } from 'next/router';
 import Head from 'next/head'
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        backgroundColor: "white",
+    },
     bottomNav: {
         backgroundColor: "#bbdefb",
         borderRadius: "20px",
@@ -77,7 +80,20 @@ const Menu = () => {
 
     useEffect(() => {
         if (Object.entries(item).length !== 0) {
-            setItemList(itemList => [...itemList, item]);
+            const objIndex = itemList.findIndex((obj => obj.itemName == item.itemName));
+            if (objIndex == -1) {
+                if (item.itemQuantity !== 0) {
+                    setItemList(itemList => [...itemList, item]);
+                }
+            }
+            else {
+                if (item.itemQuantity === 0) {
+                    itemList.splice(objIndex, 1);
+                }
+                else {
+                    itemList[objIndex].itemQuantity = item.itemQuantity;
+                }
+            }
         }
     }, [item])
 
@@ -91,38 +107,7 @@ const Menu = () => {
     //     return result;
     //   }
 
-    const placeOrder = () => {
-        console.log(itemList);
-        let totalCost = 0;
-        itemList.map(item => totalCost = totalCost + (item.itemCost * item.itemQuantity));
 
-        // let newCodeGenerated = false;
-        // let randomOrderCode = generateOrderCode();
-        // while (!newCodeGenerated) {
-        //     const foundCode = checkIfCodeExists(randomOrderCode);
-
-        //     if (foundCode) {
-        //         randomOrderCode = generateOrderCode();
-
-        //     }
-        //     else {
-        //         newCodeGenerated = true;
-        //     }
-        // }
-
-        createOrders({
-            variables: {
-                createOrderEmail: "kunal.viper99@gmail.com",
-                createOrderOrderId: 10938,
-                createOrderTotalCost: totalCost,
-                createOrderItemStatus: "Order Received",
-                createOrderPaymentMode: "Cash",
-                createOrderItemList: itemList,
-                createOrderPaymentStatus: "Not Done"
-            }
-        })
-        alert("Your order has been placed successfully.");
-    }
 
     if (loading)
         return (<div>Loading...</div>);
@@ -132,8 +117,46 @@ const Menu = () => {
 
     const productCards = Object.values(data);
 
+    const placeOrder = () => {
+        console.log(itemList);
+        if (itemList.length === 0) {
+            alert("No items have been added. Add items to place an order.")
+        }
+        else {
+            let totalCost = 0;
+            itemList.map(item => totalCost = totalCost + (item.itemCost * item.itemQuantity));
+
+            // let newCodeGenerated = false;
+            // let randomOrderCode = generateOrderCode();
+            // while (!newCodeGenerated) {
+            //     const foundCode = checkIfCodeExists(randomOrderCode);
+
+            //     if (foundCode) {
+            //         randomOrderCode = generateOrderCode();
+
+            //     }
+            //     else {
+            //         newCodeGenerated = true;
+            //     }
+            // }
+
+            createOrders({
+                variables: {
+                    createOrderEmail: "kunal.viper99@gmail.com",
+                    createOrderOrderId: 10938,
+                    createOrderTotalCost: totalCost,
+                    createOrderItemStatus: "Order Received",
+                    createOrderPaymentMode: "Cash",
+                    createOrderItemList: itemList,
+                    createOrderPaymentStatus: "Not Done"
+                }
+            })
+            alert("Your order has been placed successfully.");
+        }
+    }
+
     return (
-        <>
+        <div className={classes.root}>
             <Head>
                 <title>Menu</title>
             </Head>
@@ -180,7 +203,7 @@ const Menu = () => {
                 </BottomNavigation>
             </Container>
             <Footer />
-        </>
+        </div>
     );
 }
 
