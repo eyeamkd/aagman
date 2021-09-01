@@ -28,23 +28,16 @@ export const signUpUser = async (email, fullName, phoneNumber) => {
 export const checkIfUserExists = async (email) => {
   const { data } = await client.query({
     query: gql`
-        query Query($userExistsEmail2: String!) {
-          userExists(email: $userExistsEmail2) {
-            email
-            fullName
-            storeName
-            GSTNumber
-            location
-            phoneNumber
-        }
-        }
+    query Query($checkIfUserExistsEmail: String!) {
+      checkIfUserExists(email: $checkIfUserExistsEmail)
+    }
       `,
     variables: {
-      userExistsEmail2: email,
+      checkIfUserExistsEmail: email,
     }
   });
-
-  return data.userExists;
+  console.log(data.checkIfUserExists)
+  return data.checkIfUserExists;
 }
 
 export const postOtp = async (email) => {
@@ -56,34 +49,22 @@ export const postOtp = async (email) => {
   const response = await fetch("http://localhost:5000/send", requestOptions);
 
   const status = response.status;
-  if (status === 200) {
-    return true
-  }
-  else {
-    return false;
-  }
+  return (status === 200) ? true : false;
 };
 
 export const verifyUser = async(email, otp) => {
   const { data } = await client.query({
     query: gql`
-        query Query($email: String!) {
-          userExists(email: $email) {
-            email
-            otp
-        }
-        }
+    query Query($checkIfOtpMatchesEmail: String!, $checkIfOtpMatchesOtp: String!) {
+      checkIfOtpMatches(email: $checkIfOtpMatchesEmail, otp: $checkIfOtpMatchesOtp)
+    }
       `,
     variables: {
-      email: email,
+      checkIfOtpMatchesEmail: email,
+      checkIfOtpMatchesOtp: otp
     }
   });
 
-  if(data.userExists.otp === otp)
-  {
-    return true;
-  }
-  else{
-    return false;
-  }
+  return data.checkIfOtpMatches ? true : false; 
+
 }

@@ -11,14 +11,14 @@ import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-  button: {
-    margin: "20px",
-    backgroundColor: "#0596f5",
-    color: "#ffffff",
-    padding: "20px",
-    borderRadius: "40px",
-    textAlign:"center"
-  }
+    button: {
+        margin: "20px",
+        backgroundColor: "#0596f5",
+        color: "#ffffff",
+        padding: "20px",
+        borderRadius: "40px",
+        textAlign: "center"
+    }
 });
 
 export default function Signup() {
@@ -60,8 +60,8 @@ export default function Signup() {
         alert("User has been registered successfully.")
         router.push({
             pathname: '/orders',
-            query: {email : email },
-          })
+            query: { email: email },
+        })
     }
     const backHomePage = (e) => {
 
@@ -81,11 +81,10 @@ export default function Signup() {
                 transition={{ type: 'linear' }} // Set the transition to linear
 
             >
+                <h1 className={styles.heading}>Sign Up</h1>
+
                 <form onSubmit={onSubmit}>
-
-                    <h1 className={styles.heading}>Sign Up</h1><br /><br />
-
-                    <TextField label="Email" variant="outlined" color="primary" value={email} onChange={(e) => { setEmail(e.target.value); }} />    
+                    <TextField label="Email" variant="outlined" color="primary" value={email} onChange={(e) => { setEmail(e.target.value); }} />
                     <br /><br />
                     <TextField label="Full Name" variant="outlined" color="primary" value={fullName} onChange={(e) => { setFullName(e.target.value); }} />
                     <br /><br />

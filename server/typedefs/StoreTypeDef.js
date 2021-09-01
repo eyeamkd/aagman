@@ -5,23 +5,23 @@ module.exports= gql`
 type Query {
     stores: [Store!]!
     store(id: ID!): Store!
-    ordersDashboard(StoreId:String!):Store!
+    ordersDashboard(storeId:String!):Store!
 }
 
 type Store {
-    Id: String!
-    Name : String!
-    Rating:Float!
-    Address : Location!
-    Orders : [Order]!
-    Owner : User!
-    Timings: Timing!
-    Menu : Menu!
-    Revenue: Revenue!
+    id: String!
+    name : String!
+    rating:Float!
+    address : Location!
+    orders : [Order]!
+    owner : User!
+    timings: Timing!
+    menu : Menu!
+    revenue: Revenue!
 }
 
 type Mutation{
-    createStore(Name:String!,UserId:String!): String!
+    createStore(name:String!,userId:String!): String!
 }
 
 

@@ -9,27 +9,27 @@ type Query {
 }
 
 type Order {
-    Id: String! 
-    OrderCode : Int! 
-    OrderStatus : StatusOfOrder!           
-    ItemsList : [ItemsList!]!   
-    Store: Store!               
-    Bill : Bill!
+    id: String! 
+    orderCode : Int! 
+    orderStatus : StatusOfOrder!           
+    itemsList : [ItemsList!]!   
+    store: Store!               
+    bill : Bill!
 }
 
 type ItemsList {
-    Id: String! 
-    Name: String!
-    Quantity: Int!
-    Price: Float!
+    id: String! 
+    name: String!
+    quantity: Int!
+    price: Float!
 
 }
 
 input ItemsListInput {
   
-    Name: String!
-    Quantity: Int!
-    Price: Float!
+    name: String!
+    quantity: Int!
+    price: Float!
 }
 
 enum StatusOfOrder{
@@ -37,14 +37,14 @@ enum StatusOfOrder{
 }
 
 type Mutation{
-    createOrder(OrderCode:String! ,OrderStatus:StatusOfOrder!,StoreId:String! ):String!
-    addOrder(OrderCode:Int!,
-             OrderStatus:StatusOfOrder!,
+    createOrder(orderCode:String! ,orderStatus:StatusOfOrder!,storeId:String! ):String!
+    addOrder(orderCode:Int!,
+             orderStatus:StatusOfOrder!,
              items:[ItemsListInput]!,
-             StoreId:String!,
-             TotalCost:Float!,
-             PaymentMode:PaymentTypes! ,
-             PaymentStatus:PaymentStatusTypes!):String!
+             storeId:String!,
+             totalCost:Float!,
+             paymentMode:PaymentTypes! ,
+             paymentStatus:PaymentStatusTypes!):String!
 }
 
 

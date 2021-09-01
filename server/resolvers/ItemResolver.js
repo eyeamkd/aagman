@@ -8,14 +8,14 @@ module.exports= {
     },
 
     Mutation: {
-        createItem: async(_, { Name,Description,Availability,Type,Price,Rating,BestSeller,Photo,CategoryId }) => {
-            const item = new Item({ Name,Description,Availability,Type,Price,Rating,BestSeller,Photo });
+        createItem: async(_, { name,description,availability,type,price,rating,bestSeller,photo,categoryId }) => {
+            const item = new Item({ name,description,availability,type,price,rating,bestSeller,photo });
             await item
             .save().then(result=>{
-                return Category.findById(CategoryId);
+                return Category.findById(categoryId);
             })
             .then(category=>{
-                category.Items.push(item);
+                category.items.push(item);
                 return category.save()
             });
             return "Item Created";

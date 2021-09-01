@@ -1,11 +1,11 @@
 const mongoose =require("mongoose");
 
 module.exports = mongoose.model("Location", { 
-    Id : String, 
-    Country : String, 
-    State: String, 
-    City : String, 
-    Area: String, 
-    LandMark: String 
+    id : String, 
+    country : String, 
+    state: String, 
+    city : String, 
+    area: String, 
+    landMark: String 
 })
 

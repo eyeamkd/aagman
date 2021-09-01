@@ -11,37 +11,37 @@ module.exports= {
     },
 
     Mutation: {
-        createOrder: async(_, { OrderCode ,OrderStatus,StoreId }) => {
-            const orders = new Order({ OrderCode ,OrderStatus,Store:StoreId});
+        createOrder: async(_, { orderCode ,orderStatus,storeId }) => {
+            const orders = new Order({ orderCode ,orderStatus,Store:storeId});
             await orders
             .save().then(result=>{
-                return Store.findById(StoreId);
+                return Store.findById(storeId);
             })
             .then(store=>{
-                store.Orders.push(orders);
+                store.orders.push(orders);
                 return store.save()
             });
             return "Order Created";
         }, 
         //items here is an array of {itemCode, name, quantity, customization}   const order  = new Order({items})
 
-        addOrder:async(_,{OrderCode,OrderStatus,items,StoreId,TotalCost,PaymentMode,PaymentStatus})=>{
+        addOrder:async(_,{orderCode,orderStatus,items,storeId,totalCost,paymentMode,paymentStatus})=>{
             //Add Orders to collection
-            const orders=new Order({OrderCode,OrderStatus,Store:StoreId,ItemsList:items})
+            const orders=new Order({orderCode,orderStatus,Store:storeId,ItemsList:items})
             await orders.save().then(result=>{
-                return Store.findById(StoreId);
+                return Store.findById(storeId);
             }).then(store=>{
-                store.Orders.push(orders);
+                store.orders.push(orders);
                 return store.save()
             }) 
             //Create Bill and map it with orders and revenue
-            const bills = new Bill({ TotalCost,PaymentMode , PaymentStatus});
+            const bills = new Bill({ totalCost,paymentMode , paymentStatus});
             await bills
             .save().then(result=>{
                 return Order.findById(orders.id);
             })
             .then(order=>{
-                order.Bill=bills;
+                order.bill=bills;
                 return order.save()
             })
 

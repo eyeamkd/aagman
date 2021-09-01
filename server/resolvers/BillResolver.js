@@ -9,21 +9,21 @@ module.exports= {
     },
 
     Mutation: {
-        createBill: async(_, {  TotalCost,PaymentMode , PaymentStatus,OrderId,RevenueId }) => {
-            const bills = new Bill({ TotalCost,PaymentMode , PaymentStatus,Order:OrderId});
+        createBill: async(_, {  totalCost,paymentMode , paymentStatus,orderId,revenueId }) => {
+            const bills = new Bill({ totalCost,paymentMode , paymentStatus,Order:orderId});
             await bills
             .save().then(result=>{
-                return Order.findById(OrderId);
+                return Order.findById(orderId);
             })
             .then(order=>{
-                order.Bill=bills;
+                order.bill=bills;
                 return order.save()
             })
             .then(result=>{
-                return Revenue.findById(RevenueId);
+                return Revenue.findById(revenueId);
             })
             .then(revenue=>{
-                revenue.Bill.push(bills);
+                revenue.bill.push(bills);
                 return revenue.save()
             })
             ;

@@ -52,14 +52,13 @@ query Query($getUsersByLocationLocation: String!) {
 }
 `
 export const CHECK_IF_USER_EXISTS=gql`
-query Query($userExistsEmail2: String!) {
-  userExists(email: $userExistsEmail2) {
-    email
-    fullName
-    storeName
-    GSTNumber
-    location
-    phoneNumber
+query Query($checkIfUserExistsEmail: String!) {
+  checkIfUserExists(email: $checkIfUserExistsEmail)
 }
+`
+
+export const CHECK_IF_OTP_MATCHES=gql`
+query Query($checkIfOtpMatchesEmail: String!, $checkIfOtpMatchesOtp: String!) {
+  checkIfOtpMatches(email: $checkIfOtpMatchesEmail, otp: $checkIfOtpMatchesOtp)
 }
 `

@@ -8,14 +8,14 @@ module.exports= {
     },
 
     Mutation: {
-        createRevenue: async(_, { TotalIncome,StoreId }) => {
-            const revenue = new Revenue({TotalIncome,Store:StoreId});
+        createRevenue: async(_, { totalIncome,storeId }) => {
+            const revenue = new Revenue({totalIncome,Store:storeId});
             await revenue
             .save().then(result=>{
-                return Store.findById(StoreId);
+                return Store.findById(storeId);
             })
             .then(store=>{
-                store.Revenue=revenue;
+                store.revenue=revenue;
                 return store.save()
             });
             return "Revenue Created";

@@ -5,11 +5,11 @@ module.exports= {
     Query: {
         stores:() => Store.find(),
         store:(parent, {id}) => Store.findById(id),
-        ordersDashboard:(parent,{StoreId})=>{
-            return Store.findById(StoreId).populate({
-                path:"Orders",
+        ordersDashboard:(parent,{storeId})=>{
+            return Store.findById(storeId).populate({
+                path:"orders",
                 populate:{
-                    path:"Bill"
+                    path:"bill"
                 }
             });
          }
@@ -17,12 +17,12 @@ module.exports= {
 
     Mutation: {
         
-        createStore: async(_, { Name ,UserId }) => {
-            const store = new Store({ Name, Owner:UserId});
+        createStore: async(_, { name ,userId }) => {
+            const store = new Store({ name, Owner:userId});
             await store.save().then(result=>{
-                  return User.findById(UserId);
+                  return User.findById(userId);
             }).then(user=>{
-                 user.Stores.push(store);
+                 user.stores.push(store);
                  return user.save()
             });
             return "Store Created";

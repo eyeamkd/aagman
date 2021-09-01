@@ -9,41 +9,41 @@ module.exports= {
     },
 
     Mutation: {
-        createCategory: async(_, { Name,MenuId }) => {
-            const category = new Category({Name});
+        createCategory: async(_, { name,menuId }) => {
+            const category = new Category({name});
             await category
             .save().then(result=>{
-                return Menu.findById(MenuId);
+                return Menu.findById(menuId);
             })
             .then(menu=>{
-                menu.Categories.push(category);
+                menu.categories.push(category);
                 return menu.save()
             });
             return "Category Created";
         },
         //ItemName,Description,Availability,Type,Price,Rating,BestSeller,Photo
-       AddMenuItem:async(_,{MenuId,CategoryName,ItemName,Description,Availability,Type,Price,Rating,BestSeller,Photo})=>{
-           await Category.findOne({Name:CategoryName}).then(result=>{
-            const item=new Item({Name:ItemName,Description,Availability,Type,Price,Rating,BestSeller,Photo})
+       AddMenuItem:async(_,{menuId,categoryName,itemName,description,availability,type,price,rating,bestSeller,photo})=>{
+           await Category.findOne({name:categoryName}).then(result=>{
+            const item=new Item({name:itemName,description,availability,type,price,rating,bestSeller,photo})
                if(result){
                    item.save().then(items=>{
                     return Category.findById(result.id);
                 })
                 .then(category=>{
-                    category.Items.push(item);
+                    category.items.push(item);
                     return category.save()
                 });
                }
                else{
-                const category = new Category({Name:CategoryName});
-                category.Items.push(item);
+                const category = new Category({name:categoryName});
+                category.items.push(item);
                 item.save()
                 category
                 .save().then(result=>{
-                    return Menu.findById(MenuId);
+                    return Menu.findById(menuId);
                 })
                 .then(menu=>{
-                    menu.Categories.push(category);
+                    menu.categories.push(category);
                     return menu.save()
                 });
                 

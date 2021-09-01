@@ -10,14 +10,14 @@ module.exports= {
 
     Mutation: {
       
-        createTiming: async(_, { OpenTime,CloseTime,Availability,StoreId }) => {
-            const timings = new Timing({ OpenTime,CloseTime,});
+        createTiming: async(_, { openTime,closeTime,availability,storeId }) => {
+            const timings = new Timing({ openTime,closeTime,});
             await timings
             .save().then(result=>{
-                return Store.findById(StoreId);
+                return Store.findById(storeId);
             })
             .then(store=>{
-                store.Timings=timings;
+                store.timings=timings;
                 return store.save()
             });
             return "Timing Created";

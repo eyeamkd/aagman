@@ -11,14 +11,14 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-  button: {
-    margin: "20px",
-    backgroundColor: "#0596f5",
-    color: "#ffffff",
-    padding: "20px",
-    borderRadius: "40px",
-    textAlign:"center"
-  }
+    button: {
+        margin: "20px",
+        backgroundColor: "#0596f5",
+        color: "#ffffff",
+        padding: "20px",
+        borderRadius: "40px",
+        textAlign: "center"
+    }
 });
 
 export default function Login() {
@@ -42,15 +42,13 @@ export default function Login() {
 
     const verifyOtp = (item, resetForm) => {
         verifyUser(email, item.otp).then(res => {
-            if(res)
-            {
+            if (res) {
                 router.push({
                     pathname: '/orders',
-                    query: {email : email },
-                  })
+                    query: { email: email },
+                })
             }
-            else
-            {
+            else {
                 alert("OTP entered does not match. Try logging in again.")
             }
         });
@@ -61,22 +59,18 @@ export default function Login() {
     const onSubmit = (e) => {
         e.preventDefault();
         checkIfUserExists(email).then(res => {
-            if(res !== null)
-            {
+            if (res) {
                 postOtp(email).then(res => {
-                    if(res === true)
-                    {
+                    if (res) {
                         alert("Email has been sent along with the verification otp.");
                         setOpenPopup(true);
                     }
-                    else
-                    {
+                    else {
                         alert("Email has not been sent due to some error.");
                     }
                 });
             }
-            else
-            {
+            else {
                 alert("Email id does not exist already sign up to continue.");
             }
         })
@@ -86,29 +80,29 @@ export default function Login() {
 
     return (
         <>
-          <Head>
+            <Head>
                 <title>Login</title>
             </Head>
             <motion.main
-   variants={variants}// Pass the variant object into Framer Motion 
-    initial="hidden" // Set the initial state to variants.hidden
-    animate="enter" // Animated state to variants.enter
-    exit="exit" // Exit state (used later) to variants.exit
-    transition={{ type: 'linear' }} // Set the transition to linear
-    
->
-<form onSubmit={onSubmit} className={styles.login}>
-        <h1 className={styles.heading}>Login</h1><br/><br/>
-        <TextField label="Email" variant="outlined" id="EmailInput" color= "primary"  value={email}
+                variants={variants}// Pass the variant object into Framer Motion 
+                initial="hidden" // Set the initial state to variants.hidden
+                animate="enter" // Animated state to variants.enter
+                exit="exit" // Exit state (used later) to variants.exit
+                transition={{ type: 'linear' }} // Set the transition to linear
+
+            >
+                <form onSubmit={onSubmit} className={styles.login}>
+                    <h1 className={styles.heading}>Login</h1><br /><br />
+                    <TextField label="Email" variant="outlined" id="EmailInput" color="primary" value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
-                        }}/>
-                        <br/><br/>
-                       
-          <Button type="submit" variant="contained" color="secondary" className={classes.button}>Login</Button> <br/>  
-          </form> 
-  </motion.main>
-  <VerifyUser
+                        }} />
+                    <br /><br />
+
+                    <Button type="submit" variant="contained" color="secondary" className={classes.button}>Login</Button> <br />
+                </form>
+            </motion.main>
+            <VerifyUser
                 title="OTP Verification"
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}

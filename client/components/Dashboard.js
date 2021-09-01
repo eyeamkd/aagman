@@ -173,9 +173,9 @@ export default function Dashboard({children}) {
                                 </Grid>
                         </Grid>
                     </Container>
-                    <Footer />
                 </main>
             </div>
+            <Footer />
         </>
     );
 }

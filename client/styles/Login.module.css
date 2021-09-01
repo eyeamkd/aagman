@@ -2,6 +2,13 @@
 	font-family: 'pizzafont';
 	src: url("../public/text/hotpizza.ttf");
 }
+.heading{
+    position: sticky;
+    top: 0;
+    padding: 20px;
+    z-index: 999;
+    background-color: white;
+}
 
 .loginWrap {
     height: 90vh;

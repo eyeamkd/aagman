@@ -8,22 +8,22 @@ type Query {
 }
 
 type Category {
-    Id: String! 
-    Name : String! 
-    Items : [Item!]!
+    id: String! 
+    name : String! 
+    items : [Item!]!
 }
 type Mutation{
-    createCategory(Name:String!,MenuId:String!):String!
-    AddMenuItem(MenuId:String!,
-               CategoryName:String!,
-               ItemName:String!,
-               Description:String!,
-               Availability:ItemAvailability!,
-               Type:Type!,
-               Price:Float!,
-               Rating:Float!,
-               BestSeller:BestSellerItem!,
-               Photo:String!):String!
+    createCategory(name:String!,menuId:String!):String!
+    AddMenuItem(menuId:String!,
+               categoryName:String!,
+               itemName:String!,
+               description:String!,
+               availability:ItemAvailability!,
+               type:Type!,
+               price:Float!,
+               rating:Float!,
+               bestSeller:BestSellerItem!,
+               photo:String!):String!
 }
 
 

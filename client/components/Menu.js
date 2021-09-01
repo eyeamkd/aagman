@@ -20,15 +20,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-// Generate Order Data
-function createData(id, name, description, status, cost, category) {
-    return { id, name, description, status, cost, category };
-}
-
-const rows = [
-    createData("1", "Pizza", "Italian Dish", 'Available', '150.00', 'Fast Food')
-];
-
 function preventDefault(event) {
     event.preventDefault();
 }
@@ -109,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MenuTable() {
     const classes = useStyles();
     const [categories, setCategories] = useState([]);
+    const [items, setItems] = useState([]);
     const [openPopup, setOpenPopup] = useState(false)
     const [recordForEdit, setRecordForEdit] = useState(null)
     const openInPopup = item => {
@@ -119,7 +111,14 @@ export default function MenuTable() {
     const addOrEdit = (item, resetForm) => {
          if (item.id === "")
          {
-            menuService.addMenu(item)
+            let menuItem = {
+                name : item.name,
+                description : item.description,
+                status : item.status,
+                cost : item.cost,
+                category : item.category
+            }
+            setItems(items => [...items, menuItem] )
         }
         else
         {
@@ -222,7 +221,7 @@ export default function MenuTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
+                        {items.map((row) => (
                             <TableRow key={row.id}>
                                 <TableCell>{row.name}</TableCell>
                                 <TableCell>{row.description}</TableCell>

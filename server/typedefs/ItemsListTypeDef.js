@@ -8,17 +8,17 @@ type Query {
 }
 
 type ItemsList {
-    Id: String! 
-    Name: String!
-    Quantity: Int!
-    Price: Float!
-    Order: Order!
+    id: String! 
+    name: String!
+    quantity: Int!
+    price: Float!
+    order: Order!
 }
 
 
 
 type Mutation{
-    createItemsList(Name:String!, Quantity:Int! ,Price:Float! , OrderId:String! ):String!
+    createItemsList(name:String!, quantity:Int! ,price:Float! , orderId:String! ):String!
 }
 
 

@@ -14,8 +14,6 @@ float: left;
 
 overflow-x: hidden;
 background-color: white;
-
-padding-top: 50px;
 vertical-align: text-top;
 align-items: center;
 justify-content: center;
@@ -63,11 +61,8 @@ display: none;
 overflow-x: hidden;
 background-color: white;
 display: block;
-padding-top: 50px;
-
 align-items: center;
 justify-content: center;
-
 width: 270px;
 height: 380px;
 }

@@ -8,15 +8,15 @@ type Query {
 }
 
 type Item {
-    Id: String! 
-    Name : String!
-    Description : String!
-    Availability : ItemAvailability!                 
-    Type: Type!                        
-    Price : Float!
-    Rating : Float! 
-    BestSeller : BestSellerItem!            
-    Photo: String! 
+    id: String! 
+    name : String!
+    description : String!
+    availability : ItemAvailability!                 
+    type: Type!                        
+    price : Float!
+    rating : Float! 
+    bestSeller : BestSellerItem!            
+    photo: String! 
 }
 
 enum ItemAvailability{
@@ -32,15 +32,15 @@ enum BestSellerItem{
 }
 
 type Mutation{
-    createItem(Name:String!,
-               Description:String!,
-               Availability:ItemAvailability!,
-               Type:Type!,
-               Price:Float!,
-               Rating:Float!,
-               BestSeller:BestSellerItem!,
-               Photo:String!,
-               CategoryId:String! ):String!
+    createItem(name:String!,
+               description:String!,
+               availability:ItemAvailability!,
+               type:Type!,
+               price:Float!,
+               rating:Float!,
+               bestSeller:BestSellerItem!,
+               photo:String!,
+               categoryId:String! ):String!
 }
 
 

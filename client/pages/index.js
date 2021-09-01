@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,11 +30,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "40px",
     textAlign: "center"
   },
-  tagline: {
-    fontSize: 20,
-    textTransform: "uppercase",
-    justifyContent: "center",
-  },
+  title:{
+    textAlign: "center",
+    color: "white"
+  }
 }));
 
 export default function Home() {
@@ -85,16 +85,15 @@ export default function Home() {
         />
       </motion.div>
       <motion.div initial="hidden" animate="visible" variants={variantHeading}>
-        <Image
-          src="/images/aagmanRoboto.png"
-          alt="App Name"
-          width={280}
-          height={55}
-        />
+        <div className={classes.title}>
+          <Typography variant="h2" gutterBottom>
+            Aagman
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            Order Without Hassle
+          </Typography>
+        </div>
       </motion.div>
-      <Toolbar className={classes.tagline}>
-        ORDER WITHOUT Hassle
-      </Toolbar>
       <motion.div initial="hidden" animate="visible" variants={variantButton}>
         <div className={classes.buttons}>
           <Link href="/form" passHref><Button variant="contained" color="secondary" className={classes.button}>Sign Up</Button></Link>

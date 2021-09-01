@@ -3,18 +3,18 @@ import {gql} from '@apollo/client'
 
 export const DISPLAY_MENU=gql`
 query Query($displayMenuMenuId: String!) {
-    displayMenu(MenuId: $displayMenuMenuId) {
-      Categories {
-        Name
-        Items {
-          Name
-          Description
-          Availability
-          Type
-          Price
-          Rating
-          BestSeller
-          Photo
+    displayMenu(menuId: $displayMenuMenuId) {
+      categories{
+        name
+        items {
+          name
+          description
+          availability
+          type
+          price
+          rating
+          bestSeller
+          photo
         }
       }
     }

@@ -188,9 +188,9 @@ const Menu = () => {
                     <br />
                     <Grid container spacing={1}>
                         {productCards.map(value =>
-                            value.Categories.map(category =>
-                                category.Items.map((product) =>
-                                (<ProductCard key={product.Name} product={product} setItem={setItem} />)
+                            value.categories.map(category =>
+                                category.items.map((product) =>
+                                (<ProductCard key={product.name} product={product} setItem={setItem} />)
                                 )
                             )
                         )}
@@ -224,7 +224,6 @@ const Menu = () => {
                         <BottomNavigationAction icon={<ArrowBackIosIcon />} />
                     </BottomNavigation>
                 </Container>
-                <Footer />
                 <VerifyOrder
                     title="Verify Order"
                     openPopup={openPopup}
@@ -236,6 +235,7 @@ const Menu = () => {
                     totalCost = {totalCost}
                 />
             </div>
+            <Footer />
         </>
     );
 }

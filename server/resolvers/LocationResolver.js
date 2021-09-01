@@ -9,13 +9,13 @@ module.exports= {
 
      Mutation:{
          
-        createLocation: async(_, { Country , State, City , Area, LandMark,StoreId }) => {
-            const location = new Locations({  Country , State, City , Area, LandMark });
+        createLocation: async(_, { country , state, city , area, landMark,storeId }) => {
+            const location = new Locations({  country , state, city , area, landMark });
             await location.save().then(result=>{
-                return Store.findById(StoreId);
+                return Store.findById(storeId);
             })
             .then(store=>{
-               store.Address=location;
+               store.address=location;
                store.save(); 
             })
             return "Location Created";

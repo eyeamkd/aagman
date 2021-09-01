@@ -5,25 +5,25 @@ module.exports= {
     Query: {
         menus:() => Menu.find(),
         menu:(parent, {id}) => Menu.findById(id),
-        displayMenu:(parent,{MenuId})=>{
-            return Menu.findById(MenuId).populate({
-                path:"Categories",
+        displayMenu:(parent,{menuId})=>{
+            return Menu.findById(menuId).populate({
+                path:"categories",
                 populate:{
-                    path:"Items"
+                    path:"items"
                 }
             });
          }
     },
 
     Mutation: {
-        createMenu: async(_, { StoreId }) => {
-            const menu = new Menu({Store:StoreId});
+        createMenu: async(_, { storeId }) => {
+            const menu = new Menu({Store:storeId});
             await menu
             .save().then(result=>{
-                return Store.findById(StoreId);
+                return Store.findById(storeId);
             })
             .then(store=>{
-                store.Menu=menu;
+                store.menu=menu;
                 return store.save()
             });
             return "Menu Created";

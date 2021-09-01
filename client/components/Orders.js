@@ -100,7 +100,8 @@ export default function Orders(props) {
     return (<div>Error! ${error.message}</div>);
 
   else {
-    const orders = Object.values(data)[0].Orders
+    console.log(data)
+    const orders = Object.values(data)[0].orders
     console.log(orders);
     return (
       <React.Fragment>
@@ -140,8 +141,8 @@ export default function Orders(props) {
             </TableHead>
             <TableBody>
               {orders.map((row) => (
-                <TableRow key={row.OrderCode}>
-                  <TableCell>{row.OrderCode}</TableCell>
+                <TableRow key={row.orderCode}>
+                  <TableCell>{row.orderCode}</TableCell>
 
                   <TableCell>
 
@@ -153,12 +154,12 @@ export default function Orders(props) {
 
 
                     {
-                      row.ItemsList.map((subrow) => (
-                        <tr align="center" key={subrow.itemName}>
+                      row.itemsList.map((subrow) => (
+                        <tr align="center" key={subrow.name}>
 
-                          <td>{subrow.Name}</td>
-                          <td>{subrow.Quantity}</td>
-                          <td>₹{subrow.Cost}</td>
+                          <td>{subrow.name}</td>
+                          <td>{subrow.quantity}</td>
+                          <td>₹{subrow.price}</td>
 
                         </tr>
 
@@ -167,10 +168,10 @@ export default function Orders(props) {
                     }
 
                   </TableCell>
-                  <TableCell>₹{row.Bill.TotalCost}</TableCell>
-                  <TableCell>{row.Bill.PaymentMode}</TableCell>
-                  <TableCell>{row.Bill.PaymentStatus}</TableCell>
-                  <TableCell align="right">{row.OrderStatus}</TableCell>
+                  <TableCell>₹{row.bill.totalCost}</TableCell>
+                  <TableCell>{row.bill.paymentMode}</TableCell>
+                  <TableCell>{row.bill.paymentStatus}</TableCell>
+                  <TableCell align="right">{row.orderStatus}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

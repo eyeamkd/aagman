@@ -2,15 +2,15 @@ const mongoose =require("mongoose");
 const Float = require('mongoose-float').loadType(mongoose);
 
 module.exports = mongoose.model("Order", { 
-    Id: String, 
-    OrderCode : Number, 
-    OrderStatus : {type:String,
+    id: String, 
+    orderCode : Number, 
+    orderStatus : {type:String,
                    enum:["OrderReceived", "Preparing" , "Completed"],
                    default:"OrderReceived"},   //enum          
-    ItemsList : [{Name:String,Quantity:Number,Price:Float}],     //Object Array
-    Store: {type:mongoose.Schema.Types.ObjectId,
+    itemsList : [{name:String,quantity:Number,price:Float}],     //Object Array
+    store: {type:mongoose.Schema.Types.ObjectId,
             ref:"Store"},               //Object 
-    Bill : {type:mongoose.Schema.Types.ObjectId,
+    bill : {type:mongoose.Schema.Types.ObjectId,
             ref:"Bill"}
 })
 

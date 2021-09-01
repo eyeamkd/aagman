@@ -8,11 +8,11 @@ type Query {
 }
 
 type Bill {
-    Id: String! 
-    TotalCost: Float!
-    PaymentMode: PaymentTypes!       
-    PaymentStatus: PaymentStatusTypes!  
-    Order : Order!
+    id: String! 
+    totalCost: Float!
+    paymentMode: PaymentTypes!       
+    paymentStatus: PaymentStatusTypes!  
+    order : Order!
 }
 
 enum PaymentTypes{
@@ -24,11 +24,11 @@ enum PaymentStatusTypes{
 }
 
 type Mutation{
-    createBill(TotalCost:Float!,
-               PaymentMode:PaymentTypes! ,
-               PaymentStatus:PaymentStatusTypes!,
-               OrderId:String!,
-               RevenueId:String! ):String!
+    createBill(totalCost:Float!,
+               paymentMode:PaymentTypes! ,
+               paymentStatus:PaymentStatusTypes!,
+               orderId:String!,
+               revenueId:String! ):String!
 }
 
 

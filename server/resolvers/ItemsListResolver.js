@@ -8,14 +8,14 @@ module.exports= {
     },
 
     Mutation: {
-        createItemsList: async(_, { Name, Quantity ,Price , OrderId }) => {
-            const itemslist = new ItemsList({ Name, Quantity ,Price,Order:OrderId});
+        createItemsList: async(_, { name, quantity ,price , orderId }) => {
+            const itemslist = new ItemsList({ name, quantity ,price,Order:orderId});
             await itemsslist
             .save().then(result=>{
-                return Order.findById(OrderId);
+                return Order.findById(orderId);
             })
             .then(order=>{
-                order.ItemsList.push(itemslist);
+                order.itemsList.push(itemslist);
                 return order.save()
             });
             return "Items List Created";

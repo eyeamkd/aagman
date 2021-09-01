@@ -2,6 +2,9 @@ import { createTheme } from '@material-ui/core/styles';
 
 // Create a theme instance.
 const theme = createTheme({
+  typography: {
+    fontFamily: ['"Comfortaa"', 'cursive'].join(',')
+   },
   palette: {
     primary: {
       main: '#42a5f5',

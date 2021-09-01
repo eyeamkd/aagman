@@ -1,12 +1,12 @@
 const mongoose =require("mongoose");
 
 module.exports = mongoose.model("User", { 
-    Id: String,
-    Email : String,
-    FullName : String,
-    GSTNumber : String ,
-    PhoneNumber: String ,
-    Stores: [{type:mongoose.Schema.Types.ObjectId,
+    id: String,
+    email : String,
+    fullName : String,
+    gstNumber : String ,
+    phoneNumber: String ,
+    stores: [{type:mongoose.Schema.Types.ObjectId,
               ref:"Store"}],
     otp: String,
 })

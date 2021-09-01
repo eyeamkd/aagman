@@ -8,11 +8,11 @@ type Query {
 }
 
 type Timing {
-    Id : String! 
-    OpenTime: String! 
-    CloseTime: String !
-    Availability:  TimingAvailability!
-    Store: Store!
+    id : String! 
+    openTime: String! 
+    closeTime: String !
+    availability:  TimingAvailability!
+    store: Store!
 }
 
 enum TimingAvailability{
@@ -21,6 +21,6 @@ enum TimingAvailability{
 }
 
 type Mutation{
-    createTiming(OpenTime:String!,CloseTime:String!,StoreId:String!,Availability:TimingAvailability!):String!
+    createTiming(openTime:String!,closeTime:String!,storeId:String!,availability:TimingAvailability!):String!
 }
 `

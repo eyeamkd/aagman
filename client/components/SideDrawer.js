@@ -73,9 +73,9 @@ export default function TemporaryDrawer({ children }) {
             <Divider />
             <List>
                 {menu.map(value =>
-                    value.Categories.map(category =>
-                        <ListItem button key={category.Name}>
-                            <ListItemText primary={category.Name} />
+                    value.categories.map(category =>
+                        <ListItem button key={category.name}>
+                            <ListItemText primary={category.name} />
                         </ListItem>
                     )
                 )}
