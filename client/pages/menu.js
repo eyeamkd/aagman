@@ -120,7 +120,9 @@ const Menu = () => {
     if (storeDataError)
         return (<div>Error! ${storeDataError.message}</div>);
 
-    const storeId = Object.values(storeData)[0].store.id;
+    const store = Object.values(storeData)[0].store;
+    const storeId = store.id;
+    const storeName= store.name;
 
     const verifyOrder = (order, resetForm) => {
         placeOrder(order);
@@ -163,7 +165,7 @@ const Menu = () => {
                     <title>Menu</title>
                 </Head>
                 <Header />
-                <StoreCover />
+                <StoreCover storeName={storeName}/>
                 <Container>
                     <br />
                     <Grid container spacing={1}>

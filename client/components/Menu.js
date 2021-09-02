@@ -9,7 +9,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { AddMenu } from './AddMenu';
-import {ADD_MENU_ITEMS} from "../GraphQL/Mutations/MenuMutation";
+import { ADD_MENU_ITEMS } from "../GraphQL/Mutations/MenuMutation";
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
@@ -19,6 +19,9 @@ import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { DISPLAY_MENU } from '../GraphQL/Queries/MenuQueries';
+import { useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 function preventDefault(event) {
     event.preventDefault();
@@ -103,25 +106,29 @@ export default function MenuTable() {
     const [items, setItems] = useState([]);
     const [openPopup, setOpenPopup] = useState(false)
     const [recordForEdit, setRecordForEdit] = useState(null)
+    const { data, loading, error } = useQuery(DISPLAY_MENU,
+        {
+            variables: {
+                displayMenuMenuId: "612e2c129748de1394a1ee42"
+            }
+        });
     const openInPopup = item => {
         setRecordForEdit(item)
         setOpenPopup(true)
     }
 
     const addOrEdit = (item, resetForm) => {
-         if (item.id === "")
-         {
+        if (item.id === "") {
             let menuItem = {
-                name : item.name,
-                description : item.description,
-                status : item.status,
-                cost : item.cost,
-                category : item.category
+                name: item.name,
+                description: item.description,
+                status: item.status,
+                cost: item.cost,
+                category: item.category
             }
-            setItems(items => [...items, menuItem] )
+            setItems(items => [...items, menuItem])
         }
-        else
-        {
+        else {
             menuService.updateMenu(item)
         }
 
@@ -165,6 +172,15 @@ export default function MenuTable() {
             </MenuItem>
         </Menu>
     );
+
+    if (loading)
+        return (<div>Loading...</div>);
+
+    if (error)
+        return (<div>Error! ${error.message}</div>);
+
+    const productCards = Object.values(data);
+    console.log(productCards);
 
     return (
         <React.Fragment>
@@ -216,27 +232,27 @@ export default function MenuTable() {
                             <TableCell>Description</TableCell>
                             <TableCell>Status</TableCell>
                             <TableCell>Cost</TableCell>
-                            <TableCell>Category</TableCell>
                             <TableCell align="right">Modify/Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {items.map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell>{row.name}</TableCell>
-                                <TableCell>{row.description}</TableCell>
-                                <TableCell>{row.status}</TableCell>
-                                <TableCell>₹{row.cost}</TableCell>
-                                <TableCell>{row.category}</TableCell>
-                                <TableCell align="right">
-                                    <IconButton aria-label="edit" onClick={() => { openInPopup(row) }} color="inherit">
-                                        <EditIcon fontSize="small" />
-                                    </IconButton>
-                                    <IconButton aria-label="delete" onClick={() => deleteItem(row.id)} color="inherit">
-                                        <DeleteIcon fontSize="small" />
-                                    </IconButton></TableCell>
-                            </TableRow>
-                        ))}
+                        {productCards.map(value =>
+                            value.categories.map(category =>
+                                category.items.map((row) =>
+                                    <TableRow key={row.id}>
+                                        <TableCell>{row.name}</TableCell>
+                                        <TableCell>{row.description}</TableCell>
+                                        <TableCell>{row.availability}</TableCell>
+                                        <TableCell>₹{row.price}</TableCell>
+                                        <TableCell align="right">
+                                            <IconButton aria-label="edit" onClick={() => { openInPopup(row) }} color="inherit">
+                                                <EditIcon fontSize="small" />
+                                            </IconButton>
+                                            <IconButton aria-label="delete" onClick={() => deleteItem(row.id)} color="inherit">
+                                                <DeleteIcon fontSize="small" />
+                                            </IconButton></TableCell>
+                                    </TableRow>
+                                )))}
                     </TableBody>
                 </Table>
             </div>

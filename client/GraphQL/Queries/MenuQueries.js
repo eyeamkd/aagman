@@ -25,6 +25,7 @@ export const GET_STORE_ID=gql`query Query($getStoreIdMenuId: ID!) {
   getStoreId(menuId: $getStoreIdMenuId) {
     store {
       id
+      name
     }
   }
 }`
