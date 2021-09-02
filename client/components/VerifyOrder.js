@@ -132,10 +132,10 @@ export const VerifyOrder = (props) => {
                                 </TableHead>
                                 <TableBody>
                                     {itemList.map((item) => (
-                                        <TableRow key={item.itemName}>
-                                            <TableCell>{item.itemName}</TableCell>
-                                            <TableCell>₹{item.itemCost}</TableCell>
-                                            <TableCell>{item.itemQuantity}</TableCell>
+                                        <TableRow key={item.name}>
+                                            <TableCell>{item.name}</TableCell>
+                                            <TableCell>₹{item.price}</TableCell>
+                                            <TableCell>{item.quantity}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
