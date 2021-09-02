@@ -20,6 +20,37 @@ mutation CreateUserMutation($createUserEmail: String!,
   
 `
 
+export const ADD_USERS=gql`
+mutation Mutation($addUserEmail: String!,
+   $addUserFullName: String!,
+    $addUserGstNumber: String!,
+     $addUserPhoneNumber: String!,
+      $addUserStoreName: String!,
+       $addUserCountry: String!,
+        $addUserState: String!,
+         $addUserCity: String!,
+          $addUserArea: String!,
+           $addUserLandMark: String!,
+            $addUserOpenTime: String!,
+             $addUserCloseTime: String!,
+              $addUserStatusTime: statusTiming!) {
+  addUser(email: $addUserEmail,
+     fullName: $addUserFullName,
+    gstNumber: $addUserGstNumber,
+    phoneNumber: $addUserPhoneNumber,
+     storeName: $addUserStoreName,
+      country: $addUserCountry,
+       state: $addUserState,
+        city: $addUserCity,
+         area: $addUserArea,
+          landMark: $addUserLandMark,
+           openTime: $addUserOpenTime,
+            closeTime: $addUserCloseTime,
+             statusTime: $addUserStatusTime)
+}
+
+`
+
 export const UPDATE_USERS_PHONENUMBER=gql`
 mutation Mutation($updatePhoneNumberEmail: String!, $updatePhoneNumberPhoneNumber: String!) {
   updatePhoneNumber(email: $updatePhoneNumberEmail, phoneNumber: $updatePhoneNumberPhoneNumber) {

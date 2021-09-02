@@ -8,7 +8,7 @@ type Query {
 }
 
 type Item {
-    id: String! 
+    id: ID! 
     name : String!
     description : String!
     availability : ItemAvailability!                 
@@ -40,7 +40,7 @@ type Mutation{
                rating:Float!,
                bestSeller:BestSellerItem!,
                photo:String!,
-               categoryId:String! ):String!
+               categoryId:ID! ):String!
 }
 
 

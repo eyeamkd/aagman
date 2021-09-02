@@ -8,7 +8,7 @@ type Query {
 }
 
 type Bill {
-    id: String! 
+    id: ID! 
     totalCost: Float!
     paymentMode: PaymentTypes!       
     paymentStatus: PaymentStatusTypes!  
@@ -27,7 +27,7 @@ type Mutation{
     createBill(totalCost:Float!,
                paymentMode:PaymentTypes! ,
                paymentStatus:PaymentStatusTypes!,
-               orderId:String!,
+               orderId:ID!,
                revenueId:String! ):String!
 }
 

@@ -9,7 +9,7 @@ type Query {
 }
 
 type Order {
-    id: String! 
+    id: ID! 
     orderCode : Int! 
     orderStatus : StatusOfOrder!           
     itemsList : [ItemsList!]!   
@@ -18,7 +18,7 @@ type Order {
 }
 
 type ItemsList {
-    id: String! 
+    id: ID! 
     name: String!
     quantity: Int!
     price: Float!
@@ -37,11 +37,11 @@ enum StatusOfOrder{
 }
 
 type Mutation{
-    createOrder(orderCode:String! ,orderStatus:StatusOfOrder!,storeId:String! ):String!
+    createOrder(orderCode:String! ,orderStatus:StatusOfOrder!,storeId:ID! ):String!
     addOrder(orderCode:Int!,
              orderStatus:StatusOfOrder!,
              items:[ItemsListInput]!,
-             storeId:String!,
+             storeId:ID!,
              totalCost:Float!,
              paymentMode:PaymentTypes! ,
              paymentStatus:PaymentStatusTypes!):String!

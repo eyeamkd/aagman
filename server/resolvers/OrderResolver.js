@@ -27,23 +27,21 @@ module.exports= {
 
         addOrder:async(_,{orderCode,orderStatus,items,storeId,totalCost,paymentMode,paymentStatus})=>{
             //Add Orders to collection
-            const orders=new Order({orderCode,orderStatus,Store:storeId,ItemsList:items})
+            const orders=new Order({orderCode,orderStatus,store:storeId,itemsList:items})
             await orders.save().then(result=>{
                 return Store.findById(storeId);
             }).then(store=>{
                 store.orders.push(orders);
                 return store.save()
             }) 
+         
             //Create Bill and map it with orders and revenue
-            const bills = new Bill({ totalCost,paymentMode , paymentStatus});
-            await bills
-            .save().then(result=>{
-                return Order.findById(orders.id);
-            })
-            .then(order=>{
-                order.bill=bills;
-                return order.save()
-            })
+            const bills = new Bill({ totalCost,paymentMode , paymentStatus,order:orders.id});
+            orders.bill=bills
+            await orders.save()
+
+            await orders.save()
+            
 
 
 

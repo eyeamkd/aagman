@@ -3,7 +3,7 @@ const Float = require('mongoose-float').loadType(mongoose);
 
 module.exports = mongoose.model("Store", { 
     
-    id: String ,
+ 
     name : String ,
     rating:Float,
     address : {type:mongoose.Schema.Types.ObjectId,

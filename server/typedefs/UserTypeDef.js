@@ -11,7 +11,7 @@ type Query {
 }
 
 type User {
-    id: String!
+    id: ID!
     email : String!
     fullName : String!
     gstNumber : String!
@@ -25,6 +25,20 @@ type Mutation {
                fullName: String!
                gstNumber: String!
                phoneNumber: String!): String!,
+
+    addUser(email:String!,
+            fullName:String!,
+            gstNumber:String!,
+            phoneNumber:String!,
+            storeName:String!,
+            country:String! ,
+            state:String!,
+            city :String!,
+            area:String!,
+            landMark:String!
+            openTime:String!,
+            closeTime:String!,
+            statusTime:statusTiming!):String!
 
     deleteUser(id: ID!): String,
 

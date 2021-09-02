@@ -7,7 +7,7 @@ type Query {
 }
 
 type Location {
-    id : String! 
+    id : ID! 
     country : String!
     state: String!
     city : String!
@@ -16,7 +16,7 @@ type Location {
 }
 
 type Mutation{
-    createLocation(country:String! , state:String!, city:String! , area:String!, landMark:String!,storeId:String!):String!
+    createLocation(country:String! , state:String!, city:String! , area:String!, landMark:String!,storeId:ID!):String!
 }
 
 

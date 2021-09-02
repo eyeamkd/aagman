@@ -8,14 +8,14 @@ type Query {
 }
 
 type Revenue {
-    id: String! 
+    id: ID! 
     totalIncome: Float! 
     bill: [Bill]!  
     store: Store! 
 }
 
 type Mutation{
-    createRevenue(totalIncome:Float!,storeId:String!):String!
+    createRevenue(totalIncome:Float!,storeId:ID!):String!
 }
 
 `

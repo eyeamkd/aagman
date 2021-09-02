@@ -5,17 +5,17 @@ module.exports= gql`
 type Query {
     menus: [Menu!]!
     menu(id: ID!): Menu!
-    displayMenu(menuId:String!):Menu!
+    displayMenu(menuId:ID!):Menu!
 }
 
 type Menu {
-    id: String! 
+    id: ID! 
     store: Store! 
     categories: [Category!]!
 }
 
 type Mutation{
-    createMenu(storeId:String!):String!
+    createMenu(storeId:ID!):String!
 }
 
 `

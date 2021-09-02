@@ -1,7 +1,7 @@
 const mongoose =require("mongoose");
 
 module.exports = mongoose.model("User", { 
-    id: String,
+   
     email : String,
     fullName : String,
     gstNumber : String ,

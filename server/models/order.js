@@ -2,7 +2,7 @@ const mongoose =require("mongoose");
 const Float = require('mongoose-float').loadType(mongoose);
 
 module.exports = mongoose.model("Order", { 
-    id: String, 
+ 
     orderCode : Number, 
     orderStatus : {type:String,
                    enum:["OrderReceived", "Preparing" , "Completed"],

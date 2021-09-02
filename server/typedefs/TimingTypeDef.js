@@ -8,19 +8,19 @@ type Query {
 }
 
 type Timing {
-    id : String! 
+    id : ID! 
     openTime: String! 
     closeTime: String !
-    availability:  TimingAvailability!
+    status:  statusTiming!
     store: Store!
 }
 
-enum TimingAvailability{
+enum statusTiming{
     Open,
     Close
 }
 
 type Mutation{
-    createTiming(openTime:String!,closeTime:String!,storeId:String!,availability:TimingAvailability!):String!
+    createTiming(openTime:String!,closeTime:String!,storeId:ID!,statusTime:statusTiming!):String!
 }
 `

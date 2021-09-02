@@ -7,7 +7,7 @@ module.exports= {
         menu:(parent, {id}) => Menu.findById(id),
         displayMenu:(parent,{menuId})=>{
             return Menu.findById(menuId).populate({
-                path:"categories",
+                path:"categories store",
                 populate:{
                     path:"items"
                 }
@@ -17,7 +17,7 @@ module.exports= {
 
     Mutation: {
         createMenu: async(_, { storeId }) => {
-            const menu = new Menu({Store:storeId});
+            const menu = new Menu({store:storeId});
             await menu
             .save().then(result=>{
                 return Store.findById(storeId);

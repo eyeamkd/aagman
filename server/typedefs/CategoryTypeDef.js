@@ -8,13 +8,13 @@ type Query {
 }
 
 type Category {
-    id: String! 
+    id: ID! 
     name : String! 
     items : [Item!]!
 }
 type Mutation{
     createCategory(name:String!,menuId:String!):String!
-    AddMenuItem(menuId:String!,
+    AddMenuItem(menuId:ID!,
                categoryName:String!,
                itemName:String!,
                description:String!,

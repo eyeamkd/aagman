@@ -2,7 +2,7 @@ const mongoose =require("mongoose");
 const Float = require('mongoose-float').loadType(mongoose);
 
 module.exports = mongoose.model("ItemsList", { 
-    id: String ,
+  
     name: String , 
     quantity: Number ,
     price: Float , 

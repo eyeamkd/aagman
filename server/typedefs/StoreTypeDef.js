@@ -5,11 +5,11 @@ module.exports= gql`
 type Query {
     stores: [Store!]!
     store(id: ID!): Store!
-    ordersDashboard(storeId:String!):Store!
+    ordersDashboard(storeId:ID!):Store!
 }
 
 type Store {
-    id: String!
+    id: ID!
     name : String!
     rating:Float!
     address : Location!
@@ -21,7 +21,7 @@ type Store {
 }
 
 type Mutation{
-    createStore(name:String!,userId:String!): String!
+    createStore(name:String!,userId:ID!): String!
 }
 
 
