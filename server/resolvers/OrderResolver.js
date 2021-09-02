@@ -36,24 +36,12 @@ module.exports= {
             }) 
          
             //Create Bill and map it with orders and revenue
-<<<<<<< HEAD
             const bills = new Bill({ totalCost,paymentMode , paymentStatus,order:orders.id});
             orders.bill=bills
             await orders.save()
 
             await orders.save()
             
-=======
-            const bills = new Bill({ totalCost,paymentMode , paymentStatus, order:orders._id});
-            await bills
-            .save().then(result=>{
-                return Order.findById(orders._id);
-            })
-            .then(order=>{
-                order.bill=bills;
-                return order.save()
-            })
->>>>>>> a96b3291248b90deec5c3907bd03f57cabff2c6b
 
 
 
