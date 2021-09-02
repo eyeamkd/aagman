@@ -1,16 +1,9 @@
-.signUpWrap {
-    height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.formSignUp {
-    text-align: center;
-    background-color: black;
-    max-width: 300px;
-    padding: 15px;
-    margin: 0 auto;
+.heading{
+    position: sticky;
+    top: 0;
+    padding: 20px;
+    z-index: 999;
+    background-color: white;
 }
 
 .formLabel{
@@ -22,3 +15,4 @@
     color: red;
     font-size: small;
 }
+

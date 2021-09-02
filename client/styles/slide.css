@@ -1,0 +1,9 @@
+* {
+    box-sizing: border-box;
+}
+:root {
+    --switches-bg-color: #0d47a1;
+    --switches-label-color: #83c3f7 ;
+    --switch-bg-color: #83c3f7;
+    --switch-text-color: white ;
+}

@@ -1,15 +1,18 @@
-import express from "express";
-import mongoose from "mongoose";
-import { ApolloServer} from "apollo-server-express";
-import {resolvers} from "./resolvers";
-import { typeDefs } from "./typeDefs";
-import nodemailer from "nodemailer";
-import sendGridTransport from "nodemailer-sendgrid-transport";
-import dotenv from "dotenv";
+const express = require("express");
+const mongoose = require("mongoose");
+const { ApolloServer } = require("apollo-server-express");
+const GMR = require('graphql-merge-resolvers');
+const nodemailer = require("nodemailer");
+const sendGridTransport = require("nodemailer-sendgrid-transport");
+const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
-import cors from "cors";
-import { GraphQLClient } from 'graphql-request';
-
+const cors = require("cors");
+const { GraphQLClient } = require('graphql-request');
+const ResolverTypeDefModule = require('./ResolverTypeDef');
+const Resolver = ResolverTypeDefModule.resolver;
+const TypeDef = ResolverTypeDefModule.typedef
+const LocationResolvers = require("./resolvers/LocationResolver");
+const LocationTypeDef = require("./typedefs/LocationTypeDef");
 const endpoint = 'http://localhost:5000/graphql';
 const client = new GraphQLClient(endpoint, {
   credentials: 'include',
@@ -23,18 +26,20 @@ const server = async () => {
   app.use(express.json());
   app.use(cors());
   const server = new ApolloServer({
-      typeDefs,
-      resolvers
+    typeDefs: [TypeDef],
+
+    resolvers: Resolver
   })
 
   await server.start()
-  server.applyMiddleware({app});
+  server.applyMiddleware({ app });
 
-  try{
+  try {
 
-      await mongoose.connect(process.env.Connection_String, {useNewUrlParser: true, useUnifiedTopology: true })
-  }catch(err){
-      console.log(err)
+    await mongoose.connect("mongodb+srv://greeta123:greeta123@aagman-cluster.coau9.mongodb.net/Aagman?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+    console.log(mongoose.connection.readyState);
+  } catch (err) {
+    console.log(err)
   }
 
   const transporter = nodemailer.createTransport(
@@ -44,7 +49,7 @@ const server = async () => {
       },
     })
   );
-  
+
   const generateOTP = function () {
     var digits = "0123456789";
     let OTP = "";
@@ -53,25 +58,26 @@ const server = async () => {
     }
     return OTP;
   };
-  
+
   const saveOTP = async (email, otp) => {
     const response = await client.request(
       `
-      mutation UpdateOtpMutation($email: String!, $otp: String!) {
-          updateOtp(email: $email, otp: $otp) {
-            id
-            email
-          }
+      mutation UpdateOtpMutation($updateOtpEmail: String!, $updateOtpOtp: String!) {
+        updateOtp(email: $updateOtpEmail, otp: $updateOtpOtp) {
+          email
+          otp
         }
+      }
+      
     `,
-    {
-      email: email,
-      otp: otp
-    }
-  );
-  console.log(response);
+      {
+        updateOtpEmail: email,
+        updateOtpOtp: otp
+      }
+    );
+    console.log(response);
   };
-  
+
   app.post("/send", (req, res) => {
     const { email } = req.body;
 

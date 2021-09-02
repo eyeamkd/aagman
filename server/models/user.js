@@ -1,8 +1,13 @@
-import mongoose from "mongoose";
+const mongoose =require("mongoose");
 
-export const User = mongoose.model("User", { 
-    email: String,
-    fullName: String,
-    phoneNumber: String,
-    otp: String
+module.exports = mongoose.model("User", { 
+   
+    email : String,
+    fullName : String,
+    gstNumber : String ,
+    phoneNumber: String ,
+    stores: [{type:mongoose.Schema.Types.ObjectId,
+              ref:"Store"}],
+    otp: String,
 })
+
