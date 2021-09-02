@@ -129,7 +129,7 @@ const Menu = () => {
         else {
             createOrders({
                 variables: {
-                    addOrderOrderCode: "-",
+                    addOrderOrderCode: 0,
                     addOrderOrderStatus: "OrderReceived",
                     addOrderItems: itemList,
                     addOrderStoreId: "612ce82e79045644d4ea287f",

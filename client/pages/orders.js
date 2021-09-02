@@ -5,12 +5,12 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 const StoreOrders = () => {
-    const [email, setEmail] = useState("");
+    const [storeId, setStoreId] = useState("");
     const { query } = useRouter();
 
     useEffect(() => {
-        console.log("This is the email id received.", query.email);
-        setEmail(query.email);
+        console.log("This is the store id received.", query.storeId);
+        setEmail(query.storeId);
     }, [])
 
     return (
