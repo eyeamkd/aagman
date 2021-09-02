@@ -39,12 +39,7 @@ module.exports= {
             const bills = new Bill({ totalCost,paymentMode , paymentStatus,order:orders.id});
             orders.bill=bills
             await orders.save()
-
-            await orders.save()
-            
-
-
-
+            await bill.save()
             return "Order Added";
         }
 
