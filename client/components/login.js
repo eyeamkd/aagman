@@ -44,7 +44,7 @@ export default function Login() {
         verifyUser(email, item.otp).then(res => {
             if (res) {
                 router.push({
-                    pathname: '/orders',
+                    pathname: '/selectstore',
                     query: { email: email },
                 })
             }

@@ -83,8 +83,8 @@ export default function Signup() {
 })
 alert("User has been registered successfully.")
 router.push({
-    pathname: '/orders',
-    query: { email: email },
+    pathname: '/selectstore',
+    query: { emai: email },
 })
     }
 const backHomePage = (e) => {

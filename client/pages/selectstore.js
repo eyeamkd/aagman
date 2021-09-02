@@ -14,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
+import { GET_USERS_STORES_FROM_EMAIL } from '../GraphQL/Queries/UsersQueries'
+import { useQuery } from '@apollo/client';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,8 +57,6 @@ const useStyles = makeStyles((theme) => ({
 const SelectStore = () => {
     const classes = useStyles();
 
-    const [stores, setStores] = useState([]);
-
     const [storeId, setStoreId] = useState("");
 
     const router = useRouter();
@@ -64,10 +64,21 @@ const SelectStore = () => {
     const [email, setEmail] = useState("");
     const { query } = useRouter();
 
-    useEffect(() => {
-        console.log("This is the email id received.", query.email);
-        setEmail(query.email);
-    }, [])
+    const { data, loading, error } = useQuery(GET_USERS_STORES_FROM_EMAIL,
+        {
+            variables: {
+                getUserStoreIdEmail: query.email
+            }
+        });
+
+    if (loading)
+        return (<div>Loading...</div>);
+
+    if (error)
+        return (<div>Error! ${error.message}</div>);
+
+    const stores = Object.values(data)[0].stores
+    console.log(stores)
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -116,7 +127,7 @@ const SelectStore = () => {
                                                 <Select
                                                     native
                                                     name="store"
-                                                    value={""}
+                                                    value={storeId}
                                                     onChange={handleInputChange}
                                                     label="Store"
                                                 >
