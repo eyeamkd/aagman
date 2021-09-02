@@ -15,6 +15,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { AddCategory } from './AddCategory';
+import {GET_CATEGORIES} from '../GraphQL/Queries/UsersQueries';
+import {ADD_ITEM} from '../GraphQL/Mutations/ItemMutation';
+
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {

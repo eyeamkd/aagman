@@ -1,6 +1,7 @@
 import {gql} from '@apollo/client'
 
-export const ADD_CATEGORY=gql`
+
+export const ADD_ITEM=gql`
 mutation Mutation($createItemName: String!,
      $createItemDescription: String!,
       $createItemAvailability: ItemAvailability!,

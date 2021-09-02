@@ -23,6 +23,7 @@ import { DISPLAY_MENU } from '../GraphQL/Queries/MenuQueries';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 
+
 function preventDefault(event) {
     event.preventDefault();
 }
@@ -226,7 +227,14 @@ export default function MenuTable() {
             </div>
             <div className={classes.menuTable}>
                 <Table size="small">
-                    <TableHead>
+                    
+                    <TableBody>
+                        {productCards.map(value =>
+                            value.categories.map(category =>
+                                <div>
+                                <TableCell>{category.name}</TableCell>
+                                <TableCell>
+                                    <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell>Description</TableCell>
@@ -235,10 +243,7 @@ export default function MenuTable() {
                             <TableCell align="right">Modify/Delete</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {productCards.map(value =>
-                            value.categories.map(category =>
-                                category.items.map((row) =>
+                                {category.items.map((row) =>(
                                     <TableRow key={row.id}>
                                         <TableCell>{row.name}</TableCell>
                                         <TableCell>{row.description}</TableCell>
@@ -252,7 +257,12 @@ export default function MenuTable() {
                                                 <DeleteIcon fontSize="small" />
                                             </IconButton></TableCell>
                                     </TableRow>
-                                )))}
+                                ))
+                                }
+                                </TableCell>
+                                </div>
+                                ))}
+                                
                     </TableBody>
                 </Table>
             </div>
