@@ -10,7 +10,7 @@ const StoreOrders = () => {
 
     useEffect(() => {
         console.log("This is the store id received.", query.storeId);
-        setEmail(query.storeId);
+        setStoreId(query.storeId);
     }, [])
 
     return (
@@ -19,7 +19,7 @@ const StoreOrders = () => {
                 <title>Orders</title>
             </Head>
             <Dashboard>
-                {<Orders email={email} />}
+                {<Orders storeId={storeId} />}
             </Dashboard>
         </>
     )

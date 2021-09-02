@@ -88,7 +88,7 @@ export default function Orders(props) {
   const { data, loading, error } = useQuery(GET_STORE_MENU_ITEMS,
     {
       variables: {
-        ordersDashboardStoreId: "612ce82e79045644d4ea287f"
+        ordersDashboardStoreId: props.storeId
       }
     })
 
