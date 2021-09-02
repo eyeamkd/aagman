@@ -13,7 +13,8 @@ module.exports= {
                 }
             });
          },
-         getCategoryByMenuId:(_,{menuId})=>Menu.findById(menuId).populate("categories")
+         getCategoryByMenuId:(_,{menuId})=>Menu.findById(menuId).populate("categories"),
+         getStoreId:(_,{menuId})=>Menu.findById(menuId).populate("store")
     },
 
     Mutation: {

@@ -14,7 +14,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { DISPLAY_MENU } from '../GraphQL/Queries/MenuQueries';
+import { DISPLAY_MENU, GET_STORE_ID } from '../GraphQL/Queries/MenuQueries';
 import { ADD_ORDERS } from '../GraphQL/Mutations/OrdersMutation';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
@@ -70,22 +70,21 @@ const Menu = () => {
     const [menuId, setmenuId] = useState("");
     const [paymentModes, setPaymentModes] = useState(["Cash", "CreditCard", "UPI", "DebitCard", "Check", "NetBanking"])
     const [paymentStatusTypes, setPaymentStatusTypes] = useState(["Paid", "NotPaid"])
-    const [paymentMode, setPaymentMode] = useState("")
-    const [paymentStatus, setPaymentStatus] = useState("")
     const [orderStatusTypes, setOrderStatustypes] = useState(["Order", "Received", "Preparing", "Completed"])
-    const [orderCodes, setOrderCodes] = useState([1,2,3,4])
+    const [orderCodes, setOrderCodes] = useState([1, 2, 3, 4])
     const { data, loading, error } = useQuery(DISPLAY_MENU,
         {
             variables: {
-                displayMenuMenuId: menuId
+                displayMenuMenuId: query.menuId
+            }
+        });
+    const { data: storeData, loading: storeDataLoading, error: storeDataError } = useQuery(GET_STORE_ID,
+        {
+            variables: {
+                getStoreIdMenuId: query.menuId
             }
         });
     const [createOrders] = useMutation(ADD_ORDERS);
-
-    useEffect(() => {
-        console.log("This is the menu's document id received.", query.menuId);
-        setmenuId(query.menuId);
-    }, [])
 
     useEffect(() => {
         if (Object.entries(item).length !== 0) {
@@ -115,6 +114,14 @@ const Menu = () => {
     const productCards = Object.values(data);
     console.log(productCards);
 
+    if (storeDataLoading)
+        return (<div>Loading...</div>);
+
+    if (storeDataError)
+        return (<div>Error! ${storeDataError.message}</div>);
+
+    const storeId = Object.values(storeData)[0].store.id;
+
     const verifyOrder = (order, resetForm) => {
         placeOrder(order);
         resetForm()
@@ -132,16 +139,16 @@ const Menu = () => {
                     addOrderOrderCode: 0,
                     addOrderOrderStatus: "OrderReceived",
                     addOrderItems: itemList,
-                    addOrderStoreId: "612ce82e79045644d4ea287f",
+                    addOrderStoreId: storeId,
                     addOrderTotalCost: totalCost,
                     addOrderPaymentMode: order.paymentMode,
                     addOrderPaymentStatus: order.paymentStatus
-            }
+                }
             })
             alert("Your order has been placed successfully.");
         }
     }
-    
+
     const checkout = () => {
         let cost = 0;
         itemList.map(item => cost = cost + (item.price * item.quantity));
@@ -163,7 +170,7 @@ const Menu = () => {
                         {productCards.map(value =>
                             value.categories.map(category =>
                                 category.items.map((product) =>
-                                (<ProductCard key={product.name} product={product} setItem={setItem} />)
+                                    (<ProductCard key={product.name} product={product} setItem={setItem} />)
                                 )
                             )
                         )}
@@ -205,7 +212,7 @@ const Menu = () => {
                     itemList={itemList}
                     paymentModes={paymentModes}
                     paymentStatusTypes={paymentStatusTypes}
-                    totalCost = {totalCost}
+                    totalCost={totalCost}
                 />
             </div>
             <Footer />

@@ -7,6 +7,7 @@ type Query {
     menu(id: ID!): Menu!
     displayMenu(menuId:ID!):Menu!
     getCategoryByMenuId(menuId:ID!):CategoryMenu
+    getStoreId(menuId:ID!):Menu!
 }
 
 type CategoryMenu{
