@@ -27,7 +27,7 @@ module.exports= {
 
         addOrder:async(_,{orderCode,orderStatus,items,storeId,totalCost,paymentMode,paymentStatus})=>{
             //Add Orders to collection
-            const orders=new Order({orderCode,orderStatus,Store:storeId,ItemsList:items})
+            const orders=new Order({orderCode,orderStatus,store:storeId,itemsList:items})
             await orders.save().then(result=>{
                 return Store.findById(storeId);
             }).then(store=>{
@@ -35,10 +35,10 @@ module.exports= {
                 return store.save()
             }) 
             //Create Bill and map it with orders and revenue
-            const bills = new Bill({ totalCost,paymentMode , paymentStatus});
+            const bills = new Bill({ totalCost,paymentMode , paymentStatus, order:orders._id});
             await bills
             .save().then(result=>{
-                return Order.findById(orders.id);
+                return Order.findById(orders._id);
             })
             .then(order=>{
                 order.bill=bills;

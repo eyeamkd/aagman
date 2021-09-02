@@ -2,20 +2,8 @@ import {gql} from '@apollo/client'
 
 
 export const ADD_ORDERS=gql`
-mutation Mutation($addOrderOrderCode: Int!,
-  $addOrderOrderStatus: StatusOfOrder!,
-   $addOrderItems: [ItemsListInput]!,
-    $addOrderStoreId: String!,
-     $addOrderTotalCost: Float!,
-      $addOrderPaymentMode: PaymentTypes!,
-       $addOrderPaymentStatus: PaymentStatusTypes!) {
- addOrder(OrderCode: $addOrderOrderCode,
-      OrderStatus: $addOrderOrderStatus,
-       items: $addOrderItems,
-        StoreId: $addOrderStoreId,
-         TotalCost: $addOrderTotalCost,
-          PaymentMode: $addOrderPaymentMode,
-           PaymentStatus: $addOrderPaymentStatus)
+mutation AddOrderMutation($addOrderOrderCode: Int!, $addOrderOrderStatus: StatusOfOrder!, $addOrderItems: [ItemsListInput]!, $addOrderStoreId: String!, $addOrderTotalCost: Float!, $addOrderPaymentMode: PaymentTypes!, $addOrderPaymentStatus: PaymentStatusTypes!) {
+  addOrder(orderCode: $addOrderOrderCode, orderStatus: $addOrderOrderStatus, items: $addOrderItems, storeId: $addOrderStoreId, totalCost: $addOrderTotalCost, paymentMode: $addOrderPaymentMode, paymentStatus: $addOrderPaymentStatus)
 }
 `
 

@@ -70,6 +70,8 @@ const Menu = () => {
     const [menuId, setmenuId] = useState("");
     const [paymentModes, setPaymentModes] = useState(["Cash", "CreditCard", "UPI", "DebitCard", "Check", "NetBanking"])
     const [paymentStatusTypes, setPaymentStatusTypes] = useState(["Paid", "NotPaid"])
+    const [paymentMode, setPaymentMode] = useState("")
+    const [paymentStatus, setPaymentStatus] = useState("")
     const [orderStatusTypes, setOrderStatustypes] = useState(["Order", "Received", "Preparing", "Completed"])
     const [orderCodes, setOrderCodes] = useState([1,2,3,4])
     const { data, loading, error } = useQuery(DISPLAY_MENU,
@@ -87,34 +89,22 @@ const Menu = () => {
 
     useEffect(() => {
         if (Object.entries(item).length !== 0) {
-            const objIndex = itemList.findIndex((obj => obj.itemName == item.itemName));
+            const objIndex = itemList.findIndex((obj => obj.name == item.name));
             if (objIndex == -1) {
-                if (item.itemQuantity !== 0) {
+                if (item.quantity !== 0) {
                     setItemList(itemList => [...itemList, item]);
                 }
             }
             else {
-                if (item.itemQuantity === 0) {
+                if (item.quantity === 0) {
                     itemList.splice(objIndex, 1);
                 }
                 else {
-                    itemList[objIndex].itemQuantity = item.itemQuantity;
+                    itemList[objIndex].quantity = item.quantity;
                 }
             }
         }
     }, [item])
-
-    // const generateOrderCode = () => {
-    //     var result = "";
-    //     var characters = "0123456789";
-    //     var charactersLength = characters.length;
-    //     for (var i = 0; i < 5; i++) {
-    //       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    //     }
-    //     return result;
-    //   }
-
-
 
     if (loading)
         return (<div>Loading...</div>);
@@ -137,33 +127,16 @@ const Menu = () => {
             alert("No items have been added. Add items to place an order.")
         }
         else {
-            // let newCodeGenerated = false;
-            // let randomOrderCode = generateOrderCode();
-            // while (!newCodeGenerated) {
-            //     const foundCode = checkIfCodeExists(randomOrderCode);
-
-            //     if (foundCode) {
-            //         randomOrderCode = generateOrderCode();
-
-            //     }
-            //     else {
-            //         newCodeGenerated = true;
-            //     }
-            // }
-
-            let orderCode = Math.max(...orderCodes)+1;
-            setOrderCodes(orderCodes => [...orderCodes, orderCode]);
-
             createOrders({
                 variables: {
-                    createOrderEmail: "kunal.viper99@gmail.com",
-                    createOrderOrderId: orderCode,
-                    createOrderTotalCost: totalCost,
-                    createOrderItemStatus: "Order Received",
-                    createOrderPaymentMode: order.paymentMode,
-                    createOrderItemList: itemList,
-                    createOrderPaymentStatus: order.paymentStatus
-                }
+                    addOrderOrderCode: "-",
+                    addOrderOrderStatus: "OrderReceived",
+                    addOrderItems: itemList,
+                    addOrderStoreId: "612ce82e79045644d4ea287f",
+                    addOrderTotalCost: totalCost,
+                    addOrderPaymentMode: order.paymentMode,
+                    addOrderPaymentStatus: order.paymentStatus
+            }
             })
             alert("Your order has been placed successfully.");
         }
@@ -171,7 +144,7 @@ const Menu = () => {
     
     const checkout = () => {
         let cost = 0;
-        itemList.map(item => cost = cost + (item.itemCost * item.itemQuantity));
+        itemList.map(item => cost = cost + (item.price * item.quantity));
         setTotalCost(cost)
         setOpenPopup(true);
     }
