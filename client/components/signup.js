@@ -84,7 +84,7 @@ export default function Signup() {
 alert("User has been registered successfully.")
 router.push({
     pathname: '/selectstore',
-    query: { emai: email },
+    query: { email: email },
 })
     }
 const backHomePage = (e) => {
