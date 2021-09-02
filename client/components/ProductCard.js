@@ -76,11 +76,11 @@ const ProductCard = ({ product, setItem }) => {
         }
     }
 
-    itemCard["itemName"] = product.name
-    itemCard["itemCost"] = product.price
+    itemCard["name"] = product.name
+    itemCard["price"] = product.price
 
     const updateOrder = () => {
-        itemCard["itemQuantity"] = quantity;
+        itemCard["quantity"] = quantity;
         setItemCard({ ...itemCard });
         setItem(itemCard);
     }
