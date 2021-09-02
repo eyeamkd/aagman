@@ -14,6 +14,18 @@ query Query {
   }
 
 `
+
+export const GET_USERS_STORES_FROM_EMAIL=gql`
+query Query($getUserStoreIdEmail: String!) {
+  getUserStoreId(email: $getUserStoreIdEmail) {
+    stores {
+      id
+      name
+    }
+  }
+}
+`
+
 export const GET_USER_BY_CODE=gql`
 query Query($userExistsEmail: String!) {
   userExists(email: $userExistsEmail) {

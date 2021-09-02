@@ -9,6 +9,10 @@ module.exports= {
     Query: {
         users:() => User.find(),
         user:(parent, {id}) => User.findById(id),
+        getUserStoreId:(_,{email})=>{
+             const user=User.findOne({email:email});
+             return user.populate("stores")  
+        },
         checkIfUserExists:(_,{email}) => User.exists({ email: email }),
         checkIfOtpMatches: async (_, {email, otp}) => {
             const user = await User.findOne({ email: email });

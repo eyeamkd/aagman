@@ -12,7 +12,8 @@ module.exports= {
                     path:"items"
                 }
             });
-         }
+         },
+         getCategoryByMenuId:(_,{menuId})=>Menu.findById(menuId).populate("categories")
     },
 
     Mutation: {

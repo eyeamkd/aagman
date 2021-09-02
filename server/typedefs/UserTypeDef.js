@@ -8,6 +8,21 @@ type Query {
     checkIfUserExists(email: String!): Boolean!
     checkIfOtpMatches(email: String!
                       otp: String!): Boolean!
+    getUserStoreId(email:String!):UserStoreId!
+}
+
+type UserStoreId{
+    stores:[UserStore!]
+}
+
+type UserStore{
+    id:ID!
+    name:String!
+}
+
+type StoreNameId{
+    id:ID!
+    name:String!
 }
 
 type User {

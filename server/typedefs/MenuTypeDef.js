@@ -6,6 +6,16 @@ type Query {
     menus: [Menu!]!
     menu(id: ID!): Menu!
     displayMenu(menuId:ID!):Menu!
+    getCategoryByMenuId(menuId:ID!):CategoryMenu
+}
+
+type CategoryMenu{
+    categories:[CategoryName]
+}
+
+type CategoryName{
+    id:ID!
+    name:String!
 }
 
 type Menu {
