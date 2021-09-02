@@ -22,6 +22,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { DISPLAY_MENU } from '../GraphQL/Queries/MenuQueries';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
+import {ADD_ITEM} from '../GraphQL/Mutations/ItemMutation';
 
 
 function preventDefault(event) {
@@ -103,11 +104,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuTable() {
     const classes = useStyles();
-    const [categories, setCategories] = useState([]);
+    
     const [items, setItems] = useState([]);
     const [openPopup, setOpenPopup] = useState(false)
     const [recordForEdit, setRecordForEdit] = useState(null)
-    const { data, loading, error } = useQuery(DISPLAY_MENU,
+    const [addItemsMenu] = useMutation(ADD_ITEM);
+    const { data, loading, error,refetch } = useQuery(DISPLAY_MENU,
         {
             variables: {
                 displayMenuMenuId: "612e2c129748de1394a1ee42"
@@ -120,14 +122,29 @@ export default function MenuTable() {
 
     const addOrEdit = (item, resetForm) => {
         if (item.id === "") {
-            let menuItem = {
-                name: item.name,
-                description: item.description,
-                status: item.status,
-                cost: item.cost,
-                category: item.category
-            }
-            setItems(items => [...items, menuItem])
+            // let menuItem = {
+            //     name: item.name,
+            //     description: item.description,
+            //     status: item.status,
+            //     cost: item.cost,
+            //     category: item.category
+            // }
+            // setItems(items => [...items, menuItem])
+            console.log(item.category)
+            addItemsMenu({
+                
+                variables: {
+                    createItemName: item.name,
+                    createItemDescription: item.description,
+                    createItemAvailability: item.status,
+                    createItemType: "Veg",
+                    createItemPrice: parseFloat(item.cost),
+                    createItemRating: 2,
+                    createItemBestSeller: "Yes",
+                    createItemPhoto: "0",
+                    createItemCategoryId: item.category
+                }
+            }).then(refetch)
         }
         else {
             menuService.updateMenu(item)
@@ -273,8 +290,8 @@ export default function MenuTable() {
                 recordForEdit={recordForEdit}
                 setRecordForEdit={setRecordForEdit}
                 addOrEdit={addOrEdit}
-                categories={categories}
-                setCategories={setCategories}
+               
+              
             />
         </React.Fragment>
     );

@@ -12,7 +12,8 @@ import Container from '@material-ui/core/Container';
 import CategoryIcon from '@material-ui/icons/Category';
 import CloseIcon from '@material-ui/icons/Close';
 import { Grid } from '@material-ui/core';
-import {ADD_CATEGORY} from '../GraphQL/Mutations/CategoryMutation'
+import { useMutation } from '@apollo/client';
+
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {

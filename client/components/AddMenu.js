@@ -15,8 +15,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { AddCategory } from './AddCategory';
-import {GET_CATEGORIES} from '../GraphQL/Queries/UsersQueries';
-import {ADD_ITEM} from '../GraphQL/Mutations/ItemMutation';
+import { useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import {GET_CATEGORIES} from '../GraphQL/Queries/CategoriesQueries';
+import {ADD_CATEGORY} from '../GraphQL/Mutations/CategoryMutation'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +70,15 @@ const useStyles = makeStyles((theme) => ({
 export const AddMenu = (props) => {
     const classes = useStyles();
     const [openCategoryPopup, setOpenCategoryPopup] = useState(false)
-    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit, categories, setCategories } = props;
+    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit } = props;
+    const { data, loading, error ,refetch} = useQuery(GET_CATEGORIES,
+        {
+            variables: {
+                getCategoryByMenuIdMenuId: "612e2c129748de1394a1ee42"
+            }
+        });
+    const [addCategoryMenu] = useMutation(ADD_CATEGORY);
+    
 
     const initialFValues = {
         id: '',
@@ -111,10 +121,24 @@ export const AddMenu = (props) => {
     }
     
     const addCategory = (item, resetForm) => {
-        setCategories(categories => [...categories, {"id": item.id , "name": item.name}])
+      //  setCategories(categories => [...categories, {"id": item.id , "name": item.name}])
+      addCategoryMenu({
+        variables: {
+            createCategoryMenuId: "612e2c129748de1394a1ee42",
+            createCategoryName: item.name,
+            
+        }
+    }).then(refetch)
         resetForm()
         setOpenCategoryPopup(false)
     }
+
+    if (loading)
+    return (<div>Loading...</div>);
+
+if (error)
+    return (<div>Error! ${error.message}</div>);
+    const categories = Object.values(data)[0].categories;
 
     return (
         <>
@@ -177,8 +201,8 @@ export const AddMenu = (props) => {
                                             label="Status"
                                         >
                                             <option aria-label="None" value="" />
-                                            <option value={"Available"}>Available</option>
-                                            <option value={"Unavailable"}>Unavailable</option>
+                                            <option value={"InStock"}>Available</option>
+                                            <option value={"OutOfStock"}>Unavailable</option>
                                         </Select>
                                     </FormControl>
                                     <TextField
@@ -205,7 +229,7 @@ export const AddMenu = (props) => {
                                         >
                                             <option aria-label="None" value="" />
                                         {categories.map((category, index) =>
-                                            <option key={index} value={category.name}>{category.name}</option>
+                                            <option key={index} value={category.id}>{category.name}</option>
                                         )}
                                         </Select>
                                         <Button color="primary" onClick={() => { setOpenCategoryPopup(true) }}>Add Category (If not already existing.)</Button>
