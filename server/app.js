@@ -36,7 +36,7 @@ const server = async () => {
 
   try {
 
-    await mongoose.connect("mongodb+srv://greeta123:greeta123@aagman-cluster.coau9.mongodb.net/Aagman?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+    await mongoose.connect(process.env.CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log(mongoose.connection.readyState);
   } catch (err) {
     console.log(err)
