@@ -18,7 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { DISPLAY_MENU } from '../GraphQL/Queries/MenuQueries';
+import { GET_MENU } from '../GraphQL/Queries/MenuQueries';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { ADD_ITEM } from '../GraphQL/Mutations/ItemMutation';
@@ -139,10 +139,10 @@ export default function MenuTable({ storeId }) {
     const [openPopup, setOpenPopup] = useState(false)
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [addItemsMenu] = useMutation(ADD_ITEM);
-    const { data, loading, error, refetch } = useQuery(DISPLAY_MENU,
+    const { data, loading, error, refetch } = useQuery(GET_MENU,
         {
             variables: {
-                displayMenuMenuId: "612e2c129748de1394a1ee42"
+                getMenuStoreId: storeId
             }
         });
     const openInPopup = item => {
@@ -154,7 +154,7 @@ export default function MenuTable({ storeId }) {
     const createItemsFunction = async () => {
 
         try {
-            setQrCode(await QRCode.toDataURL("https://aagman.herokuapp.com/menu?menuId=" + "612e2c129748de1394a1ee42"));
+            setQrCode(await QRCode.toDataURL("https://aagman-client.herokuapp.com/menu?menuId=" + menuId));
             setImageUrl(qrCode);
         }
         catch (error) {
@@ -241,8 +241,9 @@ export default function MenuTable({ storeId }) {
     if (error)
         return (<div>Error! ${error.message}</div>);
 
-    const productCards = Object.values(data);
-    console.log(productCards);
+    const menu = Object.values(data)[0].menu;
+    const categories=menu.categories;
+    const menuId=menu.id;
 
     return (
         <React.Fragment>
@@ -289,8 +290,8 @@ export default function MenuTable({ storeId }) {
             <div className={classes.menuTable}>
                 <Table size="small">
                     <TableBody>
-                        {productCards.map(value =>
-                            value.categories.map(category =>
+                      
+                            {categories.map(category =>
                                 <div key={category.id} className={classes.categoryTable}>
                                     <TableCell className={[classes.tableCell, classes.bolderFont]} >{category.name}</TableCell>
                                     <TableCell>
@@ -327,7 +328,7 @@ export default function MenuTable({ storeId }) {
                                         }
                                     </TableCell>
                                 </div>
-                            ))}
+                            )}
 
                     </TableBody>
                 </Table>
@@ -339,7 +340,7 @@ export default function MenuTable({ storeId }) {
                 recordForEdit={recordForEdit}
                 setRecordForEdit={setRecordForEdit}
                 addOrEdit={addOrEdit}
-
+                menuId={menuId}
 
             />
             <div className={classes.generateQr}>

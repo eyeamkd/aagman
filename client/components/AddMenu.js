@@ -70,14 +70,14 @@ const useStyles = makeStyles((theme) => ({
 export const AddMenu = (props) => {
     const classes = useStyles();
     const [openCategoryPopup, setOpenCategoryPopup] = useState(false)
-    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit } = props;
+    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit,menuId } = props;
     const [availabilityStatusTypes, setAvailabilityStatusTypes] = useState(["InStock", "OutOfStock"]);
     const [types, setTypes] = useState(["Veg", "NonVeg", "Egg", "NonEdible"]);
     const [choices, setChoices] = useState(["Yes", "No"]);
     const { data, loading, error, refetch } = useQuery(GET_CATEGORIES,
         {
             variables: {
-                getCategoryByMenuIdMenuId: "612e2c129748de1394a1ee42"
+                getCategoryByMenuIdMenuId: menuId
             }
         });
     const [addCategoryMenu] = useMutation(ADD_CATEGORY);

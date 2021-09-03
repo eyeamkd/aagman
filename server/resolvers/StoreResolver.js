@@ -12,8 +12,18 @@ module.exports= {
                     path:"bill"
                 }
             });
-         }
+         },
+         getMenu:(_,{storeId})=>Store.findById(storeId).populate({
+             path:"menu",
+             populate:{
+                 path:"categories",
+                 populate:{
+                     path:"items"
+                 }
+             }
+         })
     },
+    
 
     Mutation: {
         

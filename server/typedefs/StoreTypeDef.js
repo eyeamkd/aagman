@@ -6,6 +6,12 @@ type Query {
     stores: [Store!]!
     store(id: ID!): Store!
     ordersDashboard(storeId:ID!):Store!
+    getMenu(storeId:ID!):StoreMenu!
+}
+
+type StoreMenu{
+    id:ID!
+    menu:Menu!
 }
 
 type Store {
