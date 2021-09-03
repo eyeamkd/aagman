@@ -99,7 +99,10 @@ const useStyles = makeStyles((theme) => ({
     },
     menuItem: {
         backgroundColor: "#83c3f7"
-    }
+    },
+    tableCell: {
+        width: 200
+      }
 }));
 
 export default function MenuTable() {
@@ -249,23 +252,23 @@ export default function MenuTable() {
                         {productCards.map(value =>
                             value.categories.map(category =>
                                 <div>
-                                <TableCell>{category.name}</TableCell>
+                                <TableCell  className={classes.tableCell} >{category.name}</TableCell>
                                 <TableCell>
                                     <TableHead>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell>Cost</TableCell>
+                            <TableCell  className={classes.tableCell} >Name</TableCell>
+                            <TableCell  className={classes.tableCell} >Description</TableCell>
+                            <TableCell  className={classes.tableCell} >Status</TableCell>
+                            <TableCell  className={classes.tableCell} >Cost</TableCell>
                             <TableCell align="right">Modify/Delete</TableCell>
                         </TableRow>
                     </TableHead>
                                 {category.items.map((row) =>(
                                     <TableRow key={row.id}>
-                                        <TableCell>{row.name}</TableCell>
-                                        <TableCell>{row.description}</TableCell>
-                                        <TableCell>{row.availability}</TableCell>
-                                        <TableCell>₹{row.price}</TableCell>
+                                        <TableCell  className={classes.tableCell} >{row.name}</TableCell>
+                                        <TableCell  className={classes.tableCell} >{row.description}</TableCell>
+                                        <TableCell  className={classes.tableCell} >{row.availability}</TableCell>
+                                        <TableCell  className={classes.tableCell} >₹{row.price}</TableCell>
                                         <TableCell align="right">
                                             <IconButton aria-label="edit" onClick={() => { openInPopup(row) }} color="inherit">
                                                 <EditIcon fontSize="small" />
