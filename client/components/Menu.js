@@ -9,7 +9,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { AddMenu } from './AddMenu';
-import { ADD_MENU_ITEMS } from "../GraphQL/Mutations/MenuMutation";
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
@@ -22,8 +21,9 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { DISPLAY_MENU } from '../GraphQL/Queries/MenuQueries';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
-import {ADD_ITEM} from '../GraphQL/Mutations/ItemMutation';
-
+import { ADD_ITEM } from '../GraphQL/Mutations/ItemMutation';
+import QRCode from 'qrcode';
+import Button from '@material-ui/core/Button';
 
 function preventDefault(event) {
     event.preventDefault();
@@ -102,17 +102,37 @@ const useStyles = makeStyles((theme) => ({
     },
     tableCell: {
         width: 200
-      }
+    },
+    generateQr: {
+        margin: "10px",
+        padding: "10px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        textAlign: "center"
+    },
+    buttons:{
+        textAlign: "center"
+    },
+    button: {
+        margin: theme.spacing(2, 0, 1),
+        backgroundColor: "#0596f5",
+        color: "#ffffff",
+        padding: "10px",
+        borderRadius: "40px",
+        textAlign: "center",
+        width: "fit-content"
+    }
 }));
 
 export default function MenuTable() {
     const classes = useStyles();
-    
+
     const [items, setItems] = useState([]);
     const [openPopup, setOpenPopup] = useState(false)
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [addItemsMenu] = useMutation(ADD_ITEM);
-    const { data, loading, error,refetch } = useQuery(DISPLAY_MENU,
+    const { data, loading, error, refetch } = useQuery(DISPLAY_MENU,
         {
             variables: {
                 displayMenuMenuId: "612e2c129748de1394a1ee42"
@@ -121,6 +141,20 @@ export default function MenuTable() {
     const openInPopup = item => {
         setRecordForEdit(item)
         setOpenPopup(true)
+    }
+    const [qrCode, setQrCode] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
+    const createItemsFunction = async () => {
+
+        try {
+            setQrCode(await QRCode.toDataURL("https://aagman.herokuapp.com/menu?menuId=" + "612e2c129748de1394a1ee42"));
+            setImageUrl(qrCode);
+        }
+        catch (error) {
+            console.log(error);
+        }
+
+
     }
 
     const addOrEdit = (item, resetForm) => {
@@ -135,7 +169,7 @@ export default function MenuTable() {
             // setItems(items => [...items, menuItem])
             console.log(item.category)
             addItemsMenu({
-                
+
                 variables: {
                     createItemName: item.name,
                     createItemDescription: item.description,
@@ -247,42 +281,42 @@ export default function MenuTable() {
             </div>
             <div className={classes.menuTable}>
                 <Table size="small">
-                    
+
                     <TableBody>
                         {productCards.map(value =>
                             value.categories.map(category =>
                                 <div>
-                                <TableCell  className={classes.tableCell} >{category.name}</TableCell>
-                                <TableCell>
-                                    <TableHead>
-                        <TableRow>
-                            <TableCell  className={classes.tableCell} >Name</TableCell>
-                            <TableCell  className={classes.tableCell} >Description</TableCell>
-                            <TableCell  className={classes.tableCell} >Status</TableCell>
-                            <TableCell  className={classes.tableCell} >Cost</TableCell>
-                            <TableCell align="right">Modify/Delete</TableCell>
-                        </TableRow>
-                    </TableHead>
-                                {category.items.map((row) =>(
-                                    <TableRow key={row.id}>
-                                        <TableCell  className={classes.tableCell} >{row.name}</TableCell>
-                                        <TableCell  className={classes.tableCell} >{row.description}</TableCell>
-                                        <TableCell  className={classes.tableCell} >{row.availability}</TableCell>
-                                        <TableCell  className={classes.tableCell} >₹{row.price}</TableCell>
-                                        <TableCell align="right">
-                                            <IconButton aria-label="edit" onClick={() => { openInPopup(row) }} color="inherit">
-                                                <EditIcon fontSize="small" />
-                                            </IconButton>
-                                            <IconButton aria-label="delete" onClick={() => deleteItem(row.id)} color="inherit">
-                                                <DeleteIcon fontSize="small" />
-                                            </IconButton></TableCell>
-                                    </TableRow>
-                                ))
-                                }
-                                </TableCell>
+                                    <TableCell className={classes.tableCell} >{category.name}</TableCell>
+                                    <TableCell>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell className={classes.tableCell} >Name</TableCell>
+                                                <TableCell className={classes.tableCell} >Description</TableCell>
+                                                <TableCell className={classes.tableCell} >Status</TableCell>
+                                                <TableCell className={classes.tableCell} >Cost</TableCell>
+                                                <TableCell align="right">Modify/Delete</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        {category.items.map((row) => (
+                                            <TableRow key={row.id}>
+                                                <TableCell className={classes.tableCell} >{row.name}</TableCell>
+                                                <TableCell className={classes.tableCell} >{row.description}</TableCell>
+                                                <TableCell className={classes.tableCell} >{row.availability}</TableCell>
+                                                <TableCell className={classes.tableCell} >₹{row.price}</TableCell>
+                                                <TableCell align="right">
+                                                    <IconButton aria-label="edit" onClick={() => { openInPopup(row) }} color="inherit">
+                                                        <EditIcon fontSize="small" />
+                                                    </IconButton>
+                                                    <IconButton aria-label="delete" onClick={() => deleteItem(row.id)} color="inherit">
+                                                        <DeleteIcon fontSize="small" />
+                                                    </IconButton></TableCell>
+                                            </TableRow>
+                                        ))
+                                        }
+                                    </TableCell>
                                 </div>
-                                ))}
-                                
+                            ))}
+
                     </TableBody>
                 </Table>
             </div>
@@ -293,9 +327,22 @@ export default function MenuTable() {
                 recordForEdit={recordForEdit}
                 setRecordForEdit={setRecordForEdit}
                 addOrEdit={addOrEdit}
-               
-              
+
+
             />
+            <div className={classes.generateQr}>
+                <div className={classes.buttons}>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => createItemsFunction()}
+                        className={classes.button}
+                    >
+                        Generate QR Code
+                    </Button>
+                </div>
+                {qrCode ? (<a href={qrCode} download><img src={qrCode} alt="image" /></a>) : null}
+            </div>
         </React.Fragment>
     );
 }

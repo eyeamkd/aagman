@@ -73,7 +73,7 @@ export default function Home() {
       </Head>
 
       <motion.div animate={{
-        y: 50, y: -50,
+        y: 30, y: -30,
         transition: { yoyo: Infinity, duration: 1.5, },
 
       }}>
