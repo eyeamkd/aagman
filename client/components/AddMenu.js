@@ -143,12 +143,8 @@ export const AddMenu = (props) => {
         return (<div>Loading...</div>);
 
     if (error)
-<<<<<<< HEAD
         return (<div>Error! ${error.message}</div>);
-=======
-    return (<div>Error! ${error.message}</div>);
-    
->>>>>>> 06eb6a5375c1ca34f3a6988d54e5f4c999dd6544
+
     const categories = Object.values(data)[0].categories;
 
     return (
