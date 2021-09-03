@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         textAlign: "center"
     },
-    buttons:{
+    buttons: {
         textAlign: "center"
     },
     button: {
@@ -122,6 +122,13 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "40px",
         textAlign: "center",
         width: "fit-content"
+    },
+    bolderFont: {
+        fontWeight: 600
+    },
+    categoryTable:
+    {
+        margin: "10px 0"
     }
 }));
 
@@ -173,11 +180,11 @@ export default function MenuTable() {
                 variables: {
                     createItemName: item.name,
                     createItemDescription: item.description,
-                    createItemAvailability: item.status,
-                    createItemType: "Veg",
-                    createItemPrice: parseFloat(item.cost),
-                    createItemRating: 2,
-                    createItemBestSeller: "Yes",
+                    createItemAvailability: item.availability,
+                    createItemType: item.type,
+                    createItemPrice: parseFloat(item.price),
+                    createItemRating: parseFloat(item.rating),
+                    createItemBestSeller: item.bestSeller,
                     createItemPhoto: "0",
                     createItemCategoryId: item.category
                 }
@@ -281,20 +288,22 @@ export default function MenuTable() {
             </div>
             <div className={classes.menuTable}>
                 <Table size="small">
-
                     <TableBody>
                         {productCards.map(value =>
                             value.categories.map(category =>
-                                <div>
-                                    <TableCell className={classes.tableCell} >{category.name}</TableCell>
+                                <div key={category.id} className={classes.categoryTable}>
+                                    <TableCell className={[classes.tableCell, classes.bolderFont]} >{category.name}</TableCell>
                                     <TableCell>
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell className={classes.tableCell} >Name</TableCell>
-                                                <TableCell className={classes.tableCell} >Description</TableCell>
-                                                <TableCell className={classes.tableCell} >Status</TableCell>
-                                                <TableCell className={classes.tableCell} >Cost</TableCell>
-                                                <TableCell align="right">Modify/Delete</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Name</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Description</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Availability</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Type</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Price</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Rating</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Best Seller</TableCell>
+                                                <TableCell align="right" className={[classes.tableCell, classes.bolderFont]}>Modify/Delete</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         {category.items.map((row) => (
@@ -302,7 +311,10 @@ export default function MenuTable() {
                                                 <TableCell className={classes.tableCell} >{row.name}</TableCell>
                                                 <TableCell className={classes.tableCell} >{row.description}</TableCell>
                                                 <TableCell className={classes.tableCell} >{row.availability}</TableCell>
+                                                <TableCell className={classes.tableCell} >{row.type}</TableCell>
                                                 <TableCell className={classes.tableCell} >₹{row.price}</TableCell>
+                                                <TableCell className={classes.tableCell} >{row.rating}</TableCell>
+                                                <TableCell className={classes.tableCell} >{row.bestSeller}</TableCell>
                                                 <TableCell align="right">
                                                     <IconButton aria-label="edit" onClick={() => { openInPopup(row) }} color="inherit">
                                                         <EditIcon fontSize="small" />
