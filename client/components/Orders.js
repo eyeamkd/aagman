@@ -84,11 +84,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Orders(props) {
+export default function Orders({ storeId }) {
   const { data, loading, error } = useQuery(GET_STORE_MENU_ITEMS,
     {
       variables: {
-        ordersDashboardStoreId: props.storeId
+        ordersDashboardStoreId: storeId
       }
     })
 

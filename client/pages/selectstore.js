@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -16,6 +16,7 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import { GET_USERS_STORES_FROM_EMAIL } from '../GraphQL/Queries/UsersQueries'
 import { useQuery } from '@apollo/client';
+import { StoreContext } from '../src/StoreContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,6 +65,8 @@ const SelectStore = () => {
     const [email, setEmail] = useState("");
     const { query } = useRouter();
 
+    const { setStoreIdGlobal } = useContext(StoreContext); 
+
     const { data, loading, error } = useQuery(GET_USERS_STORES_FROM_EMAIL,
         {
             variables: {
@@ -83,15 +86,13 @@ const SelectStore = () => {
     const handleSubmit = e => {
         e.preventDefault()
 
-        router.push({
-            pathname: '/orders',
-            query: { storeId: storeId },
-        })
+        router.push('/orders')
 
     }
 
     const handleInputChange = e => {
-        setStoreId(e.target.value)
+        setStoreId(e.target.value);
+        setStoreIdGlobal(e.target.value);
     }
 
     return (

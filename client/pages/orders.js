@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext} from 'react'
 import Dashboard from '../components/Dashboard'
 import Orders from '../components/Orders'
-import { useRouter } from 'next/router'
 import Head from 'next/head'
+import { StoreContext } from '../src/StoreContext'
 
 const StoreOrders = () => {
-    const [storeId, setStoreId] = useState("");
-    const { query } = useRouter();
 
-    useEffect(() => {
-        console.log("This is the store id received.", query.storeId);
-        setStoreId(query.storeId);
-    }, [])
+    const { storeIdGlobal } = useContext(StoreContext); 
 
     return (
         <>
@@ -19,7 +14,7 @@ const StoreOrders = () => {
                 <title>Orders</title>
             </Head>
             <Dashboard>
-                {<Orders storeId={storeId} />}
+                {<Orders storeId={storeIdGlobal} />}
             </Dashboard>
         </>
     )

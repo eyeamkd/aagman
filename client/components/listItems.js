@@ -10,19 +10,19 @@ import router from 'next/router';
 
 export const mainListItems = (
   <div>
-    <ListItem button onClick={() => router.push('/orders?email=kunal.viper99%40gmail.com')}>
+    <ListItem button onClick={() => router.push('/orders')}>
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="Orders" />
     </ListItem>
-    <ListItem button onClick={() => router.push('/revenue?email=kunal.viper99%40gmail.com')}>
+    <ListItem button onClick={() => router.push('/revenue')}>
       <ListItemIcon>
         <AccountBalanceWalletIcon />
       </ListItemIcon>
       <ListItemText primary="Total Revenue" />
     </ListItem>
-    <ListItem button onClick={() => router.push('/menuitems?email=kunal.viper99%40gmail.com')}>
+    <ListItem button onClick={() => router.push('/menuitems')}>
       <ListItemIcon>
         <MenuBookIcon />
       </ListItemIcon>

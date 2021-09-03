@@ -36,8 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Deposits() {
-
+export default function Deposits({ storeId }) {
     const classes = useStyles();
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);

@@ -132,7 +132,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function MenuTable() {
+export default function MenuTable({ storeId }) {
     const classes = useStyles();
 
     const [items, setItems] = useState([]);
