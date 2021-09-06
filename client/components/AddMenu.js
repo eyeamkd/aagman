@@ -130,7 +130,7 @@ export const AddMenu = (props) => {
         //  setCategories(categories => [...categories, {"id": item.id , "name": item.name}])
         addCategoryMenu({
             variables: {
-                createCategoryMenuId: "612e2c129748de1394a1ee42",
+                createCategoryMenuId: menuId,
                 createCategoryName: item.name,
 
             }
