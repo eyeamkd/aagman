@@ -10,7 +10,7 @@ type Query {
 type Revenue {
     id: ID! 
     totalIncome: Float! 
-    bill: [Bill]!  
+    orders: [Order]!  
     store: Store! 
 }
 

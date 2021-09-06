@@ -1,6 +1,6 @@
 const Order=require("./../models/Order");
 const Store=require("./../models/Store");
-
+const Revenue =require("./../models/Revenue");
 const Bill=require("./../models/Bill");
 
 module.exports= {
@@ -40,6 +40,20 @@ module.exports= {
             orders.bill=bills
             await orders.save()
             await bills.save()
+
+            //Add Orders To revenue
+
+            Store.findById(storeId).then(result=>{
+                console.log(result)
+                return result.revenue
+            }).then(revenueId=>{
+                console.log(revenueId)
+                return Revenue.findById(revenueId)
+            }).then(revenue=>{
+                revenue.orders.push(orders);
+                revenue.save();
+            })
+
             return "Order Added";
         }
 
