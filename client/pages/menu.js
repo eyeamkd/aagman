@@ -65,13 +65,11 @@ const Menu = () => {
     const [itemList, setItemList] = useState([]);
     const [item, setItem] = useState({});
     const classes = useStyles();
+    const router = useRouter();
     const { query } = useRouter();
     const [value, setValue] = useState(0);
-    const [menuId, setmenuId] = useState("");
     const [paymentModes, setPaymentModes] = useState(["Cash", "CreditCard", "UPI", "DebitCard", "Check", "NetBanking"])
     const [paymentStatusTypes, setPaymentStatusTypes] = useState(["Paid", "NotPaid"])
-    const [orderStatusTypes, setOrderStatustypes] = useState(["Order", "Received", "Preparing", "Completed"])
-    const [orderCodes, setOrderCodes] = useState([1, 2, 3, 4])
     const { data, loading, error } = useQuery(DISPLAY_MENU,
         {
             variables: {
@@ -126,8 +124,9 @@ const Menu = () => {
 
     const verifyOrder = (order, resetForm) => {
         placeOrder(order);
-        resetForm()
-        setOpenPopup(false)
+        resetForm();
+        setOpenPopup(false);
+        router.push('/orderstatus');
     }
 
     const placeOrder = (order) => {

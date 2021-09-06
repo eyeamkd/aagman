@@ -93,6 +93,7 @@ const SelectStore = () => {
     const handleInputChange = e => {
         setStoreId(e.target.value);
         setStoreIdGlobal(e.target.value);
+        localStorage.setItem("storeId", e.target.value);
     }
 
     return (

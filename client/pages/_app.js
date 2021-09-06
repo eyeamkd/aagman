@@ -35,6 +35,7 @@ export default function MyApp(props) {
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
+    setStoreIdGlobal(localStorage.getItem("storeId"));
   }, []);
 
   let globalTheme = responsiveFontSizes(theme);
