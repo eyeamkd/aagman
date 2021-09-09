@@ -1,5 +1,6 @@
 const mongoose =require("mongoose");
 const Float = require('mongoose-float').loadType(mongoose);
+const GraphQLDateTime=require('graphql-iso-date');
 
 module.exports = mongoose.model("Order", { 
  
@@ -11,6 +12,7 @@ module.exports = mongoose.model("Order", {
     store: {type:mongoose.Schema.Types.ObjectId,
             ref:"Store"},               //Object 
     bill : {type:mongoose.Schema.Types.ObjectId,
-            ref:"Bill"}
+            ref:"Bill"},
+     dateAndTime:{type:GraphQLDateTime,timestamp:true}
 })
 

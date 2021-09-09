@@ -9,6 +9,7 @@ module.exports = mongoose.model("Item", {
     availability : {type:String,
                     enum:["InStock","OutOfStock"],
                     default:"InStock"},  //enum                
+
     type: {type:String,
                   enum:["Veg","NonVeg","Egg","NonEdible"],
                   default:"Veg"},   //enum                       
@@ -17,5 +18,5 @@ module.exports = mongoose.model("Item", {
     bestSeller : {type:String,
                   enum:["Yes","No"],
                   default:"No"},    //enum         
-    photo: String
+    photo:String //{ data: Buffer, contentType: String }
 })
