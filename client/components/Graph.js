@@ -3,6 +3,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
 import Typography from '@material-ui/core/Typography';
+import * as moment from 'moment';
 
 
 
@@ -23,7 +24,7 @@ export default function Graph(props) {
             left: 16,
           }}
         >
-          <XAxis dataKey={xAxisDataKey}  stroke={theme.palette.text.secondary} />
+          <XAxis dataKey={xAxisDataKey}   stroke={theme.palette.text.secondary} />
           <YAxis stroke={theme.palette.text.secondary}>
             <Label
               angle={270}
@@ -33,7 +34,7 @@ export default function Graph(props) {
             {yAxisLabel}
             </Label>
           </YAxis>
-          <Line type="monotone" dataKey={yAxisDataKey} stroke={theme.palette.primary.main} dot={false} />
+          <Line type="monotone" dataKey={yAxisDataKey} stroke={theme.palette.primary.main} dot={true} />
         </LineChart>
                 </ResponsiveContainer>
       

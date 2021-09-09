@@ -7,6 +7,12 @@ type Query {
     store(id: ID!): Store!
     ordersDashboard(storeId:ID!):Store!
     getMenu(storeId:ID!):StoreMenu!
+    getRevenue(storeId:ID!):StoreRevenue!
+}
+
+type StoreRevenue{
+    id:ID!
+    revenue:Revenue!
 }
 
 type StoreMenu{
@@ -28,6 +34,16 @@ type Store {
 
 type Mutation{
     createStore(name:String!,userId:ID!): String!
+    addStore(storeName:String!,
+        country:String! ,
+        state:String!,
+        city:String! ,
+        area:String!,
+        landMark:String!,
+        openTime:String!,
+        closeTime:String!,
+        statusTime:statusTiming!,
+        userId:ID!):String!
 }
 
 

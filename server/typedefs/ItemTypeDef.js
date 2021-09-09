@@ -1,7 +1,7 @@
 const {gql}=require("apollo-server-express");
 
 module.exports= gql`
-
+scalar Upload
 type Query {
     items: [Item!]!
     item(id: ID!): Item!
@@ -16,7 +16,7 @@ type Item {
     price : Float!
     rating : Float! 
     bestSeller : BestSellerItem!            
-    photo: String! 
+    photo: String 
 }
 
 enum ItemAvailability{

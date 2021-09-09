@@ -5,13 +5,12 @@ export const BestSellerCard=(props)=>{
     const { itemName,category,price,numberOfOrders } = props;
     return (
         <>
-        <Typography component="p" variant="h3">
+        <Typography component="p" variant="h4">
                     {itemName}
                 </Typography>
                 <Typography component="p" variant="h5">
-                    Category:{category}<br/>
-                    Price:{price}<br/>
-                    Number Of Orders:{numberOfOrders}<br/>
+                    Price: <b>{price}</b><br/>
+                    Number Of Orders: <b>{numberOfOrders}</b><br/>
                     </Typography>
         </>
     )

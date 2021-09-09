@@ -144,7 +144,8 @@ const Menu = () => {
                     addOrderStoreId: storeId,
                     addOrderTotalCost: totalCost,
                     addOrderPaymentMode: order.paymentMode,
-                    addOrderPaymentStatus: order.paymentStatus
+                    addOrderPaymentStatus: "NotPaid",
+                    addOrderDateAndTime:new Date()
                 }
             })
             alert("Your order has been placed successfully.");

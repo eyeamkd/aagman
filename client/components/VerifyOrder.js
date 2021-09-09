@@ -121,6 +121,7 @@ export const VerifyOrder = (props) => {
                             <Avatar className={classes.avatar}>
                                 <ShoppingCartIcon />
                             </Avatar>
+                            <br/>
                             <Title>Your Order</Title>
                             <Table size="small">
                                 <TableHead>
@@ -140,9 +141,11 @@ export const VerifyOrder = (props) => {
                                     ))}
                                 </TableBody>
                             </Table>
+                            <br/>
                             <Typography component="h2" variant="h5" style={{ fontWeight: "500" }}>
                                Total Cost = ₹ {totalCost}
                             </Typography>
+                            <br/>
                             <form className={classes.form} noValidate onSubmit={handleSubmit}>
                                 <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="paymentMode" autoFocus>
                                     <InputLabel htmlFor="paymentMode">Payment Mode</InputLabel>
@@ -156,21 +159,6 @@ export const VerifyOrder = (props) => {
                                         <option aria-label="None" value="" />
                                         {paymentModes.map((paymentMode, index) =>
                                             <option key={index} value={paymentMode}>{paymentMode}</option>
-                                        )}
-                                    </Select>
-                                </FormControl>
-                                <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="paymentStatus" autoFocus>
-                                    <InputLabel htmlFor="paymentStatus">Payment Status</InputLabel>
-                                    <Select
-                                        native
-                                        name="paymentStatus"
-                                        value={item.paymentStatus}
-                                        onChange={handleInputChange}
-                                        label="Payment Status"
-                                    >
-                                        <option aria-label="None" value="" />
-                                        {paymentStatusTypes.map((paymentStatus, index) =>
-                                            <option key={index} value={paymentStatus}>{paymentStatus}</option>
                                         )}
                                     </Select>
                                 </FormControl>

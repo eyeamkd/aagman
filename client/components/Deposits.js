@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,8 +10,11 @@ import clsx from 'clsx';
 import {RevenueCard} from './RevenueCard';
 import {BestSellerCard} from './BestSellerCard';
 import { useTheme } from '@material-ui/core/styles';
-import { ArgumentAxis, ValueAxis, Chart,  BarSeries,} from '@devexpress/dx-react-chart-material-ui';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import {Chart,PieSeries,Title,} from '@devexpress/dx-react-chart-material-ui';
+import { LineChart, Line, XAxis, YAxis, Label} from 'recharts';
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import {GET_REVENUE} from '../GraphQL/Queries/StoreQueries';
+import { useQuery } from '@apollo/client';
 
 
 function preventDefault(event) {
@@ -29,30 +32,32 @@ const useStyles = makeStyles((theme) => ({
         
     },
     grid:{
-        display:"inline-flex",
+        display:"flex",
         
 
     },
     data: {
         margin: "7px",
-        paddingTop:"20px",
-        width:"350px",
+        display:"flex",
+        padding:"20px",
         height:"200px",
-        textAlign:"center",
+        justifyContent:"center",
+        alignItems:"center",
         borderRadius: "20px",
        
     },
     bestSeller: {
         margin: "7px",
-        paddingTop:"20px",
-        width:"330px",
+        padding:"20px",
+        display:"flex",
         height:"250px",
-        textAlign:"center",
+        justifyContent:"center",
+        alignItems:"center",
         borderRadius: "20px",
        
     },
     graphs:{
-        display:"inline-flex",
+        display:"flex",
     },
     paper: {
         borderRadius: "20px",
@@ -75,95 +80,101 @@ const useStyles = makeStyles((theme) => ({
         borderRadius:"20px"
     },
     barGraph:{
-        width:"500px",
-        height:"550px",
-        margin: "7px",
+        width:"450px",
+        height:"350px",
+       
     }
 }));
-function weekOrder(day, orders) {
-    return { day, orders };
-  }
 
-const weeklyOrder = [
-    weekOrder('Sun', 49),
-    weekOrder('Mon', 3),
-    weekOrder('Tue', 21),
-    weekOrder('Wed',34),
-    weekOrder('Thur', 32),
-    weekOrder('Fri', 50),
-    weekOrder('Sat', 55),
-  
-  ];
+const weekCount=[
+    {day:'Sun',revenueCount:0,orderCount:0,label:0},
+    {day:'Mon',revenueCount:0,orderCount:0,label:1},
+    {day:'Tue',revenueCount:0,orderCount:0,label:2},
+    {day:'Wed',revenueCount:0,orderCount:0,label:3},
+    {day:'Thur',revenueCount:0,orderCount:0,label:4},
+    {day:'Fri',revenueCount:0,orderCount:0,label:5},
+    {day:'Sat',revenueCount:0,orderCount:0,label:6}]
 
-  function weekRevenue(day, revenue) {
-    return { day, revenue };
-  }
+const yearCount=[
+    {month:"Jan",revenueCount:0,orderCount:0,label:0},
+    {month:"Feb",revenueCount:0,orderCount:0,label:1},
+    {month:"Mar",revenueCount:0,orderCount:0,label:2},
+    {month:"Apr",revenueCount:0,orderCount:0,label:3},
+    {month:"May",revenueCount:0,orderCount:0,label:4},
+    {month:"Jun",revenueCount:0,orderCount:0,label:5},
+    {month:"Jul",revenueCount:0,orderCount:0,label:6},
+    {month:"Aug",revenueCount:0,orderCount:0,label:7},
+    {month:"Sep",revenueCount:0,orderCount:0,label:8},
+    {month:"Oct",revenueCount:0,orderCount:0,label:9},
+    {month:"Nov",revenueCount:0,orderCount:0,label:10},
+    {month:"Dec",revenueCount:0,orderCount:0,label:11},
+]
 
-const weeklyRevenue = [
-    weekRevenue('Sun', 1200),
-    weekRevenue('Mon', 200),
-    weekRevenue('Tue', 700),
-    weekRevenue('Wed',567),
-    weekRevenue('Thur', 829),
-    weekRevenue('Fri', 900),
-    weekRevenue('Sat', 1300),
-  
-  ];
-  function monthRevenue(month, revenue) {
-    return { month, revenue };
-  }
 
-const monthlyRevenue = [
-    monthRevenue('Jan', 12200),
-    monthRevenue('Feb', 4500),
-    monthRevenue('Mar', 9000),
-    monthRevenue('Apr',8967),
-    monthRevenue('May', 3829),
-    monthRevenue('Jun', 3900),
-    monthRevenue('Jul', 15300),
-    monthRevenue('Aug', 12300),
-    monthRevenue('Sep', 14300),
-    monthRevenue('Oct', 1300),
-    monthRevenue('Nov', 10300),
-    monthRevenue('Dec', 9300),
-  
-  ];
-
-  function monthOrder(month, orders) {
-    return { month, orders };
-  }
-
-const monthlyOrder = [
-    monthOrder('Jan', 100),
-    monthOrder('Feb', 300),
-    monthOrder('Mar', 900),
-    monthOrder('Apr',897),
-    monthOrder('May', 329),
-    monthOrder('Jun', 900),
-    monthOrder('Jul', 5300),
-    monthOrder('Aug', 1300),
-    monthOrder('Sep', 1400),
-    monthOrder('Oct', 300),
-    monthOrder('Nov', 1030),
-    monthOrder('Dec', 900),
-  
-  ];
-
+const COLORS = ["#4792c9","#0072b0","#6190e6", "#3f66da", "#85c9ea", "#002263"];
   const paymentMode = [
-    { payment: 'Cash', value: 30 },
-    { payment: 'Credit Card', value: 20 },
-    { payment: 'UPI', value: 10 },
-    { payment: 'Debit Card', value: 50 },
-    { payment: 'Check', value: 60 },
-    { payment: 'Net Banking', value: 40 },
+    { payment: 'Cash', value: 0 },
+    { payment: 'CreditCard', value: 0 },
+    { payment: 'UPI', value: 0 },
+    { payment: 'DebitCard', value: 0 },
+    { payment: 'Check', value: 0},
+    { payment: 'NetBanking', value: 0 },
   ];
+  const renderCustomizedLabel = ({
+    x, y, payment
+  }) => {
+    return (
+      <text x={x} y={y} fill="black" >
+        {payment}
+      </text>
+    );
+  };
 
 export default function Deposits({ storeId }) {
     const classes = useStyles();
     const theme = useTheme();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const { data, loading, error, refetch } = useQuery(GET_REVENUE,
+        {
+            variables: {
+                getRevenueStoreId: "6135b25836aacd3f48beedc9"
+            },
+            pollInterval:2000
+        });
+    
+        let todaysOrders=0
+            let todaysRevenue=0
 
-   
+            if (loading)
+            return (<div>Loading...</div>);
+    
+        if (error)
+            return (<div>Error! ${error.message}</div>);
+           let revenue = Object.values(data)[0].revenue;
+           let orders=revenue.orders
+            
+            let d=new Date()
+            for(let i=0;i<orders.length;i++){
+                if(d.setHours(0,0,0,0) == new Date(orders[i].dateAndTime).setHours(0,0,0,0)){
+                  todaysOrders+=1
+                  todaysRevenue+=orders[i].bill.totalCost
+                }
+
+                let mode=orders[i].bill.paymentMode
+                let obj1=paymentMode.find(o=>o.payment==mode)
+                obj1.value+=1
+
+                let day=(new Date(orders[i].dateAndTime)).getDay()
+                let obj=weekCount.find(o=>o.label==day)
+                obj.revenueCount+=orders[i].bill.totalCost
+                obj.orderCount+=1
+
+                let month=(new Date(orders[i].dateAndTime)).getMonth()
+                obj=yearCount.find(o=>o.label==month)
+                obj.revenueCount+=orders[i].bill.totalCost
+                obj.orderCount+=1 
+            }
+    
     return (
         <React.Fragment >
             <AppBar position="static" className={classes.appBar}>
@@ -177,20 +188,20 @@ export default function Deposits({ storeId }) {
             <Paper className={classes.data}>
             <RevenueCard
             heading="Total Revenue"
-                  content="₹1000"
+                  content={"₹"+revenue.totalIncome}
                   />
             </Paper>
             <Paper className={classes.data}>
                 
             <RevenueCard
             heading="Today's Revenue"
-                  content="₹100"
+                  content={"₹"+todaysRevenue}
                   />
            </Paper>
             <Paper className={classes.data}>
                     <RevenueCard
             heading="Today's Total Orders"
-                  content=" 7"
+                  content={todaysOrders}
                   />
             </Paper>
             </div>
@@ -204,18 +215,19 @@ export default function Deposits({ storeId }) {
                 <Graph
                   heading="Revenue"
                   yAxisLabel="Revenue"
-                  data={weeklyRevenue}
+                  data={weekCount}
                   xAxisDataKey="day"
-                  yAxisDataKey="revenue"
+                  yAxisDataKey="revenueCount"
                   />
                 </Paper>
                 <Paper className={classes.graph}>
                   <Graph
                   heading="Order"
                   yAxisLabel="Orders"
-                  data={weeklyOrder}
+                  data={weekCount}
                   xAxisDataKey="day"
-                  yAxisDataKey="orders"
+                  yAxisDataKey="orderCount"
+                  
                   />
                 </Paper>
                 </div>
@@ -226,18 +238,20 @@ export default function Deposits({ storeId }) {
                 <Graph
                   heading="Revenue"
                   yAxisLabel="Revenue"
-                  data={monthlyRevenue}
+                  data={yearCount}
                   xAxisDataKey="month"
-                  yAxisDataKey="revenue"
+                  yAxisDataKey="revenueCount"
+              
                   />
                 </Paper>
                 <Paper className={classes.graph}>
                   <Graph
                   heading="Order"
                   yAxisLabel="Orders"
-                  data={monthlyOrder}
+                  data={yearCount}
                   xAxisDataKey="month"
-                  yAxisDataKey="orders"
+                  yAxisDataKey="orderCount"
+            
                   />
                 </Paper>
                 </div>
@@ -271,22 +285,20 @@ export default function Deposits({ storeId }) {
             </div>
             <br/><br/>
             <Paper className={classes.barGraph}>
-            
-            <Typography variant="h4">Payment Modes</Typography>
-            <Chart
-               data={paymentMode}
-               margin={{
-                top: 16,
-                right: 16,
-                bottom: 35,
-                left: 16,
-              }}
-            >
-            
-            <ArgumentAxis />
-            <ValueAxis />
-            <BarSeries valueField="value" argumentField="payment" />
-            </Chart>
+            <PieChart width={400} height={400}>
+          <Pie
+            data={paymentMode}
+            labelLine={false}
+            label={renderCustomizedLabel}
+            outerRadius={100}
+
+            dataKey="value"
+          >
+            {paymentMode.map((entry, index) => (
+              <Cell key={`cell-${index}`}  fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+        </PieChart>
             </Paper>
             </Grid>
             </Grid>
