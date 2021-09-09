@@ -41,6 +41,16 @@ type Mutation{
                bestSeller:BestSellerItem!,
                photo:String!,
                categoryId:ID! ):String!
+    updateItem(name:String!,
+               description:String!,
+               availability:ItemAvailability!,
+               type:Type!,
+               price:Float!,
+               rating:Float!,
+               bestSeller:BestSellerItem!,
+               photo:String!,
+               itemId:ID!):String!
+    deleteItem(itemId:ID!,categoryId:ID!):String!
 }
 
 
