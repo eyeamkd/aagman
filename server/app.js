@@ -14,21 +14,22 @@ const TypeDef = ResolverTypeDefModule.typedef
 const LocationResolvers = require("./resolvers/LocationResolver");
 const LocationTypeDef = require("./typedefs/LocationTypeDef");
 const endpoint = 'http://localhost:5000/graphql';
+const {PubSub}=require("graphql-subscriptions");
 const client = new GraphQLClient(endpoint, {
   credentials: 'include',
   mode: 'cors'
 });
 
 const PORT = process.env.PORT || 5000;
-
+const pubsub=new PubSub()
 const server = async () => {
   const app = express();
   app.use(express.json());
   app.use(cors());
   const server = new ApolloServer({
     typeDefs: [TypeDef],
-
-    resolvers: Resolver
+    resolvers: Resolver,
+    context:{pubsub}
   })
 
   await server.start()
