@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from 'react'
+import React, { useContext } from 'react'
 import Dashboard from '../components/Dashboard'
 import Orders from '../components/Orders'
 import Head from 'next/head'

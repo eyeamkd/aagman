@@ -101,7 +101,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#83c3f7"
     },
     tableCell: {
-        width: 200
+        width: 200,
+        borderWidth: "thin", 
+        borderColor: '#D3D3D3',
+        borderStyle: 'solid'
     },
     generateQr: {
         margin: "10px",
@@ -293,7 +296,7 @@ export default function MenuTable({ storeId }) {
                       
                             {categories.map(category =>
                                 <div key={category.id} className={classes.categoryTable}>
-                                    <TableCell className={[classes.tableCell, classes.bolderFont]} >{category.name}</TableCell>
+                                    <TableCell className={classes.bolderFont} >{category.name}</TableCell>
                                     <TableCell>
                                         <TableHead>
                                             <TableRow>
@@ -316,7 +319,7 @@ export default function MenuTable({ storeId }) {
                                                 <TableCell className={classes.tableCell} >₹{row.price}</TableCell>
                                                 <TableCell className={classes.tableCell} >{row.rating}</TableCell>
                                                 <TableCell className={classes.tableCell} >{row.bestSeller}</TableCell>
-                                                <TableCell align="right">
+                                                <TableCell className={classes.tableCell} align="right">
                                                     <IconButton aria-label="edit" onClick={() => { openInPopup(row) }} color="inherit">
                                                         <EditIcon fontSize="small" />
                                                     </IconButton>
