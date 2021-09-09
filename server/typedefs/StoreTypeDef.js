@@ -32,6 +32,10 @@ type Store {
     revenue: Revenue!
 }
 
+type Subscription{
+    getRevenue(storeId:ID!):StoreRevenue!
+}
+
 type Mutation{
     createStore(name:String!,userId:ID!): String!
     addStore(storeName:String!,

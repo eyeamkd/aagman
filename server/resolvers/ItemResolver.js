@@ -38,6 +38,26 @@ module.exports= {
                 return category.save()
             });
             return "Item Created";
+        },
+        updateItem:async(_,{name,description,availability,type,price,rating,bestSeller,photo,itemId})=>{
+            const item=await Item.findByIdAndUpdate(itemId,{name:name,
+                                                            description:description,
+                                                            availability:availability,
+                                                            type:type,
+                                                            price:price,
+                                                            rating:rating,
+                                                            bestSeller:bestSeller,
+                                                            photo:photo},{new:true})
+            item.save()
+            return "Item Updated";
+        },
+        deleteItem:async(_,{itemId,categoryId})=>{
+            Category.findById(categoryId).then(result=>{
+                result.items.pop(itemId)
+                result.save()
+            })
+            await Item.findByIdAndDelete(itemId);
+            return "Item Deleted";
         }
 
     }

@@ -1,8 +1,11 @@
+import { subscribe } from "graphql";
+
 const Order=require("./../models/Order");
 const Store=require("./../models/Store");
 const Revenue =require("./../models/Revenue");
 const Bill=require("./../models/Bill");
 const GraphQLDateTime=require('graphql-iso-date');
+const Subcribe=require("./Subscribe");
 
 module.exports= {
     Query: {
@@ -45,17 +48,15 @@ module.exports= {
             //Add Orders To revenue
 
             Store.findById(storeId).then(result=>{
-                console.log(result)
                 return result.revenue
             }).then(revenueId=>{
-                console.log(revenueId)
                 return Revenue.findById(revenueId)
             }).then(revenue=>{
                 revenue.totalIncome=revenue.totalIncome+totalCost
                 revenue.orders.push(orders);
                 revenue.save();
             })
-
+            Subcribe.subscribers.forEach(fn=>fn())
             return "Order Added";
         },
         updateOrderStatus:async(_,{orderId,orderStatus})=>{

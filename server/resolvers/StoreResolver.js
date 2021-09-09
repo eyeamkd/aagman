@@ -4,6 +4,8 @@ const Locations=require("./../models/Location");
 const Menu=require("./../models/Menu");
 const Revenue=require("./../models/Revenue");
 const Timing=require("./../models/Timing");
+const Subcribe=require("./Subscribe");
+
 
 
 module.exports= {
@@ -89,5 +91,15 @@ module.exports= {
             return "Store Added"
                           }
 
+    },
+    Subscription:{
+        getRevenue:{
+            subscribe:(parent,args,{pubsub})=>{
+             const channel=Math.random().toString(36).slice(2,15);
+             Subcribe.onMessageUpdates(()=>pubsub.publish(channel,{getRevenue}));
+             setTimeout(()=>pubsub.publish(channel,{getRevenue}),0);
+             return pubsub.asyncIterator(channel);
+            }
+        }
     }
 }
