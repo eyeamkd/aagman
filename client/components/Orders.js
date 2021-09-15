@@ -103,12 +103,23 @@ export default function Orders({ storeId }) {
   const menuId = 'status-menu';
 
   const [moreAnchorEl, setMoreAnchorEl] = useState(null);
+  const [orderId,setOrderId]=useState("")
 
   const isMenuOpen = Boolean(moreAnchorEl);
 
   const handleMenuClose = () => {
       setMoreAnchorEl(null);
   };
+
+  const setOrdersItems=(id)=>{
+     setOrderId(id);
+     console.log(orderId)
+  }
+
+  const changeStatus=(status)=>{
+    console.log(status);
+    console.log(orderId);
+  }
 
   const handleMenuOpen = (event) => {
       setMoreAnchorEl(event.currentTarget);
@@ -129,9 +140,8 @@ export default function Orders({ storeId }) {
     return (<div>Error! ${error.message}</div>);
 
   else {
-    console.log(data)
     const orders = Object.values(data)[0].orders
-    console.log(orders);
+    console.log(orders)
     return (
       <React.Fragment>
         <div className={classes.root}>
@@ -206,7 +216,7 @@ export default function Orders({ storeId }) {
                     aria-label="show more"
                     aria-controls={menuId}
                     aria-haspopup="true"
-                    onClick={handleMenuOpen}
+                    onClick={function(event){handleMenuOpen(event);setOrdersItems(row.id)}}
                     color="inherit"
                   >
                     <MoreIcon />
@@ -224,9 +234,9 @@ export default function Orders({ storeId }) {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem color="inherit" className={classes.menuItem}>
+            <MenuItem color="inherit"   className={classes.menuItem}>
                 <IconButton aria-label="OrderReceived">
-                    <CallReceivedIcon />
+                    <CallReceivedIcon  />
                 </IconButton>
                 <p>OrderReceived</p>
             </MenuItem>
@@ -236,7 +246,7 @@ export default function Orders({ storeId }) {
                 </IconButton>
                 <p>Preparing</p>
             </MenuItem>
-            <MenuItem color="inherit" className={classes.menuItem}>
+            <MenuItem color="inherit"  className={classes.menuItem}>
                 <IconButton aria-label="Completed">
                     <DoneIcon />
                 </IconButton>

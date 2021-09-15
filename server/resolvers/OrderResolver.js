@@ -11,6 +11,7 @@ module.exports= {
     Query: {
         orders:() => Order.find(),
         order:(parent, {id}) => Order.findById(id),
+        getOrder:(parent,{orderId})=>Order.findById(orderId).populate("bill store")
         
     },
 
@@ -57,7 +58,7 @@ module.exports= {
                 revenue.save();
             })
             Subcribe.subscribers.forEach(fn=>fn())
-            return "Order Added";
+            return orders;
         },
         updateOrderStatus:async(_,{orderId,orderStatus})=>{
             const order=await Order.findByIdAndUpdate(orderId,{orderStatus:orderStatus},{new:true})

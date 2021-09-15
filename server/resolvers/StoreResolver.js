@@ -4,6 +4,7 @@ const Locations=require("./../models/Location");
 const Menu=require("./../models/Menu");
 const Revenue=require("./../models/Revenue");
 const Timing=require("./../models/Timing");
+const Feedback=require("./../models/Feedback");
 const Subcribe=require("./Subscribe");
 
 
@@ -37,6 +38,9 @@ module.exports= {
                      path:"bill"
                  }
              }
+         }),
+         getUserId:(_,{storeId})=>Store.findById(storeId).populate({
+             path:"owner"
          })
     },
     
@@ -64,7 +68,7 @@ module.exports= {
                           statusTime,
                           userId})=>{
 
-            const store = new Store({ name:storeName, owner:userId});
+            const store = new Store({ name:storeName, owner:userId,rating:0});
             User.findById(userId).then(result=>{
                       result.stores.push(store)
                       result.save()
@@ -86,6 +90,10 @@ module.exports= {
             const timings = new Timing({ openTime,closeTime,status:statusTime});
             store.timings=timings;
             await timings.save();
+            
+            const feedback=new Feedback({orderServiceRating:0,deliveryServiceRating:0,comments:[]});
+            store.feedback=feedback
+            await feedback.save()
            
             await store.save();
             return "Store Added"

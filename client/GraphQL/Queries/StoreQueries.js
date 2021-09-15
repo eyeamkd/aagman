@@ -24,10 +24,20 @@ query Query($getRevenueStoreId: ID!) {
   }
 }`
 
+export const GET_USER_ID=gql`
+query Query($getUserIdStoreId: ID!) {
+  getUserId(storeId: $getUserIdStoreId) {
+    owner {
+      id
+    }
+  }
+}`
+
 export const GET_STORE_MENU_ITEMS=gql`
 query Query($ordersDashboardStoreId: ID!) {
   ordersDashboard(storeId: $ordersDashboardStoreId) {
     orders {
+      id
       orderCode
       orderStatus
       itemsList {

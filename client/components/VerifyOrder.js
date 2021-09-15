@@ -20,6 +20,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import Title from './Title';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import red from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {
@@ -64,11 +65,17 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: "5px 0"
+    },
+    error:{
+        fontWeight:"fontWeightBold",
+        color:"#ff0000",
+
     }
 }));
 
 export const VerifyOrder = (props) => {
     const classes = useStyles();
+    const [paymentMode,setPaymentMode]=useState(false)
     const { title, openPopup, setOpenPopup, verifyOrder, itemList, paymentModes, paymentStatusTypes, totalCost } = props;
     const initialFValues = {
         id: '',
@@ -93,7 +100,11 @@ export const VerifyOrder = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault()
-
+        if(item.paymentMode==""){
+           setPaymentMode(true)
+            return;
+        }
+        setPaymentMode(false)
         verifyOrder(item, resetForm);
 
     }
@@ -162,6 +173,7 @@ export const VerifyOrder = (props) => {
                                         )}
                                     </Select>
                                 </FormControl>
+                                {paymentMode&&<Typography className={classes.error}>Please Provide Payment Mode</Typography>}
                                 <Grid container spacing={2} direction="item" justifyContent="center" alignItems="center">
                                     <Grid container xs={12} sm={6} justifyContent="center" alignItems="center">
                                         <Button

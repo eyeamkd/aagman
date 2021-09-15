@@ -8,7 +8,7 @@ module.exports = mongoose.model("Order", {
     orderStatus : {type:String,
                    enum:["OrderReceived", "Preparing" , "Completed"],
                    default:"OrderReceived"},   //enum          
-    itemsList : [{name:String,quantity:Number,price:Float}],     //Object Array
+    itemsList : [{name:String,quantity:Number,price:Float,itemId:String}],     //Object Array
     store: {type:mongoose.Schema.Types.ObjectId,
             ref:"Store"},               //Object 
     bill : {type:mongoose.Schema.Types.ObjectId,
