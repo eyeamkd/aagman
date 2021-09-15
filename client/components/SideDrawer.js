@@ -45,7 +45,6 @@ export default function TemporaryDrawer({ children }) {
     if (error) return `Error! ${error.message}`;
 
     const menu = Object.values(data);
-    console.log(menu);
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (

@@ -7,6 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { useQuery } from '@apollo/client';
 import { GET_USER_BY_CODE } from '../GraphQL/Queries/UsersQueries';
 import { GET_STORE_MENU_ITEMS } from '../GraphQL/Queries/StoreQueries';
+import {UPDATE_ORDER_STATUS} from '../GraphQL/Mutations/OrdersMutation'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -20,6 +21,7 @@ import CallReceivedIcon from '@material-ui/icons/CallReceived';
 import MenuItem from '@material-ui/core/MenuItem';
 import DoneIcon from '@material-ui/icons/Done';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
+import { useMutation } from '@apollo/client';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -104,6 +106,8 @@ export default function Orders({ storeId }) {
 
   const [moreAnchorEl, setMoreAnchorEl] = useState(null);
   const [orderId,setOrderId]=useState("")
+  const [updateOrderStatus] = useMutation(UPDATE_ORDER_STATUS);
+
 
   const isMenuOpen = Boolean(moreAnchorEl);
 
@@ -116,21 +120,28 @@ export default function Orders({ storeId }) {
      console.log(orderId)
   }
 
-  const changeStatus=(status)=>{
-    console.log(status);
-    console.log(orderId);
-  }
+
+
 
   const handleMenuOpen = (event) => {
       setMoreAnchorEl(event.currentTarget);
   };
 
-  const { data, loading, error } = useQuery(GET_STORE_MENU_ITEMS,
+  const { data, loading, error,refetch } = useQuery(GET_STORE_MENU_ITEMS,
     {
       variables: {
         ordersDashboardStoreId: storeId
       }
     })
+    const changeOrderStatus=(status)=>{
+      updateOrderStatus({
+        variables: {
+          updateOrderStatusOrderId: orderId,
+          updateOrderStatusOrderStatus:status
+        }
+    }).then(refetch)
+      console.log(status,orderId)
+    }
 
   const classes = useStyles();
   if (loading)
@@ -141,7 +152,6 @@ export default function Orders({ storeId }) {
 
   else {
     const orders = Object.values(data)[0].orders
-    console.log(orders)
     return (
       <React.Fragment>
         <div className={classes.root}>
@@ -234,19 +244,19 @@ export default function Orders({ storeId }) {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem color="inherit"   className={classes.menuItem}>
+            <MenuItem color="inherit" onClick={()=>changeOrderStatus("OrderReceived")}   className={classes.menuItem}>
                 <IconButton aria-label="OrderReceived">
                     <CallReceivedIcon  />
                 </IconButton>
                 <p>OrderReceived</p>
             </MenuItem>
-            <MenuItem color="inherit" className={classes.menuItem}>
+            <MenuItem color="inherit" onClick={()=>changeOrderStatus("Preparing")} className={classes.menuItem}>
                 <IconButton aria-label="Preparing">
                     <DonutLargeIcon />
                 </IconButton>
                 <p>Preparing</p>
             </MenuItem>
-            <MenuItem color="inherit"  className={classes.menuItem}>
+            <MenuItem color="inherit" onClick={()=>changeOrderStatus("Completed")}  className={classes.menuItem}>
                 <IconButton aria-label="Completed">
                     <DoneIcon />
                 </IconButton>

@@ -119,6 +119,7 @@ const useStyles = makeStyles((theme) => ({
   };
 
 export default function Deposits({ storeId, userEmail }) {
+    console.log(storeId,userEmail)
     const classes = useStyles();
     const theme = useTheme();
     const [storeIdentification,setStoreIdentification]=useState(storeId)
@@ -190,7 +191,9 @@ export default function Deposits({ storeId, userEmail }) {
     
         if (error)
             return (<div>Error! ${error.message}</div>);
+            console.log(data)
            let revenue = Object.values(data)[0].revenue;
+           
            let orders=revenue.orders
             let arr=[]
             let d=new Date()
@@ -236,7 +239,7 @@ export default function Deposits({ storeId, userEmail }) {
             for(var k=0;k<paymentMode.length;k++){
                 if(paymentMode[k].value==0){
                     paymentMode.pop(paymentMode[k])
-                    k-=1
+                    k=0;
                 }
             }
             
@@ -275,14 +278,14 @@ export default function Deposits({ storeId, userEmail }) {
             <Box boxShadow={10} className={classes.data}>
             <RevenueCard
             heading="Total Revenue"
-                  content={"₹"+revenue.totalIncome}
+                  content={"₹"+Math.round(revenue.totalIncome)}
                   />
             </Box>
             <Box boxShadow={10} className={classes.data}>
                 
             <RevenueCard
             heading="Today's Revenue"
-                  content={"₹"+todaysRevenue}
+                  content={"₹"+Math.round(todaysRevenue)}
                   />
            </Box>
             <Box boxShadow={10} className={classes.data}>

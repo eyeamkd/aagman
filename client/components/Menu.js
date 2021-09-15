@@ -24,6 +24,7 @@ import { useQuery } from '@apollo/client';
 import { ADD_ITEM,UPDATE_ITEM,DELETE_ITEM } from '../GraphQL/Mutations/ItemMutation';
 import QRCode from 'qrcode';
 import Button from '@material-ui/core/Button';
+import Image from 'next/image';
 
 function preventDefault(event) {
     event.preventDefault();
@@ -382,7 +383,7 @@ export default function MenuTable({ storeId }) {
                         Generate QR Code
                     </Button>
                 </div>
-                {qrCode ? (<a href={qrCode} download><img src={qrCode} alt="image" /></a>) : null}
+                {qrCode ? (<a href={qrCode} download><Image src={qrCode} alt="image" width={150} height={150}/></a>) : null}
             </div>
         </React.Fragment>
     );

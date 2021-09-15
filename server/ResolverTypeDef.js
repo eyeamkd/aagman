@@ -9,6 +9,8 @@ const ItemResolvers = require("./resolvers/ItemResolver");
 const OrderResolvers = require("./resolvers/OrderResolver");
 const BillResolvers = require("./resolvers/BillResolver");
 const FeedbackResolvers=require("./resolvers/FeedbackResolver");
+const DeviceResolvers = require("./resolvers/DeviceResolver");
+const NotificationResolvers = require("./resolvers/NotificationResolver");
 
 
 
@@ -23,8 +25,8 @@ const ItemTypeDef = require("./typedefs/ItemTypeDef");
 const OrderTypeDef = require("./typedefs/OrderTypeDef");
 const BillTypeDef = require("./typedefs/BillTypeDef");
 const FeedbackTypeDef=require("./typedefs/FeedbackTypeDef");
-
-
+const DeviceTypeDef = require("./typedefs/DeviceTypeDef");
+const NotificationTypeDef = require("./typedefs/NotificationTypeDef");
 const GMR = require('graphql-merge-resolvers');
 
 const TypeDef= [ LocationTypeDef,
@@ -38,8 +40,9 @@ const TypeDef= [ LocationTypeDef,
                  ItemTypeDef,
                  OrderTypeDef,
                  BillTypeDef,
-                 FeedbackTypeDef
-             
+                 FeedbackTypeDef,
+                 DeviceTypeDef,
+                 NotificationTypeDef,
                 ]
 
 
@@ -54,8 +57,9 @@ const Resolver= GMR.merge([LocationResolvers,
                            ItemResolvers,
                            OrderResolvers,
                            BillResolvers,
-                           FeedbackResolvers
-                         
+                           FeedbackResolvers,
+                           DeviceResolvers,
+                           NotificationResolvers,
                         ])
 exports.resolver=Resolver
 exports.typedef=TypeDef

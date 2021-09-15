@@ -1,4 +1,4 @@
-import React, { useState, useEffect , useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -14,9 +14,10 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import { GET_USERS_STORES_FROM_EMAIL } from '../GraphQL/Queries/UsersQueries'
+import { GET_USERS_STORES_FROM_EMAIL, GET_USER_FROM_EMAIL } from '../GraphQL/Queries/UsersQueries'
 import { useQuery } from '@apollo/client';
 import { StoreContext } from '../src/StoreContext';
+import { firebaseCloudMessaging } from "../utils/webPush";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,7 +63,6 @@ const SelectStore = () => {
 
     const router = useRouter();
 
-    const [email, setEmail] = useState("");
     const { query } = useRouter();
 
     const { setStoreIdGlobal,setUserEmailGlobal } = useContext(StoreContext); 
@@ -78,6 +78,16 @@ const SelectStore = () => {
             localStorage.setItem("emailId",query.email);
             setUserEmailGlobal(query.email);
     },[])
+    const { data: userData, loading: userDataLoading, error: userDataError } = useQuery(GET_USER_FROM_EMAIL,
+        {
+            variables: {
+                getUserByMailEmail: query.email
+            }
+        });
+    // useEffect(() => {
+    //     console.log("useEffect is called")
+    //     firebaseCloudMessaging.init();
+    // }, [])
 
     if (loading)
         return (<div>Loading...</div>);
@@ -86,7 +96,14 @@ const SelectStore = () => {
         return (<div>Error! ${error.message}</div>);
 
     const stores = Object.values(data)[0].stores
-    console.log(stores)
+
+    if (userDataLoading)
+        return (<div>Loading...</div>);
+
+    if (userDataError)
+        return (<div>Error! ${userDataError.message}</div>);
+
+    const user = Object.values(userData)[0];
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -99,6 +116,7 @@ const SelectStore = () => {
         setStoreId(e.target.value);
         setStoreIdGlobal(e.target.value);
         localStorage.setItem("storeId", e.target.value);
+        firebaseCloudMessaging.init(user.id);
     }
 
     return (

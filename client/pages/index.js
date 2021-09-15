@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import Head from 'next/head'
 import Image from 'next/image';
 import Link from 'next/link'
@@ -6,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import { subscribeUser } from '../src/subscription';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,6 +68,11 @@ export default function Home() {
       }
     },
   }
+
+  // useEffect(() => {
+  //  subscribeUser();
+  // }, [])
+
   return (
     <div className={classes.root}>
       <Head>

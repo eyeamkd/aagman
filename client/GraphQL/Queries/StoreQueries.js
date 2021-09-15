@@ -13,6 +13,7 @@ query Query($getRevenueStoreId: ID!) {
           name
           quantity
           price
+          itemId
         }
         bill {
           totalCost
