@@ -65,7 +65,7 @@ const SelectStore = () => {
 
     const { query } = useRouter();
 
-    const { setStoreIdGlobal } = useContext(StoreContext);
+    const { setStoreIdGlobal,setUserEmailGlobal } = useContext(StoreContext); 
 
     const { data, loading, error } = useQuery(GET_USERS_STORES_FROM_EMAIL,
         {
@@ -74,6 +74,10 @@ const SelectStore = () => {
             }
         });
 
+    useEffect(()=>{
+            localStorage.setItem("emailId",query.email);
+            setUserEmailGlobal(query.email);
+    },[])
     const { data: userData, loading: userDataLoading, error: userDataError } = useQuery(GET_USER_FROM_EMAIL,
         {
             variables: {
@@ -103,10 +107,10 @@ const SelectStore = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-
         router.push('/orders')
 
     }
+
 
     const handleInputChange = e => {
         setStoreId(e.target.value);

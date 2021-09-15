@@ -64,6 +64,7 @@ const Menu = () => {
     const [openPopup, setOpenPopup] = useState(false)
     const [totalCost, setTotalCost] = useState(0)
     const [itemList, setItemList] = useState([]);
+    let addOrderId=""
     const [item, setItem] = useState({});
     const classes = useStyles();
     const router = useRouter();
@@ -137,18 +138,21 @@ const Menu = () => {
     const tokens = Object.values(tokenData)[0];
 
     const verifyOrder = (order, resetForm) => {
-        placeOrder(order);
-        resetForm();
-        setOpenPopup(false);
-        router.push('/orderstatus');
-    }
-
-    const placeOrder = (order) => {
-        console.log(itemList);
         if (itemList.length === 0) {
             alert("No items have been added. Add items to place an order.")
         }
-        else {
+        else
+        {
+            placeOrder(order);
+            resetForm();
+
+        }
+        setOpenPopup(false);
+       
+    }
+
+    const placeOrder = (order) => {
+
             createOrders({
                 variables: {
                     addOrderOrderCode: 0,
@@ -157,14 +161,24 @@ const Menu = () => {
                     addOrderStoreId: storeId,
                     addOrderTotalCost: totalCost,
                     addOrderPaymentMode: order.paymentMode,
-                    addOrderPaymentStatus: order.paymentStatus
+                    addOrderPaymentStatus: "NotPaid",
+                    addOrderDateAndTime:new Date()
                 }
+            }).then(result=>{
+                console.log(Object.values(result)[0].addOrder.id)
+                addOrderId=Object.values(result)[0].addOrder.id
+                console.log(addOrderId)
+               
+                router.push({
+                 pathname: '/orderstatus',
+                 query: { orderId: addOrderId },
+             })
             })
             alert("Your order has been placed successfully.");
             if (tokens.length !== 0) {
                 axios.post('http://localhost:5000/orderedsuccessfully', { tokens });
             }
-        }
+        
     }
 
     const checkout = () => {

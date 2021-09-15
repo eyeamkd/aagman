@@ -130,12 +130,6 @@ export const AddStore = (props) => {
                                 <form className={classes.form} noValidate onSubmit={handleSubmit}>
                                     <TextField name="storeName" label="Store Name" variant="outlined" color="primary" margin="normal" required fullWidth type="text" autoFocus value={item.storeName} onChange={handleInputChange} />
 
-                                    <TextField name="phoneNumber" label="Phone Number" variant="outlined" color="primary" margin="normal" required fullWidth type="text" autoFocus value={item.phoneNumber} onChange={handleInputChange} />
-
-                                    <TextField name="gstNumber" label="GST Number" variant="outlined" color="primary" margin="normal" required fullWidth type="text" autoFocus value={item.gstNumber} onChange={handleInputChange} />
-
-                                    <TextField name="rating" label="Rating" variant="outlined" color="primary" margin="normal" required fullWidth type="text" autoFocus value={item.rating} onChange={handleInputChange} />
-
                                     <TextField name="area" label="Area" variant="outlined" color="primary" margin="normal" required fullWidth type="text" autoFocus value={item.area} onChange={handleInputChange} />
 
                                     <TextField name="landmark" label="Landmark" variant="outlined" color="primary" margin="normal" required fullWidth type="text" autoFocus value={item.landmark} onChange={handleInputChange} />

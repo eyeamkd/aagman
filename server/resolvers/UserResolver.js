@@ -4,6 +4,7 @@ const Locations=require("./../models/Location");
 const Menu=require("./../models/Menu");
 const Revenue=require("./../models/Revenue");
 const Timing=require("./../models/Timing");
+const Feedback=require("./../models/Feedback");
 
 module.exports= {
     Query: {
@@ -73,6 +74,10 @@ module.exports= {
             const timings = new Timing({ openTime,closeTime,status:statusTime});
             store.timings=timings;
             await timings.save();
+
+            const feedback=new Feedback({orderServiceRating:0,deliveryServiceRating:0,comments:[]});
+            store.feedback=feedback
+            await feedback.save()
            
             await store.save();
             return "User Created"

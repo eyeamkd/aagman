@@ -14,6 +14,7 @@ import { firebaseCloudMessaging } from "../utils/webPush";
 export default function MyApp(props) {
   const { Component, pageProps } = props;
   const [storeIdGlobal, setStoreIdGlobal] = useState("");
+  const [userEmailGlobal,setUserEmailGlobal]=useState("")
   const errorLink = onError(({ graphqlErrors, networkError }) => {
     if (graphqlErrors) {
       graphqlErrors.map(({ message, location, path }) => {
@@ -38,6 +39,7 @@ export default function MyApp(props) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
     setStoreIdGlobal(localStorage.getItem("storeId"));
+    setUserEmailGlobal(localStorage.getItem("emailId"));
   }, []);
 
   let globalTheme = responsiveFontSizes(theme);
@@ -63,7 +65,7 @@ export default function MyApp(props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <ApolloProvider client={client}>
-          <StoreContext.Provider value={{ storeIdGlobal, setStoreIdGlobal }}>
+          <StoreContext.Provider value={{ storeIdGlobal, setStoreIdGlobal ,userEmailGlobal,setUserEmailGlobal}}>
             <Component {...pageProps} />
           </StoreContext.Provider>
         </ApolloProvider>;

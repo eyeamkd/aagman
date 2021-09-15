@@ -7,6 +7,7 @@ query Query($displayMenuMenuId: ID!) {
     categories {
       name
       items {
+        id
         name
         description
         availability

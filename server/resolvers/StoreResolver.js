@@ -1,5 +1,13 @@
 const Store=require("./../models/Store");
 const User=require("./../models/user");
+const Locations=require("./../models/Location");
+const Menu=require("./../models/Menu");
+const Revenue=require("./../models/Revenue");
+const Timing=require("./../models/Timing");
+const Feedback=require("./../models/Feedback");
+const Subcribe=require("./Subscribe");
+
+
 
 module.exports= {
     Query: {
@@ -21,6 +29,18 @@ module.exports= {
                      path:"items"
                  }
              }
+         }),
+         getRevenue:(_,{storeId})=>Store.findById(storeId).populate({
+             path:"revenue",
+             populate:{
+                 path:"orders",
+                 populate:{
+                     path:"bill"
+                 }
+             }
+         }),
+         getUserId:(_,{storeId})=>Store.findById(storeId).populate({
+             path:"owner"
          })
     },
     
@@ -36,7 +56,58 @@ module.exports= {
                  return user.save()
             });
             return "Store Created";
-        }
+        },
+        addStore:async(_,{storeName,
+                          country ,
+                          state,
+                          city ,
+                          area,
+                          landMark,
+                          openTime,
+                          closeTime,
+                          statusTime,
+                          userId})=>{
 
+            const store = new Store({ name:storeName, owner:userId,rating:0});
+            User.findById(userId).then(result=>{
+                      result.stores.push(store)
+                      result.save()
+            });
+            
+            
+            const location = new Locations({  country , state, city , area, landMark });
+            store.address=location
+            await location.save();
+
+            const menu = new Menu({store:store.id});
+            store.menu=menu
+            await menu.save();
+
+            const revenue = new Revenue({totalIncome:0,store:store.id});
+            store.revenue=revenue;
+            await revenue.save();
+
+            const timings = new Timing({ openTime,closeTime,status:statusTime});
+            store.timings=timings;
+            await timings.save();
+            
+            const feedback=new Feedback({orderServiceRating:0,deliveryServiceRating:0,comments:[]});
+            store.feedback=feedback
+            await feedback.save()
+           
+            await store.save();
+            return "Store Added"
+                          }
+
+    },
+    Subscription:{
+        getRevenue:{
+            subscribe:(parent,args,{pubsub})=>{
+             const channel=Math.random().toString(36).slice(2,15);
+             Subcribe.onMessageUpdates(()=>pubsub.publish(channel,{getRevenue}));
+             setTimeout(()=>pubsub.publish(channel,{getRevenue}),0);
+             return pubsub.asyncIterator(channel);
+            }
+        }
     }
 }

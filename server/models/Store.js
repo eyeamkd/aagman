@@ -17,7 +17,9 @@ module.exports = mongoose.model("Store", {
     menu : {type:mongoose.Schema.Types.ObjectId,
             ref:"Menu"}  ,       //Object
     revenue: {type:mongoose.Schema.Types.ObjectId,
-              ref:"Revenue"}
+              ref:"Revenue"},
+    feedback:{type:mongoose.Schema.Types.ObjectId,
+               ref:"Feedback"}
 
 })
 
