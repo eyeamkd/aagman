@@ -129,9 +129,7 @@ export default function Orders({ storeId }) {
     return (<div>Error! ${error.message}</div>);
 
   else {
-    console.log(data)
     const orders = Object.values(data)[0].orders
-    console.log(orders);
     return (
       <React.Fragment>
         <div className={classes.root}>

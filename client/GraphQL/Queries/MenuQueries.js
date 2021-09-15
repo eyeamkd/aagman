@@ -53,3 +53,10 @@ export const GET_STORE_ID=gql`query Query($getStoreIdMenuId: ID!) {
     }
   }
 }`
+
+
+export const GET_TOKENS=gql`
+query Query($getTokenMenuId: ID!) {
+  getToken(menuId: $getTokenMenuId)
+}
+`

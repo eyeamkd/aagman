@@ -9,6 +9,7 @@ type Query {
     checkIfOtpMatches(email: String!
                       otp: String!): Boolean!
     getUserStoreId(email:String!):UserStoreId!
+    getUserByMail(email:String!): User
 }
 
 type UserStoreId{

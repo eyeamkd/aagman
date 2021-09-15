@@ -14,13 +14,14 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { DISPLAY_MENU, GET_STORE_ID } from '../GraphQL/Queries/MenuQueries';
+import { DISPLAY_MENU, GET_STORE_ID, GET_TOKENS } from '../GraphQL/Queries/MenuQueries';
 import { ADD_ORDERS } from '../GraphQL/Mutations/OrdersMutation';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import Head from 'next/head'
 import { VerifyOrder } from '../components/VerifyOrder';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -82,6 +83,12 @@ const Menu = () => {
                 getStoreIdMenuId: query.menuId
             }
         });
+    const { data: tokenData, loading: tokenDataLoading, error: tokenDataError } = useQuery(GET_TOKENS,
+        {
+            variables: {
+                getTokenMenuId: query.menuId
+            }
+        });
     const [createOrders] = useMutation(ADD_ORDERS);
 
     useEffect(() => {
@@ -110,7 +117,6 @@ const Menu = () => {
         return (<div>Error! ${error.message}</div>);
 
     const productCards = Object.values(data);
-    console.log(productCards);
 
     if (storeDataLoading)
         return (<div>Loading...</div>);
@@ -120,7 +126,15 @@ const Menu = () => {
 
     const store = Object.values(storeData)[0].store;
     const storeId = store.id;
-    const storeName= store.name;
+    const storeName = store.name;
+
+    if (tokenDataLoading)
+        return (<div>Loading...</div>);
+
+    if (tokenDataError)
+        return (<div>Error! ${tokenDataError.message}</div>);
+
+    const tokens = Object.values(tokenData)[0];
 
     const verifyOrder = (order, resetForm) => {
         placeOrder(order);
@@ -147,6 +161,9 @@ const Menu = () => {
                 }
             })
             alert("Your order has been placed successfully.");
+            if (tokens.length !== 0) {
+                axios.post('http://localhost:5000/orderedsuccessfully', { tokens });
+            }
         }
     }
 
@@ -157,75 +174,75 @@ const Menu = () => {
         setOpenPopup(true);
     }
 
-    return (
-        <>
-            <div className={classes.root}>
-                <Head>
-                    <title>Menu</title>
-                </Head>
-                <Header />
-                <StoreCover storeName={storeName}/>
-                <Container>
-                    <br />
-                    <Grid container spacing={1}>
-                        {productCards.map(value =>
-                            value.categories.map(category =>
-                                category.items.map((product) =>
-                                    (<ProductCard key={product.name} product={product} setItem={setItem} />)
+        return (
+            <>
+                <div className={classes.root}>
+                    <Head>
+                        <title>Menu</title>
+                    </Head>
+                    <Header />
+                    <StoreCover storeName={storeName} />
+                    <Container>
+                        <br />
+                        <Grid container spacing={1}>
+                            {productCards.map(value =>
+                                value.categories.map(category =>
+                                    category.items.map((product) =>
+                                        (<ProductCard key={product.name} product={product} setItem={setItem} />)
+                                    )
                                 )
-                            )
-                        )}
-                    </Grid>
-                    <div className={classes.navigateButtons}>
-                        <Grid container spacing={4}>
-                            <Grid item xs={12}>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    className={classes.button}
-                                    endIcon={<Icon>send</Icon>}
-                                    onClick={checkout}
-                                >
-                                    Proceed to checkout
-                                </Button>
-                            </Grid>
+                            )}
                         </Grid>
-                    </div>
-                    <BottomNavigation
-                        value={value}
-                        onChange={(event, newValue) => {
-                            setValue(newValue);
-                        }}
-                        showLabels
-                        className={classes.bottomNav}
-                    >
-                        <BottomNavigationAction icon={<HomeIcon />} />
-                        <BottomNavigationAction icon={<MenuIcon />} />
-                        <BottomNavigationAction icon={<PersonIcon />} />
-                        <BottomNavigationAction icon={<ArrowBackIosIcon />} />
-                    </BottomNavigation>
-                </Container>
-                <VerifyOrder
-                    title="Verify Order"
-                    openPopup={openPopup}
-                    setOpenPopup={setOpenPopup}
-                    verifyOrder={verifyOrder}
-                    itemList={itemList}
-                    paymentModes={paymentModes}
-                    paymentStatusTypes={paymentStatusTypes}
-                    totalCost={totalCost}
-                />
-            </div>
-            <Footer />
-        </>
-    );
-}
+                        <div className={classes.navigateButtons}>
+                            <Grid container spacing={4}>
+                                <Grid item xs={12}>
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        className={classes.button}
+                                        endIcon={<Icon>send</Icon>}
+                                        onClick={checkout}
+                                    >
+                                        Proceed to checkout
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </div>
+                        <BottomNavigation
+                            value={value}
+                            onChange={(event, newValue) => {
+                                setValue(newValue);
+                            }}
+                            showLabels
+                            className={classes.bottomNav}
+                        >
+                            <BottomNavigationAction icon={<HomeIcon />} />
+                            <BottomNavigationAction icon={<MenuIcon />} />
+                            <BottomNavigationAction icon={<PersonIcon />} />
+                            <BottomNavigationAction icon={<ArrowBackIosIcon />} />
+                        </BottomNavigation>
+                    </Container>
+                    <VerifyOrder
+                        title="Verify Order"
+                        openPopup={openPopup}
+                        setOpenPopup={setOpenPopup}
+                        verifyOrder={verifyOrder}
+                        itemList={itemList}
+                        paymentModes={paymentModes}
+                        paymentStatusTypes={paymentStatusTypes}
+                        totalCost={totalCost}
+                    />
+                </div>
+                <Footer />
+            </>
+        );
+    }
 
 
 export default Menu
 
-export async function getServerSideProps(context) {
-    return {
-        props: {}, // will be passed to the page component as props
-    };
-}
+    export async function getServerSideProps(context) {
+        return {
+            props: {}, // will be passed to the page component as props
+        };
+    }

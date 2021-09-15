@@ -77,7 +77,6 @@ const OrderStatus = () => {
         };
     }, []);
 
-
     return (
         <div className={classes.root}>
             <Head>
