@@ -8,6 +8,7 @@ type Query {
     displayMenu(menuId:ID!):Menu!
     getCategoryByMenuId(menuId:ID!):CategoryMenu
     getStoreId(menuId:ID!):Menu!
+    getToken(menuId:ID!):[String!]!
 }
 
 type CategoryMenu{

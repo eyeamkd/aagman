@@ -28,7 +28,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Menu Items" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => router.push('/profile')}>
       <ListItemIcon>
         <PersonIcon />
       </ListItemIcon>
