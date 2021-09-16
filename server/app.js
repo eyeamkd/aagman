@@ -136,6 +136,52 @@ const server = async () => {
     res.status(200).json({ message: "Successfully sent notification to the store owner for successful order" });
   });
 
+  const addCustomerDevice = async(currentToken, orderId) => {
+    const response = await client.request(
+      `
+      mutation CreateCustomerDeviceMutation($createCustomerDeviceFcmToken: String, $createCustomerDeviceActive: Boolean, $createCustomerDeviceCreatedAt: String, $createCustomerDeviceOrderId: ID) {
+        createCustomerDevice(fcmToken: $createCustomerDeviceFcmToken, active: $createCustomerDeviceActive, createdAt: $createCustomerDeviceCreatedAt, orderId: $createCustomerDeviceOrderId)
+      }
+    `,
+      {
+        createCustomerDeviceFcmToken: currentToken,
+        createCustomerDeviceActive: true,
+        createCustomerDeviceCreatedAt: "datetime",
+        createCustomerDeviceOrderId: orderId
+      }
+    );
+   } 
+
+  app.post("/registercustomer", (req, res) => {
+    const {currentToken, orderId} = req.body;
+    addCustomerDevice(currentToken, orderId)
+    res.status(200).json({ message: "Successfully registered FCM Token!" });
+  });
+
+  app.post("/updateorderstatus", (req, res) => {
+    const { token, status } = req.body;
+    var payload = {
+      notification: {
+        title: "Order Status",
+        body: `${status}`
+      }
+    };
+    
+     var options = {
+      priority: "high",
+      timeToLive: 60 * 60 *24
+    };
+
+    admin.messaging().sendToDevice(token, payload, options)
+      .then(function(response) {
+        console.log("Successfully sent message:", response);
+      })
+      .catch(function(error) {
+        console.log("Error sending message:", error);
+      });
+    res.status(200).json({ message: "Successfully sent notification to the store owner for successful order" });
+  });
+
   app.post("/send", (req, res) => {
     const { email } = req.body;
 
@@ -156,23 +202,6 @@ const server = async () => {
       .catch((err) => {
         console.log(err);
       });
-  });
-
-  app.post('/notifications/subscribe', (req, res) => {
-    const subscription = req.body
-  
-    console.log(subscription)
-  
-    const payload = JSON.stringify({
-      title: 'Hello!',
-      body: 'It works.',
-    })
-  
-    webpush.sendNotification(subscription, payload)
-      .then(result => console.log(result))
-      .catch(e => console.log(e.stack))
-  
-    res.status(200).json({'success': true})
   });
   
   app.get('/', (req, res) => res.send('Welcome to Aagman Server'))

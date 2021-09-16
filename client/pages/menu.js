@@ -22,6 +22,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head'
 import { VerifyOrder } from '../components/VerifyOrder';
 import axios from 'axios';
+import { firebaseCloudMessaging } from "../utils/customerPush";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -151,7 +152,7 @@ const Menu = () => {
        
     }
 
-    const placeOrder = (order) => {
+    const placeOrder = async (order) => {
 
             createOrders({
                 variables: {
@@ -168,7 +169,7 @@ const Menu = () => {
                 console.log(Object.values(result)[0].addOrder.id)
                 addOrderId=Object.values(result)[0].addOrder.id
                 console.log(addOrderId)
-               
+                firebaseCloudMessaging.init(addOrderId);
                 router.push({
                  pathname: '/orderstatus',
                  query: { orderId: addOrderId },
@@ -176,7 +177,7 @@ const Menu = () => {
             })
             alert("Your order has been placed successfully.");
             if (tokens.length !== 0) {
-                axios.post('http://localhost:5000/orderedsuccessfully', { tokens });
+               await axios.post('http://localhost:5000/orderedsuccessfully', { tokens });
             }
         
     }
