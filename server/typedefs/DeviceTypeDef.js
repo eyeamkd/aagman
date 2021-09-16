@@ -5,6 +5,7 @@ module.exports= gql`
 type Query {
     devices: [Device!]!
     device(id: ID!): Device!
+    checkIfUserWithTokenExists(token: String!, userId: ID!): Boolean!
 }
 
 type Device {

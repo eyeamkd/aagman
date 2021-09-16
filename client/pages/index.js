@@ -5,9 +5,7 @@ import Link from 'next/link'
 import { motion } from "framer-motion";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { subscribeUser } from '../src/subscription';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,11 +66,7 @@ export default function Home() {
       }
     },
   }
-
-  // useEffect(() => {
-  //  subscribeUser();
-  // }, [])
-
+  
   return (
     <div className={classes.root}>
       <Head>

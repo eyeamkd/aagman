@@ -13,6 +13,10 @@ module.exports = mongoose.model("Order", {
             ref:"Store"},               //Object 
     bill : {type:mongoose.Schema.Types.ObjectId,
             ref:"Bill"},
-     dateAndTime:{type:GraphQLDateTime,timestamp:true}
+     dateAndTime:{type:GraphQLDateTime,timestamp:true},
+     customerDevices: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CustomerDevice"
+    }]
 })
 
