@@ -152,7 +152,7 @@ const OrderStatus = () => {
                             </Typography>
                             </div>
                             <CircularProgress variant="determinate" value={progress} />
-                            <Button
+                            {orderStatus=="Completed"?<Button
                                         type="submit"
                                         fullWidth
                                         variant="contained"
@@ -162,7 +162,7 @@ const OrderStatus = () => {
 
                                     > 
                                     Give Feedback
-                                    </Button>
+                                    </Button>:null}
                         </Container>
                       
                     </div>

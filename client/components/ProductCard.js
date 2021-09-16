@@ -127,22 +127,22 @@ const ProductCard = ({ product, setItem }) => {
                                     {product.name}
                                 </Typography>
                                 <Rating name="read-only" value={product.rating} readOnly /><Image
-        src={"/images/"+product.type+".jpeg"}
-        alt="App Logo"
-        width={20}
-        height={20}
-        className={classes.type}
-      />
+                                 src={"/images/"+product.type+".jpeg"}
+                                 alt="App Logo"
+                                 width={20}
+                                 height={20}
+                                 className={classes.type}
+                                />
                             </div>
                         </CardContent>
                     </div>
                     <div className={classes.productQuantity}>
                    {product.bestSeller=="Yes"?<Image
-          src="/images/bestseller-removebg-preview.png"
-          alt="App Logo"
-          width={40}
-          height={40}
-        />:null} 
+                          src="/images/bestseller-removebg-preview.png"
+                          alt="App Logo"
+                          width={40}
+                          height={40}
+                    />:null} 
                         <Typography variant="h6" color="inherit">
                             Quantity: {quantity}
                         </Typography>
