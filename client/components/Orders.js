@@ -5,9 +5,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useQuery } from '@apollo/client';
-import { GET_USER_BY_CODE } from '../GraphQL/Queries/UsersQueries';
+import { GET_CUSTOMER_TOKEN } from '../GraphQL/Queries/CustomerDeviceQueries';
 import { GET_STORE_MENU_ITEMS } from '../GraphQL/Queries/StoreQueries';
-import {UPDATE_ORDER_STATUS} from '../GraphQL/Mutations/OrdersMutation'
+import { UPDATE_ORDER_STATUS } from '../GraphQL/Mutations/OrdersMutation'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -22,6 +22,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import DoneIcon from '@material-ui/icons/Done';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import { useMutation } from '@apollo/client';
+import axios from 'axios';
+import localforage from 'localforage'
+import client from "../apollo-client";
+import { gql } from "@apollo/client";
 
 function preventDefault(event) {
   event.preventDefault();
@@ -91,13 +95,13 @@ const useStyles = makeStyles((theme) => ({
   },
   tableCell: {
     width: 200,
-    borderWidth: "thin", 
+    borderWidth: "thin",
     borderColor: '#D3D3D3',
     borderStyle: 'solid'
-},
-bolderFont: {
-  fontWeight: 600
-},
+  },
+  bolderFont: {
+    fontWeight: 600
+  },
 }));
 
 
@@ -105,43 +109,59 @@ export default function Orders({ storeId }) {
   const menuId = 'status-menu';
 
   const [moreAnchorEl, setMoreAnchorEl] = useState(null);
-  const [orderId,setOrderId]=useState("")
+  const [orderId, setOrderId] = useState("")
   const [updateOrderStatus] = useMutation(UPDATE_ORDER_STATUS);
 
 
   const isMenuOpen = Boolean(moreAnchorEl);
 
   const handleMenuClose = () => {
-      setMoreAnchorEl(null);
+    setMoreAnchorEl(null);
   };
 
-  const setOrdersItems=(id)=>{
-     setOrderId(id);
-     console.log(orderId)
+  const setOrdersItems = (id) => {
+    setOrderId(id);
+    console.log(orderId)
   }
 
 
 
 
   const handleMenuOpen = (event) => {
-      setMoreAnchorEl(event.currentTarget);
+    setMoreAnchorEl(event.currentTarget);
   };
 
-  const { data, loading, error,refetch } = useQuery(GET_STORE_MENU_ITEMS,
+  const { data, loading, error, refetch } = useQuery(GET_STORE_MENU_ITEMS,
     {
       variables: {
         ordersDashboardStoreId: storeId
       }
     })
-    const changeOrderStatus=(status)=>{
-      updateOrderStatus({
-        variables: {
-          updateOrderStatusOrderId: orderId,
-          updateOrderStatusOrderStatus:status
-        }
+
+  const changeOrderStatus = async (status) => {
+    updateOrderStatus({
+      variables: {
+        updateOrderStatusOrderId: orderId,
+        updateOrderStatusOrderStatus: status
+      }
     }).then(refetch)
-      console.log(status,orderId)
-    }
+
+    console.log("order id before getting token: ", orderId);
+
+    const { data } = await client.query({
+      query: gql`
+      query Query($getCustomerTokenOrderId: ID!) {
+        getCustomerToken(orderId: $getCustomerTokenOrderId)
+      }
+        `,
+      variables: {
+        getCustomerTokenOrderId: orderId
+      }
+    });
+    const token = data.getCustomerToken;
+ 
+    await axios.post('http://localhost:5000/updateorderstatus', { token , status })
+  }
 
   const classes = useStyles();
   if (loading)
@@ -226,7 +246,7 @@ export default function Orders({ storeId }) {
                     aria-label="show more"
                     aria-controls={menuId}
                     aria-haspopup="true"
-                    onClick={function(event){handleMenuOpen(event);setOrdersItems(row.id)}}
+                    onClick={function (event) { handleMenuOpen(event); setOrdersItems(row.id) }}
                     color="inherit"
                   >
                     <MoreIcon />
@@ -243,26 +263,26 @@ export default function Orders({ storeId }) {
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             open={isMenuOpen}
             onClose={handleMenuClose}
-        >
-            <MenuItem color="inherit" onClick={()=>changeOrderStatus("OrderReceived")}   className={classes.menuItem}>
-                <IconButton aria-label="OrderReceived">
-                    <CallReceivedIcon  />
-                </IconButton>
-                <p>OrderReceived</p>
+          >
+            <MenuItem color="inherit" onClick={() => changeOrderStatus("OrderReceived")} className={classes.menuItem}>
+              <IconButton aria-label="OrderReceived">
+                <CallReceivedIcon />
+              </IconButton>
+              <p>OrderReceived</p>
             </MenuItem>
-            <MenuItem color="inherit" onClick={()=>changeOrderStatus("Preparing")} className={classes.menuItem}>
-                <IconButton aria-label="Preparing">
-                    <DonutLargeIcon />
-                </IconButton>
-                <p>Preparing</p>
+            <MenuItem color="inherit" onClick={() => changeOrderStatus("Preparing")} className={classes.menuItem}>
+              <IconButton aria-label="Preparing">
+                <DonutLargeIcon />
+              </IconButton>
+              <p>Preparing</p>
             </MenuItem>
-            <MenuItem color="inherit" onClick={()=>changeOrderStatus("Completed")}  className={classes.menuItem}>
-                <IconButton aria-label="Completed">
-                    <DoneIcon />
-                </IconButton>
-                <p>Completed</p>
+            <MenuItem color="inherit" onClick={() => changeOrderStatus("Completed")} className={classes.menuItem}>
+              <IconButton aria-label="Completed">
+                <DoneIcon />
+              </IconButton>
+              <p>Completed</p>
             </MenuItem>
-        </Menu>
+          </Menu>
         </div>
       </React.Fragment>
     );

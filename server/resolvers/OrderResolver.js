@@ -1,6 +1,6 @@
 import { subscribe } from "graphql";
 
-const Order=require("./../models/Order");
+const Order=require("./../models/order");
 const Store=require("./../models/Store");
 const Revenue =require("./../models/Revenue");
 const Bill=require("./../models/Bill");
