@@ -104,6 +104,7 @@ const Feedback = () => {
             alert("Please fill in the feedback form");
             return
         }
+        console.log(comment)
         addFeedback({
             variables: {
                 addFeedbackOrderServiceRating: orderService,
@@ -238,9 +239,8 @@ const Feedback = () => {
                                     rows={2}
                                     rowsMax={4}
                                     value={comment}
-                                    onChange={(event, newValue) => {
-                                        setComment(newValue);
-                                        }}
+                                    onChange={event => 
+                                        setComment(event.target.value)}
                                     />
                                  </Paper>
                                 </div>
