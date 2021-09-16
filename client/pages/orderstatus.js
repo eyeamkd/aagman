@@ -82,7 +82,8 @@ const OrderStatus = () => {
         {
             variables: {
                 getOrderOrderId: query.orderId
-            }
+            },
+            pollInterval:2000
         });
     const giveFeedback=()=>{
         router.push({

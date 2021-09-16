@@ -219,6 +219,8 @@ export default function Deposits({ storeId, userEmail }) {
                 }
               //  }
                // if(m1.isoMonth()==m.isoMonth()){
+                // console.log(d.getYear)
+                // console.log(new Date(orders[i].dateAndTime))
                 let month=(new Date(orders[i].dateAndTime)).getMonth()
                 let obj=yearCount.find(o=>o.label==month)
                 obj.revenueCount+=orders[i].bill.totalCost

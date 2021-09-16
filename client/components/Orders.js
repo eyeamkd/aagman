@@ -131,7 +131,8 @@ export default function Orders({ storeId }) {
     {
       variables: {
         ordersDashboardStoreId: storeId
-      }
+      },
+      pollInterval:2000
     })
     const changeOrderStatus=(status)=>{
       updateOrderStatus({
@@ -151,7 +152,7 @@ export default function Orders({ storeId }) {
     return (<div>Error! ${error.message}</div>);
 
   else {
-    const orders = Object.values(data)[0].orders
+    const orders=Object.values(data)[0].orders.slice().reverse()
     return (
       <React.Fragment>
         <div className={classes.root}>

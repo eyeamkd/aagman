@@ -10,6 +10,10 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import BestSellerImage from './../public/images/bestseller-removebg-preview.png'
+import Veg from './../public/images/Veg.jpeg'
+import NonVeg from './../public/images/NonVeg.jpeg'
+import NonEdible from './../public/images/NonEdible.jpeg'
+import Egg from './../public/images/Egg.jpeg'
 import Image from 'next/image';
 import {Rating} from '@material-ui/lab';
 
@@ -117,12 +121,18 @@ const ProductCard = ({ product, setItem }) => {
                             />
                             <div className={classes.product}>
                                 <Typography variant="subtitle1" color="inherit" style={{ fontWeight: "500" }}>
-                                    ₹{product.price}
+                                    ₹{product.price}                
                                 </Typography>
                                 <Typography className={classes.inputMultiline} component="h2" variant="h5" style={{ fontWeight: "500" }}>
                                     {product.name}
                                 </Typography>
-                                <Rating name="read-only" value={product.rating} readOnly />
+                                <Rating name="read-only" value={product.rating} readOnly /><Image
+        src={"/images/"+product.type+".jpeg"}
+        alt="App Logo"
+        width={20}
+        height={20}
+        className={classes.type}
+      />
                             </div>
                         </CardContent>
                     </div>
