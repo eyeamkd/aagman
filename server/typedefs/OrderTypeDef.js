@@ -7,7 +7,7 @@ type Query {
     orders: [Order!]!
     order(id: ID!): Order!
     getOrder(orderId:ID!):Order!
-    
+    getOrderDemo(storeId:ID!):Store!
     
 }
 
