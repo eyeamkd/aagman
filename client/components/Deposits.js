@@ -221,10 +221,14 @@ export default function Deposits({ storeId, userEmail }) {
                // if(m1.isoMonth()==m.isoMonth()){
                 // console.log(d.getYear)
                 // console.log(new Date(orders[i].dateAndTime))
+                console.log((new Date(orders[i].dateAndTime).getFullYear()))
+                console.log(d.getFullYear())
+                if((new Date(orders[i].dateAndTime).getFullYear()==d.getFullYear())){
                 let month=(new Date(orders[i].dateAndTime)).getMonth()
                 let obj=yearCount.find(o=>o.label==month)
                 obj.revenueCount+=orders[i].bill.totalCost
                 obj.orderCount+=1 
+                }
               //  }
             }
             const mappings = {}
@@ -373,7 +377,6 @@ export default function Deposits({ storeId, userEmail }) {
             <Box boxShadow={10} className={classes.barGraph}>
             <Typography variant="h4" className={classes.paymentTitle}>Payment Mode</Typography>
             <PieChart width={325} height={300}>
-            
           <Pie
             data={paymentMode}
             labelLine={false}
