@@ -6,7 +6,7 @@ import { StoreContext } from '../src/StoreContext'
 
 const Revenue = () => {
 
-    const { storeIdGlobal } = useContext(StoreContext); 
+    const { storeIdGlobal,userEmailGlobal } = useContext(StoreContext); 
 
     return (
         <>
@@ -14,7 +14,7 @@ const Revenue = () => {
                 <title>Revenue</title>
             </Head>
             <Dashboard>
-                {<Deposits storeId={storeIdGlobal} />}
+                {<Deposits storeId={storeIdGlobal} userEmail={userEmailGlobal} />}
             </Dashboard>
         </>
     )

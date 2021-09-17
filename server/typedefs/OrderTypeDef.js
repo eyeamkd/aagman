@@ -1,16 +1,24 @@
 const {gql}=require("apollo-server-express");
 
-module.exports= gql`
 
+module.exports= gql`
+scalar GraphQLDateTime
 type Query {
     orders: [Order!]!
     order(id: ID!): Order!
+    getOrder(orderId:ID!):Order!
+    getOrderDemo(storeId:ID!):Store!
     
+}
+
+type OrderId{
+    id:ID!
 }
 
 type Order {
     id: ID! 
     orderCode : Int! 
+    dateAndTime:GraphQLDateTime!
     orderStatus : StatusOfOrder!           
     itemsList : [ItemsList!]!   
     store: Store!               
@@ -22,6 +30,7 @@ type ItemsList {
     name: String!
     quantity: Int!
     price: Float!
+    itemId:ID!
 
 }
 
@@ -30,21 +39,26 @@ input ItemsListInput {
     name: String!
     quantity: Int!
     price: Float!
+    itemId:ID!
 }
 
 enum StatusOfOrder{
     OrderReceived, Preparing, Completed
 }
 
+
 type Mutation{
-    createOrder(orderCode:String! ,orderStatus:StatusOfOrder!,storeId:ID! ):String!
+    createOrder(orderCode:String! ,orderStatus:StatusOfOrder!,storeId:ID!,dateAndTime:GraphQLDateTime! ):String!
     addOrder(orderCode:Int!,
              orderStatus:StatusOfOrder!,
              items:[ItemsListInput]!,
              storeId:ID!,
              totalCost:Float!,
              paymentMode:PaymentTypes! ,
-             paymentStatus:PaymentStatusTypes!):String!
+             paymentStatus:PaymentStatusTypes!,
+             dateAndTime:GraphQLDateTime!):OrderId!
+    updateOrderStatus(orderId:ID!,orderStatus:StatusOfOrder!):String!
+    updatePaymentStatus(orderId:ID!,paymentStatus:PaymentStatusTypes!):String!
 }
 
 

@@ -4,14 +4,19 @@ const Locations=require("./../models/Location");
 const Menu=require("./../models/Menu");
 const Revenue=require("./../models/Revenue");
 const Timing=require("./../models/Timing");
+const Feedback=require("./../models/Feedback");
 
 module.exports= {
     Query: {
         users:() => User.find(),
         user:(parent, {id}) => User.findById(id),
-        getUserStoreId:(_,{email})=>{
+        getUserStoreId: (_,{email})=>{
              const user=User.findOne({email:email});
              return user.populate("stores")  
+        },
+        getUserByMail: async (_,{email})=>{
+            const user = await User.findOne({ email: email });
+            return user;
         },
         checkIfUserExists:(_,{email}) => User.exists({ email: email }),
         checkIfOtpMatches: async (_, {email, otp}) => {
@@ -69,6 +74,10 @@ module.exports= {
             const timings = new Timing({ openTime,closeTime,status:statusTime});
             store.timings=timings;
             await timings.save();
+
+            const feedback=new Feedback({orderServiceRating:0,deliveryServiceRating:0,comments:[]});
+            store.feedback=feedback
+            await feedback.save()
            
             await store.save();
             return "User Created"

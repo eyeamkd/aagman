@@ -21,9 +21,10 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { GET_MENU } from '../GraphQL/Queries/MenuQueries';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
-import { ADD_ITEM } from '../GraphQL/Mutations/ItemMutation';
+import { ADD_ITEM,UPDATE_ITEM,DELETE_ITEM } from '../GraphQL/Mutations/ItemMutation';
 import QRCode from 'qrcode';
 import Button from '@material-ui/core/Button';
+import Image from 'next/image';
 
 function preventDefault(event) {
     event.preventDefault();
@@ -101,7 +102,10 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#83c3f7"
     },
     tableCell: {
-        width: 200
+        width: 200,
+        borderWidth: "thin", 
+        borderColor: '#D3D3D3',
+        borderStyle: 'solid'
     },
     generateQr: {
         margin: "10px",
@@ -145,6 +149,8 @@ export default function MenuTable({ storeId }) {
                 getMenuStoreId: storeId
             }
         });
+    const [updateItemsMenu]=useMutation(UPDATE_ITEM)
+    const [deleteItemsMenu]=useMutation(DELETE_ITEM)
     const openInPopup = item => {
         setRecordForEdit(item)
         setOpenPopup(true)
@@ -191,7 +197,22 @@ export default function MenuTable({ storeId }) {
             }).then(refetch)
         }
         else {
-            menuService.updateMenu(item)
+           // menuService.updateMenu(item)
+           updateItemsMenu({
+
+            variables: {
+                updateItemName: item.name, 
+                updateItemDescription: item.description, 
+                updateItemAvailability: item.availability, 
+                updateItemType: item.type, 
+                updateItemPrice: parseFloat(item.price), 
+                updateItemRating: parseFloat(item.rating), 
+                updateItemBestSeller: item.bestSeller, 
+                updateItemPhoto: "0", 
+                updateItemItemId: item.id
+            }
+        }).then(refetch)
+
         }
 
         resetForm()
@@ -199,8 +220,16 @@ export default function MenuTable({ storeId }) {
         setOpenPopup(false)
     }
 
-    const deleteItem = (id) => {
-        console.log("Delete the item with id ", id);
+    const deleteItem = (id,category) => {
+        // console.log(category);
+        // console.log("Delete the item with id ", id);
+        deleteItemsMenu({
+
+            variables: {
+                deleteItemItemId: id, 
+                deleteItemCategoryId: category
+            }
+        }).then(refetch)
     }
 
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -293,7 +322,7 @@ export default function MenuTable({ storeId }) {
                       
                             {categories.map(category =>
                                 <div key={category.id} className={classes.categoryTable}>
-                                    <TableCell className={[classes.tableCell, classes.bolderFont]} >{category.name}</TableCell>
+                                    <TableCell className={classes.bolderFont} >{category.name}</TableCell>
                                     <TableCell>
                                         <TableHead>
                                             <TableRow>
@@ -316,11 +345,11 @@ export default function MenuTable({ storeId }) {
                                                 <TableCell className={classes.tableCell} >₹{row.price}</TableCell>
                                                 <TableCell className={classes.tableCell} >{row.rating}</TableCell>
                                                 <TableCell className={classes.tableCell} >{row.bestSeller}</TableCell>
-                                                <TableCell align="right">
+                                                <TableCell className={classes.tableCell} align="right">
                                                     <IconButton aria-label="edit" onClick={() => { openInPopup(row) }} color="inherit">
                                                         <EditIcon fontSize="small" />
                                                     </IconButton>
-                                                    <IconButton aria-label="delete" onClick={() => deleteItem(row.id)} color="inherit">
+                                                    <IconButton aria-label="delete" onClick={() => deleteItem(row.id,category.id)} color="inherit">
                                                         <DeleteIcon fontSize="small" />
                                                     </IconButton></TableCell>
                                             </TableRow>
@@ -354,7 +383,7 @@ export default function MenuTable({ storeId }) {
                         Generate QR Code
                     </Button>
                 </div>
-                {qrCode ? (<a href={qrCode} download><img src={qrCode} alt="image" /></a>) : null}
+                {qrCode ? (<a href={qrCode} download><Image src={qrCode} alt="image" width={150} height={150}/></a>) : null}
             </div>
         </React.Fragment>
     );
