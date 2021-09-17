@@ -19,6 +19,11 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems } from '../components/listItems';
 import Footer from '../components/Footer';
 import Head from 'next/head'
+import Button from '@material-ui/core/Button';
+import { useRouter } from 'next/router';
+import localforage from 'localforage'
+import { DELETE_DEVICE } from '../GraphQL/Mutations/DeviceMutation';
+import { useMutation } from '@apollo/client';
 
 const drawerWidth = 240;
 
@@ -109,6 +114,10 @@ export default function Dashboard({children}) {
 
     const [open, setOpen] = useState(true);
 
+    const router = useRouter();
+
+    const [deleteDevices] = useMutation(DELETE_DEVICE);
+    
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -116,6 +125,18 @@ export default function Dashboard({children}) {
         setOpen(false);
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+    const logout = async() => {
+        localStorage.clear();
+        const token = await localforage.getItem('fcm_token')
+        deleteDevices({
+            variables: {
+                deleteDeviceFcmToken: token 
+            }
+        })
+        await localforage.removeItem('fcm_token')
+        router.push('/');
+    }
 
     return (
         <>
@@ -143,6 +164,7 @@ export default function Dashboard({children}) {
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
+                        <Button variant="text" onClick={logout}>Logout</Button>
                     </Toolbar>
                 </AppBar>
                 <Drawer
