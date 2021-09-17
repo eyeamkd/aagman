@@ -19,6 +19,8 @@ import { useQuery } from '@apollo/client';
 import { useMutation } from '@apollo/client';
 import { GET_CATEGORIES } from '../GraphQL/Queries/CategoriesQueries';
 import { ADD_CATEGORY } from '../GraphQL/Mutations/CategoryMutation'
+import { motion } from "framer-motion";
+import Image from 'next/image';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +66,13 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: "5px 0"
-    }
+    },
+    loader:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:"center"
+      },
 }));
 
 export const AddMenu = (props) => {
@@ -140,10 +148,35 @@ export const AddMenu = (props) => {
     }
 
     if (loading)
-        return (<div>Loading...</div>);
+        return (<div className={classes.loader}>
+            <div>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+              <Typography variant="h5"><b>Loading...</b></Typography>
+            </div>
+          </div>);
 
     if (error)
-        return (<div>Error! ${error.message}</div>);
+        return (<div className={classes.loader}>
+            <div>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />        
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+            </div>
+          </div>);
 
     const categories = Object.values(data)[0].categories;
 
@@ -240,19 +273,6 @@ export const AddMenu = (props) => {
                                         value={item.price}
                                         onChange={handleInputChange}
                                         autoComplete="price"
-                                    />
-                                    <TextField
-                                        variant="outlined"
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="rating"
-                                        label="Rating"
-                                        type="text"
-                                        id="rating"
-                                        value={item.rating}
-                                        onChange={handleInputChange}
-                                        autoComplete="rating"
                                     />
                                     <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="bestSeller" autoFocus>
                                         <InputLabel htmlFor="bestSeller">BestSeller</InputLabel>

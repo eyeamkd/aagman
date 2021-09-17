@@ -26,6 +26,8 @@ import axios from 'axios';
 import localforage from 'localforage'
 import client from "../apollo-client";
 import { gql } from "@apollo/client";
+import { motion } from "framer-motion";
+import Image from 'next/image';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -58,6 +60,12 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(1),
       width: 'auto',
     },
+  },
+  loader:{
+    display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:"center"
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -101,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
   },
   bolderFont: {
     fontWeight: 600
-  },
+  }
 }));
 
 
@@ -123,9 +131,6 @@ export default function Orders({ storeId }) {
     setOrderId(id);
     console.log(orderId)
   }
-
-
-
 
   const handleMenuOpen = (event) => {
     setMoreAnchorEl(event.currentTarget);
@@ -166,10 +171,35 @@ export default function Orders({ storeId }) {
 
   const classes = useStyles();
   if (loading)
-    return (<div>Loading...</div>);
+    return (<div className={classes.loader}>
+              <div>
+                 <motion.div animate={{
+                    y: 30, y: -30,
+                    transition: { yoyo: Infinity, duration: 1.5, },
+                 }}>
+                 <Image
+                   src="/images/logo.png"
+                   alt="App Logo"
+                   width={100}
+                   height={100}
+                 />
+                </motion.div>
+                <Typography variant="h5"><b>Loading...</b></Typography>
+              </div>
+            </div>);
 
   else if (error)
-    return (<div>Error! ${error.message}</div>);
+    return (<div className={classes.loader}>
+      <div>
+         <Image
+           src="/images/logo.png"
+           alt="App Logo"
+           width={100}
+           height={100}
+         />
+        <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+      </div>
+    </div>);
 
   else {
     const orders=Object.values(data)[0].orders.slice().reverse()
