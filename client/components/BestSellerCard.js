@@ -9,7 +9,6 @@ export const BestSellerCard=(props)=>{
                     {itemName}
                 </Typography>
                 <Typography component="p" variant="h5">
-                    Price: <b>{price}</b><br/>
                     Number Of Orders: <b>{numberOfOrders}</b><br/>
                     </Typography>
         </>

@@ -1,10 +1,10 @@
+import React, { useEffect } from "react";
 import Head from 'next/head'
 import Image from 'next/image';
 import Link from 'next/link'
 import { motion } from "framer-motion";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
@@ -66,6 +66,7 @@ export default function Home() {
       }
     },
   }
+  
   return (
     <div className={classes.root}>
       <Head>

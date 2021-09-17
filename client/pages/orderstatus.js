@@ -13,6 +13,10 @@ import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
+import { GET_ORDERS } from '../GraphQL/Queries/OrdersQueries';
+import { useQuery } from '@apollo/client';
+import Button from '@material-ui/core/Button';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,15 +62,35 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
+    submit: {
+        margin: theme.spacing(2, 0, 1),
+        backgroundColor: "#0596f5",
+        color: "#ffffff",
+        padding: "10px",
+        borderRadius: "40px",
+        textAlign: "center"
+    },
 
 }));
 
 const OrderStatus = () => {
     const classes = useStyles();
     const router = useRouter();
-
+    const { query } = useRouter();
     const [progress, setProgress] = React.useState(0);
-
+    const { data, loading, error } = useQuery(GET_ORDERS,
+        {
+            variables: {
+                getOrderOrderId: query.orderId
+            },
+            pollInterval:2000
+        });
+    const giveFeedback=()=>{
+        router.push({
+            pathname: '/feedback',
+            query: { orderId: query.orderId },
+        })
+    }
     React.useEffect(() => {
         const timer = setInterval(() => {
             setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
@@ -76,6 +100,15 @@ const OrderStatus = () => {
             clearInterval(timer);
         };
     }, []);
+
+    if (loading)
+    return (<div>Loading...</div>);
+
+    if (error)
+    return (<div>Error! ${error.message}</div>);
+
+    const orderCode=Object.values(data)[0].orderCode
+    const orderStatus=Object.values(data)[0].orderStatus
 
 
     return (
@@ -101,7 +134,12 @@ const OrderStatus = () => {
                             <Grid item xs={12}>
                                 <Paper className={classes.paper} elevation={10} >
                                     <Typography variant="h4" align="center" color="textPrimary" gutterBottom>
-                                        Order Code: 1234
+                                        Order Code: {orderCode}
+                                    </Typography>
+                                </Paper>
+                                <Paper className={classes.paper} elevation={10} >
+                                    <Typography variant="h4" align="center" color="textPrimary" gutterBottom>
+                                        Order Status: {orderStatus}
                                     </Typography>
                                 </Paper>
                             </Grid>
@@ -114,7 +152,19 @@ const OrderStatus = () => {
                             </Typography>
                             </div>
                             <CircularProgress variant="determinate" value={progress} />
+                            {orderStatus=="Completed"?<Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="secondary"
+                                        className={classes.submit}
+                                       onClick={giveFeedback}
+
+                                    > 
+                                    Give Feedback
+                                    </Button>:null}
                         </Container>
+                      
                     </div>
                 </main>
                 <Footer />

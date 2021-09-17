@@ -8,6 +8,12 @@ type Query {
     ordersDashboard(storeId:ID!):Store!
     getMenu(storeId:ID!):StoreMenu!
     getRevenue(storeId:ID!):StoreRevenue!
+    getUserId(storeId:ID!):StoreUser!
+}
+
+type StoreUser{
+    id:ID!
+    owner:User!
 }
 
 type StoreRevenue{
@@ -30,6 +36,7 @@ type Store {
     timings: Timing!
     menu : Menu!
     revenue: Revenue!
+    feedback:Feedback!
 }
 
 type Subscription{
@@ -48,6 +55,7 @@ type Mutation{
         closeTime:String!,
         statusTime:statusTiming!,
         userId:ID!):String!
+
 }
 
 

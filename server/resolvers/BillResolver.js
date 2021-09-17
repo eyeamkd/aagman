@@ -1,5 +1,5 @@
 const Bill=require("./../models/Bill");
-const Order=require("./../models/Order");
+const Order=require("./../models/order");
 const Revenue=require("./../models/Revenue");
 
 module.exports= {

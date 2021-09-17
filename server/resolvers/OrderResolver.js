@@ -1,16 +1,29 @@
 import { subscribe } from "graphql";
 
-const Order=require("./../models/Order");
+const Order=require("./../models/order");
 const Store=require("./../models/Store");
 const Revenue =require("./../models/Revenue");
 const Bill=require("./../models/Bill");
 const GraphQLDateTime=require('graphql-iso-date');
 const Subcribe=require("./Subscribe");
 
+const generateOrderCode = function () {
+    var digits = "0123456789";
+    let code = "";
+    for (let i = 0; i < 4; i++) {
+      code += digits[Math.floor(Math.random() * 10)];
+    }
+    return code;
+  };
+
 module.exports= {
     Query: {
         orders:() => Order.find(),
         order:(parent, {id}) => Order.findById(id),
+        getOrder:(parent,{orderId})=>Order.findById(orderId).populate("bill store"),
+        getOrderDemo:async(parent,{storeId})=>{
+            return await Store.findById(storeId).toArray();
+        }
         
     },
 
@@ -27,11 +40,13 @@ module.exports= {
             });
             return "Order Created";
         }, 
+
         //items here is an array of {itemCode, name, quantity, customization}   const order  = new Order({items})
 
         addOrder:async(_,{orderCode,orderStatus,items,storeId,totalCost,paymentMode,paymentStatus,dateAndTime})=>{
+            const orderCodeCreation=generateOrderCode()
             //Add Orders to collection
-            const orders=new Order({orderCode,orderStatus,store:storeId,itemsList:items,dateAndTime})
+            const orders=new Order({orderCode:orderCodeCreation,orderStatus,store:storeId,itemsList:items,dateAndTime})
             await orders.save().then(result=>{
                 return Store.findById(storeId);
             }).then(store=>{
@@ -57,7 +72,7 @@ module.exports= {
                 revenue.save();
             })
             Subcribe.subscribers.forEach(fn=>fn())
-            return "Order Added";
+            return orders;
         },
         updateOrderStatus:async(_,{orderId,orderStatus})=>{
             const order=await Order.findByIdAndUpdate(orderId,{orderStatus:orderStatus},{new:true})
