@@ -5,7 +5,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useQuery } from '@apollo/client';
-import { GET_CUSTOMER_TOKEN } from '../GraphQL/Queries/CustomerDeviceQueries';
 import { GET_STORE_MENU_ITEMS } from '../GraphQL/Queries/StoreQueries';
 import { UPDATE_ORDER_STATUS } from '../GraphQL/Mutations/OrdersMutation'
 import AppBar from '@material-ui/core/AppBar';
@@ -136,7 +135,7 @@ export default function Orders({ storeId }) {
       variables: {
         ordersDashboardStoreId: storeId
       },
-      pollInterval:2000
+      pollInterval: 2000
     })
 
   const changeOrderStatus = async (status) => {
@@ -160,8 +159,11 @@ export default function Orders({ storeId }) {
       }
     });
     const token = data.getCustomerToken;
- 
-    await axios.post('http://localhost:5000/updateorderstatus', { token , status })
+
+    await axios.post('http://localhost:5000/updateorderstatus', { token, status, orderId })
+    if (status === "Completed") {
+      await localforage.removeItem('customer_fcm_token')
+    }
   }
 
   const classes = useStyles();
@@ -172,7 +174,7 @@ export default function Orders({ storeId }) {
     return (<div>Error! ${error.message}</div>);
 
   else {
-    const orders=Object.values(data)[0].orders.slice().reverse()
+    const orders = Object.values(data)[0].orders.slice().reverse()
     return (
       <React.Fragment>
         <div className={classes.root}>

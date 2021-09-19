@@ -18,5 +18,6 @@ type CustomerDevice {
 
 type Mutation{
     createCustomerDevice(fcmToken : String, active : Boolean , createdAt : String, orderId: ID ): String!
+    deleteCustomerDevice(fcmToken : String!, orderId : ID!): String!
 }
 `

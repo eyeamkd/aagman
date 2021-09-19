@@ -24,7 +24,6 @@ module.exports = {
             const userId = store.owner;
             const user = await User.findById(userId)
             const devices = user.devices;
-            console.log(user.devices);
             const tokens = [];
             const resultArray = await Promise.all(devices.map(async (d) =>
                 {

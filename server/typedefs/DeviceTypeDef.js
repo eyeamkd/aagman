@@ -18,5 +18,7 @@ type Device {
 
 type Mutation{
     createDevice(fcmToken : String, active : Boolean , createdAt : String, userId: ID): String!
+    deleteDevice(fcmToken : String!): String!
+
 }
 `
