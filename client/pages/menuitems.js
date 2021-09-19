@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Dashboard from '../components/Dashboard'
 import MenuTable from '../components/Menu'
-import { useRouter } from 'next/router'
 import Head from 'next/head'
+import { StoreContext } from '../src/StoreContext'
 
 const MenuItems = () => {
-    const [email, setEmail] = useState("");
-    const { query } = useRouter();
 
-    useEffect(() => {
-        console.log("This is the email id received.", query.email);
-        setEmail(query.email);
-    }, [])
+    const { storeIdGlobal } = useContext(StoreContext); 
 
     return (
         <>
@@ -19,7 +14,7 @@ const MenuItems = () => {
                 <title>Menu Items</title>
             </Head>
             <Dashboard>
-                {<MenuTable email={email} />}
+                {<MenuTable storeId={storeIdGlobal} />}
             </Dashboard>
         </>
     )

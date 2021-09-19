@@ -1,7 +1,7 @@
 const {gql}=require("apollo-server-express");
 
 module.exports= gql`
-
+scalar Upload
 type Query {
     categories: [Category!]!
     category(id: ID!): Category!

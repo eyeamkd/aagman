@@ -15,6 +15,13 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { AddCategory } from './AddCategory';
+import { useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { GET_CATEGORIES } from '../GraphQL/Queries/CategoriesQueries';
+import { ADD_CATEGORY } from '../GraphQL/Mutations/CategoryMutation'
+import { motion } from "framer-motion";
+import Image from 'next/image';
+
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {
@@ -59,20 +66,40 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: "5px 0"
-    }
+    },
+    loader:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:"center"
+      },
 }));
 
 export const AddMenu = (props) => {
     const classes = useStyles();
     const [openCategoryPopup, setOpenCategoryPopup] = useState(false)
-    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit, categories, setCategories } = props;
+    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit,menuId } = props;
+    const [availabilityStatusTypes, setAvailabilityStatusTypes] = useState(["InStock", "OutOfStock"]);
+    const [types, setTypes] = useState(["Veg", "NonVeg", "Egg", "NonEdible"]);
+    const [choices, setChoices] = useState(["Yes", "No"]);
+    const { data, loading, error, refetch } = useQuery(GET_CATEGORIES,
+        {
+            variables: {
+                getCategoryByMenuIdMenuId: menuId
+            }
+        });
+    const [addCategoryMenu] = useMutation(ADD_CATEGORY);
+
 
     const initialFValues = {
         id: '',
         name: '',
         description: '',
-        status: '',
-        cost: '',
+        availability: 'InStock',
+        type: 'Veg',
+        price: '',
+        rating: 0,
+        bestSeller: 'No',
         category: ''
     }
 
@@ -106,12 +133,52 @@ export const AddMenu = (props) => {
         addOrEdit(item, resetForm);
 
     }
-    
+
     const addCategory = (item, resetForm) => {
-        setCategories(categories => [...categories, {"id": item.id , "name": item.name}])
+        //  setCategories(categories => [...categories, {"id": item.id , "name": item.name}])
+        addCategoryMenu({
+            variables: {
+                createCategoryMenuId: menuId,
+                createCategoryName: item.name,
+
+            }
+        }).then(refetch)
         resetForm()
         setOpenCategoryPopup(false)
     }
+
+    if (loading)
+        return (<div className={classes.loader}>
+            <div>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+              <Typography variant="h5"><b>Loading...</b></Typography>
+            </div>
+          </div>);
+
+    if (error)
+        return (<div className={classes.loader}>
+            <div>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />        
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+            </div>
+          </div>);
+
+    const categories = Object.values(data)[0].categories;
 
     return (
         <>
@@ -164,18 +231,34 @@ export const AddMenu = (props) => {
                                         autoComplete="description"
                                         autoFocus
                                     />
-                                    <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="status" autoFocus>
-                                        <InputLabel htmlFor="status">Status</InputLabel>
+                                    <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="availability" autoFocus>
+                                        <InputLabel htmlFor="availability">Availability</InputLabel>
                                         <Select
                                             native
-                                            name="status"
-                                            value={item.status}
+                                            name="availability"
+                                            value={item.availability}
                                             onChange={handleInputChange}
-                                            label="Status"
+                                            label="Availability"
                                         >
                                             <option aria-label="None" value="" />
-                                            <option value={"Available"}>Available</option>
-                                            <option value={"Unavailable"}>Unavailable</option>
+                                            {availabilityStatusTypes.map((availability, index) =>
+                                                <option key={index} value={availability}>{availability}</option>
+                                            )}
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="type" autoFocus>
+                                        <InputLabel htmlFor="type">Type</InputLabel>
+                                        <Select
+                                            native
+                                            name="type"
+                                            value={item.type}
+                                            onChange={handleInputChange}
+                                            label="Type"
+                                        >
+                                            <option aria-label="None" value="" />
+                                            {types.map((type, index) =>
+                                                <option key={index} value={type}>{type}</option>
+                                            )}
                                         </Select>
                                     </FormControl>
                                     <TextField
@@ -183,14 +266,29 @@ export const AddMenu = (props) => {
                                         margin="normal"
                                         required
                                         fullWidth
-                                        name="cost"
-                                        label="Cost"
+                                        name="price"
+                                        label="Price"
                                         type="text"
-                                        id="cost"
-                                        value={item.cost}
+                                        id="price"
+                                        value={item.price}
                                         onChange={handleInputChange}
-                                        autoComplete="cost"
+                                        autoComplete="price"
                                     />
+                                    <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="bestSeller" autoFocus>
+                                        <InputLabel htmlFor="bestSeller">BestSeller</InputLabel>
+                                        <Select
+                                            native
+                                            name="bestSeller"
+                                            value={item.bestSeller}
+                                            onChange={handleInputChange}
+                                            label="BestSeller"
+                                        >
+                                            <option aria-label="None" value="" />
+                                            {choices.map((bestSeller, index) =>
+                                                <option key={index} value={bestSeller}>{bestSeller}</option>
+                                            )}
+                                        </Select>
+                                    </FormControl>
                                     <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="status" autoFocus>
                                         <InputLabel htmlFor="category">Category</InputLabel>
                                         <Select
@@ -201,9 +299,9 @@ export const AddMenu = (props) => {
                                             label="Category"
                                         >
                                             <option aria-label="None" value="" />
-                                        {categories.map((category, index) =>
-                                            <option key={index} value={category.name}>{category.name}</option>
-                                        )}
+                                            {categories.map((category, index) =>
+                                                <option key={index} value={category.id}>{category.name}</option>
+                                            )}
                                         </Select>
                                         <Button color="primary" onClick={() => { setOpenCategoryPopup(true) }}>Add Category (If not already existing.)</Button>
                                     </FormControl>

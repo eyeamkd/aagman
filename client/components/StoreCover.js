@@ -19,14 +19,14 @@
     },
   });
   
-  const StoreCover = () => {
+  const StoreCover = (props) => {
     const classes = useStyles();
   
     return (
       <Card className={classes.cover} variant="outlined">
         <CardContent className={classes.textContainer}>
           <Typography className={classes.title} gutterBottom>
-            Store Name
+            {props.storeName}
           </Typography>
           <Typography variant="h5" component="h2">
             Description of the store.

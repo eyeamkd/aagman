@@ -1,6 +1,34 @@
 import {gql} from '@apollo/client'
 
-export const ADD_CATEGORY=gql`
+export const DELETE_ITEM=gql`
+mutation Mutation($deleteItemItemId: ID!, $deleteItemCategoryId: ID!) {
+  deleteItem(itemId: $deleteItemItemId, categoryId: $deleteItemCategoryId)
+}`
+
+export const UPDATE_ITEM=gql`
+mutation Mutation(
+    $updateItemName: String!, 
+    $updateItemDescription: String!, 
+    $updateItemAvailability: ItemAvailability!, 
+    $updateItemType: Type!, 
+    $updateItemPrice: Float!, 
+    $updateItemRating: Float!, 
+    $updateItemBestSeller: BestSellerItem!, 
+    $updateItemPhoto: String!, 
+    $updateItemItemId: ID!) {
+  updateItem(
+    name: $updateItemName, 
+    description: $updateItemDescription, 
+    availability: $updateItemAvailability, 
+    type: $updateItemType, 
+    price: $updateItemPrice, 
+    rating: $updateItemRating, 
+    bestSeller: $updateItemBestSeller, 
+    photo: $updateItemPhoto, 
+    itemId: $updateItemItemId)
+}`
+
+export const ADD_ITEM=gql`
 mutation Mutation($createItemName: String!,
      $createItemDescription: String!,
       $createItemAvailability: ItemAvailability!,
@@ -21,3 +49,4 @@ mutation Mutation($createItemName: String!,
                 categoryId: $createItemCategoryId)
   }
 `
+

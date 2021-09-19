@@ -9,7 +9,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { AddMenu } from './AddMenu';
-import {ADD_MENU_ITEMS} from "../GraphQL/Mutations/MenuMutation";
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
@@ -19,6 +18,15 @@ import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { GET_MENU } from '../GraphQL/Queries/MenuQueries';
+import { useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { ADD_ITEM,UPDATE_ITEM,DELETE_ITEM } from '../GraphQL/Mutations/ItemMutation';
+import QRCode from 'qrcode';
+import Button from '@material-ui/core/Button';
+import Image from 'next/image';
+import { motion } from "framer-motion";
+import Paper from '@material-ui/core/Paper';
 
 function preventDefault(event) {
     event.preventDefault();
@@ -94,35 +102,125 @@ const useStyles = makeStyles((theme) => ({
     },
     menuItem: {
         backgroundColor: "#83c3f7"
-    }
+    },
+    tableCell: {
+        width: 200,
+        borderWidth: "thin", 
+        borderColor: '#D3D3D3',
+        borderStyle: 'solid'
+    },
+    generateQr: {
+        margin: "10px",
+        padding: "10px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        textAlign: "center"
+    },
+    buttons: {
+        textAlign: "center"
+    },
+    button: {
+        margin: theme.spacing(2, 0, 1),
+        backgroundColor: "#0596f5",
+        color: "#ffffff",
+        padding: "10px",
+        borderRadius: "40px",
+        textAlign: "center",
+        width: "fit-content"
+    },
+    bolderFont: {
+        fontWeight: 600
+    },
+    categoryTable:
+    {
+        margin: "10px 0"
+    },
+    loader:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:"center"
+      },
 }));
 
-export default function MenuTable() {
+export default function MenuTable({ storeId }) {
     const classes = useStyles();
-    const [categories, setCategories] = useState([]);
+
     const [items, setItems] = useState([]);
     const [openPopup, setOpenPopup] = useState(false)
     const [recordForEdit, setRecordForEdit] = useState(null)
+    const [addItemsMenu] = useMutation(ADD_ITEM);
+    const { data, loading, error, refetch } = useQuery(GET_MENU,
+        {
+            variables: {
+                getMenuStoreId: storeId
+            }
+        });
+    const [updateItemsMenu]=useMutation(UPDATE_ITEM)
+    const [deleteItemsMenu]=useMutation(DELETE_ITEM)
     const openInPopup = item => {
         setRecordForEdit(item)
         setOpenPopup(true)
     }
+    const [qrCode, setQrCode] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
+    const createItemsFunction = async () => {
+
+        try {
+            setQrCode(await QRCode.toDataURL("https://aagman-client.herokuapp.com/menu?menuId=" + menuId));
+            setImageUrl(qrCode);
+        }
+        catch (error) {
+            console.log(error);
+        }
+
+
+    }
 
     const addOrEdit = (item, resetForm) => {
-         if (item.id === "")
-         {
-            let menuItem = {
-                name : item.name,
-                description : item.description,
-                status : item.status,
-                cost : item.cost,
-                category : item.category
-            }
-            setItems(items => [...items, menuItem] )
+        if (item.id === "") {
+            // let menuItem = {
+            //     name: item.name,
+            //     description: item.description,
+            //     status: item.status,
+            //     cost: item.cost,
+            //     category: item.category
+            // }
+            // setItems(items => [...items, menuItem])
+            console.log(item.category)
+            addItemsMenu({
+
+                variables: {
+                    createItemName: item.name,
+                    createItemDescription: item.description,
+                    createItemAvailability: item.availability,
+                    createItemType: item.type,
+                    createItemPrice: parseFloat(item.price),
+                    createItemRating: parseFloat(0),
+                    createItemBestSeller: item.bestSeller,
+                    createItemPhoto: "0",
+                    createItemCategoryId: item.category
+                }
+            }).then(refetch)
         }
-        else
-        {
-            menuService.updateMenu(item)
+        else {
+           // menuService.updateMenu(item)
+           updateItemsMenu({
+
+            variables: {
+                updateItemName: item.name, 
+                updateItemDescription: item.description, 
+                updateItemAvailability: item.availability, 
+                updateItemType: item.type, 
+                updateItemPrice: parseFloat(item.price), 
+                updateItemRating: parseFloat(item.rating), 
+                updateItemBestSeller: item.bestSeller, 
+                updateItemPhoto: "0", 
+                updateItemItemId: item.id
+            }
+        }).then(refetch)
+
         }
 
         resetForm()
@@ -130,8 +228,16 @@ export default function MenuTable() {
         setOpenPopup(false)
     }
 
-    const deleteItem = (id) => {
-        console.log("Delete the item with id ", id);
+    const deleteItem = (id,category) => {
+        // console.log(category);
+        // console.log("Delete the item with id ", id);
+        deleteItemsMenu({
+
+            variables: {
+                deleteItemItemId: id, 
+                deleteItemCategoryId: category
+            }
+        }).then(refetch)
     }
 
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -165,6 +271,41 @@ export default function MenuTable() {
             </MenuItem>
         </Menu>
     );
+
+    if (loading)
+        return (<div className={classes.loader}>
+            <div>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+              <Typography variant="h5"><b>Loading...</b></Typography>
+            </div>
+          </div>);
+
+    if (error)
+        return (<Paper className={classes.loader}>
+            <div>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+            </div>
+          </Paper>);
+
+    const menu = Object.values(data)[0].menu;
+    const categories=menu.categories;
+    const menuId=menu.id;
 
     return (
         <React.Fragment>
@@ -210,33 +351,47 @@ export default function MenuTable() {
             </div>
             <div className={classes.menuTable}>
                 <Table size="small">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell>Cost</TableCell>
-                            <TableCell>Category</TableCell>
-                            <TableCell align="right">Modify/Delete</TableCell>
-                        </TableRow>
-                    </TableHead>
                     <TableBody>
-                        {items.map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell>{row.name}</TableCell>
-                                <TableCell>{row.description}</TableCell>
-                                <TableCell>{row.status}</TableCell>
-                                <TableCell>₹{row.cost}</TableCell>
-                                <TableCell>{row.category}</TableCell>
-                                <TableCell align="right">
-                                    <IconButton aria-label="edit" onClick={() => { openInPopup(row) }} color="inherit">
-                                        <EditIcon fontSize="small" />
-                                    </IconButton>
-                                    <IconButton aria-label="delete" onClick={() => deleteItem(row.id)} color="inherit">
-                                        <DeleteIcon fontSize="small" />
-                                    </IconButton></TableCell>
-                            </TableRow>
-                        ))}
+                      
+                            {categories.map(category =>
+                                <div key={category.id} className={classes.categoryTable}>
+                                    <TableCell className={classes.bolderFont} >{category.name}</TableCell>
+                                    <TableCell>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Name</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Description</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Availability</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Type</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Price</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Rating</TableCell>
+                                                <TableCell className={[classes.tableCell, classes.bolderFont]} >Best Seller</TableCell>
+                                                <TableCell align="right" className={[classes.tableCell, classes.bolderFont]}>Modify/Delete</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        {category.items.map((row) => (
+                                            <TableRow key={row.id}>
+                                                <TableCell className={classes.tableCell} >{row.name}</TableCell>
+                                                <TableCell className={classes.tableCell} >{row.description}</TableCell>
+                                                <TableCell className={classes.tableCell} >{row.availability}</TableCell>
+                                                <TableCell className={classes.tableCell} >{row.type}</TableCell>
+                                                <TableCell className={classes.tableCell} >₹{row.price}</TableCell>
+                                                <TableCell className={classes.tableCell} >{row.rating}</TableCell>
+                                                <TableCell className={classes.tableCell} >{row.bestSeller}</TableCell>
+                                                <TableCell className={classes.tableCell} align="right">
+                                                    <IconButton aria-label="edit" onClick={() => { openInPopup(row) }} color="inherit">
+                                                        <EditIcon fontSize="small" />
+                                                    </IconButton>
+                                                    <IconButton aria-label="delete" onClick={() => deleteItem(row.id,category.id)} color="inherit">
+                                                        <DeleteIcon fontSize="small" />
+                                                    </IconButton></TableCell>
+                                            </TableRow>
+                                        ))
+                                        }
+                                    </TableCell>
+                                </div>
+                            )}
+
                     </TableBody>
                 </Table>
             </div>
@@ -247,9 +402,22 @@ export default function MenuTable() {
                 recordForEdit={recordForEdit}
                 setRecordForEdit={setRecordForEdit}
                 addOrEdit={addOrEdit}
-                categories={categories}
-                setCategories={setCategories}
+                menuId={menuId}
+
             />
+            <div className={classes.generateQr}>
+                <div className={classes.buttons}>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => createItemsFunction()}
+                        className={classes.button}
+                    >
+                        Generate QR Code
+                    </Button>
+                </div>
+                {qrCode ? (<a href={qrCode} download><Image src={qrCode} alt="image" width={150} height={150}/></a>) : null}
+            </div>
         </React.Fragment>
     );
 }

@@ -9,15 +9,24 @@ import CardActions from '@material-ui/core/CardActions';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
+import Image from 'next/image';
+import {Rating} from '@material-ui/lab';
+import Box from '@material-ui/core/Box';
+import grey from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
+    inputMultiline : {
+        "& .MuiInputBase-input" : {
+            height : '100vh', //here add height of your container
+          }},
     card: {
         display: "flex",
         borderRadius: "20px",
         backgroundColor: "#90caf9",
         color: "black",
         margin: "10px 10px 0",
-        padding: "10px"
+        padding: "10px",
+        height:"210px"
     },
     cardActions: {
         justifyContent: "center",
@@ -27,10 +36,15 @@ const useStyles = makeStyles((theme) => ({
     },
     cardMedia: {
         border: "2px solid white",
-        borderRadius: "100px",
+        borderRadius: "10px",
         width: 50,
         height: 50,
     },
+    bestSellerMedia: {
+        width: 50,
+        height: 50,
+    },
+
     product: {
         margin: "10px 0 0 0px"
     },
@@ -42,12 +56,23 @@ const useStyles = makeStyles((theme) => ({
         padding: "16px",
         textAlign: "center",
     },
+    type:{
+        display:"block"
+    },
     iconButtons: {
         backgroundColor: "#0596f5",
         "&:hover": {
             backgroundColor: '#0d47a1',
         },
         color: "#ffffff",
+    },
+    disableDiv:{
+        opacity:0.5,
+        pointerEvents:'none'
+        
+    },
+    ratingImage:{
+        display:'inline'
     }
 }));
 
@@ -57,6 +82,7 @@ theme = responsiveFontSizes(theme);
 const ProductCard = ({ product, setItem }) => {
     const [quantity, setQuantity] = useState(0);
     const [itemCard, setItemCard] = useState({})
+    const [bestSeller,setBestSeller]=useState(true);
     const classes = useStyles();
 
     useEffect(() => {
@@ -66,7 +92,7 @@ const ProductCard = ({ product, setItem }) => {
     const incrementQuantity = () => {
         setQuantity(quantity + 1);
     }
-
+     
     const decrementQuantity = () => {
         if (quantity > 0) {
             setQuantity(quantity - 1);
@@ -78,6 +104,7 @@ const ProductCard = ({ product, setItem }) => {
 
     itemCard["name"] = product.name
     itemCard["price"] = product.price
+    itemCard["itemId"]=product.id
 
     const updateOrder = () => {
         itemCard["quantity"] = quantity;
@@ -85,9 +112,14 @@ const ProductCard = ({ product, setItem }) => {
         setItem(itemCard);
     }
 
+    console.log(product.availability)
+
+
+
     return (
         <ThemeProvider theme={theme}>
             <Grid item xs={12} md={4}>
+            <div className={product.availability=="OutOfStock"?classes.disableDiv:null}>
                 <Card className={classes.card} variant="outlined">
                     <div className={classes.cardDetails}>
                         <CardContent className={classes.cardContent}>
@@ -98,28 +130,44 @@ const ProductCard = ({ product, setItem }) => {
                             />
                             <div className={classes.product}>
                                 <Typography variant="subtitle1" color="inherit" style={{ fontWeight: "500" }}>
-                                    ₹{product.price}
+                                    ₹{product.price}                
                                 </Typography>
-                                <Typography component="h2" variant="h5" style={{ fontWeight: "500" }}>
+                                <Typography className={classes.inputMultiline} component="h2" variant="h5" style={{ fontWeight: "500" }}>
                                     {product.name}
                                 </Typography>
+                                <div className={classes.ratingImage}>
+                                <Rating name="read-only" value={product.rating} readOnly /><Image
+                                 src={"/images/"+product.type+".jpeg"}
+                                 alt="App Logo"
+                                 width={20}
+                                 height={20}
+                                 className={classes.type}
+                                />
+                                </div>
                             </div>
                         </CardContent>
                     </div>
                     <div className={classes.productQuantity}>
+                   {product.bestSeller=="Yes"?<Image
+                          src="/images/bestseller-removebg-preview.png"
+                          alt="App Logo"
+                          width={40}
+                          height={40}
+                    />:null} 
                         <Typography variant="h6" color="inherit">
                             Quantity: {quantity}
                         </Typography>
                         <CardActions className={classes.cardActions}>
-                            <IconButton variant="contained" color="secondary" aria-label="add" onClick={incrementQuantity} className={classes.iconButtons}>
+                            <IconButton variant="contained" color="secondary" id="#incrementButton" aria-label="add" onClick={incrementQuantity} className={classes.iconButtons}>
                                 <AddIcon />
                             </IconButton>
                             <IconButton variant="contained" color="secondary" aria-label="remove" onClick={decrementQuantity} className={classes.iconButtons}>
                                 <RemoveIcon />
                             </IconButton>
                         </CardActions>
-                    </div>
+                    </div>    
                 </Card>
+                </div>
             </Grid>
         </ThemeProvider>
     );

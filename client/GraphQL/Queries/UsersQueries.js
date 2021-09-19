@@ -26,6 +26,14 @@ query Query($getUserStoreIdEmail: String!) {
 }
 `
 
+export const GET_USER_FROM_EMAIL=gql`
+query Query($getUserByMailEmail: String!) {
+  getUserByMail(email: $getUserByMailEmail) {
+    id
+  }
+}
+`
+
 export const GET_USER_BY_CODE=gql`
 query Query($userExistsEmail: String!) {
   userExists(email: $userExistsEmail) {

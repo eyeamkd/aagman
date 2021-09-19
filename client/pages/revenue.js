@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext} from 'react'
 import Dashboard from '../components/Dashboard'
 import Deposits from '../components/Deposits'
-import { useRouter } from 'next/router'
 import Head from 'next/head'
+import { StoreContext } from '../src/StoreContext'
 
 const Revenue = () => {
-    const [email, setEmail] = useState("");
-    const { query } = useRouter();
 
-    useEffect(() => {
-        console.log("This is the email id received.", query.email);
-        setEmail(query.email);
-    }, [])
+    const { storeIdGlobal,userEmailGlobal } = useContext(StoreContext); 
 
     return (
         <>
@@ -19,7 +14,7 @@ const Revenue = () => {
                 <title>Revenue</title>
             </Head>
             <Dashboard>
-                {<Deposits email={email} />}
+                {<Deposits storeId={storeIdGlobal} userEmail={userEmailGlobal} />}
             </Dashboard>
         </>
     )
