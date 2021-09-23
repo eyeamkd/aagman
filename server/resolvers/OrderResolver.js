@@ -1,4 +1,6 @@
-import { subscribe } from "graphql";
+//import { subscribe } from "graphql";
+
+const {subscribe} = require("graphql")
 
 const Order=require("./../models/order");
 const Store=require("./../models/Store");

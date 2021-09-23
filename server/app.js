@@ -10,6 +10,7 @@ const cors = require("cors");
 const webpush = require('web-push')
 const { GraphQLClient } = require('graphql-request');
 const ResolverTypeDefModule = require('./ResolverTypeDef');
+const mocks= require('./mocks');
 const Resolver = ResolverTypeDefModule.resolver;
 const TypeDef = ResolverTypeDefModule.typedef
 const LocationResolvers = require("./resolvers/LocationResolver");
@@ -40,8 +41,11 @@ const server = async () => {
   const server = new ApolloServer({
     typeDefs: [TypeDef],
     resolvers: Resolver,
+   // mocks:mocks,
     context:{pubsub}
   })
+
+
 
   await server.start()
   server.applyMiddleware({ app });
@@ -208,9 +212,10 @@ const server = async () => {
 
   app.listen(PORT, () => {
     console.log("server is running on", PORT);
-  })
-}
+  })}
+
 
 server();
+//module.exports = server
 
 

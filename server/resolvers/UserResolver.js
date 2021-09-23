@@ -5,13 +5,14 @@ const Menu=require("./../models/Menu");
 const Revenue=require("./../models/Revenue");
 const Timing=require("./../models/Timing");
 const Feedback=require("./../models/Feedback");
-
 module.exports= {
     Query: {
         users:() => User.find(),
         user:(parent, {id}) => User.findById(id),
         getUserStoreId: (_,{email})=>{
              const user=User.findOne({email:email});
+
+             
              return user.populate("stores")  
         },
         getUserByMail: async (_,{email})=>{
@@ -53,7 +54,6 @@ module.exports= {
                          statusTime
                         })=>{
             const user= new User({email,fullName,gstNumber,phoneNumber});
-            
 
             const store = new Store({ name:storeName, owner:user.id,rating:0});
             user.stores.push(store);
