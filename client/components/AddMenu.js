@@ -143,7 +143,7 @@ export const AddMenu = (props) => {
         return (<div>Loading...</div>);
 
     if (error)
-        return (<div>Error! ${error.message}</div>);
+        return (<div>Error loading data...</div>);
 
     const categories = Object.values(data)[0].categories;
 

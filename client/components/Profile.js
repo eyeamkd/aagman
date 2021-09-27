@@ -84,7 +84,7 @@ export default function Profile({ storeId }) {
     return (<div>Loading...</div>);
 
     if (error)
-    return (<div>Error! ${error.message}</div>);
+    return (<div>Error loading data...</div>);
 
     const userId = Object.values(data)[0].owner.id;
     console.log(userId)
@@ -92,7 +92,7 @@ export default function Profile({ storeId }) {
     return (
         <>
             <div className={classes.buttons}>
-                <Button startIcon={<AddIcon />} onClick={() => { setOpenPopup(true) }} variant="contained" color="secondary" className={classes.button}>
+                <Button id="button" startIcon={<AddIcon />} onClick={() => { setOpenPopup(true) }} variant="contained" color="secondary" className={classes.button}>
                     Add Store
                 </Button>
             </div>
