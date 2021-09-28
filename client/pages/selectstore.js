@@ -18,6 +18,8 @@ import { GET_USERS_STORES_FROM_EMAIL, GET_USER_FROM_EMAIL } from '../GraphQL/Que
 import { useQuery } from '@apollo/client';
 import { StoreContext } from '../src/StoreContext';
 import { firebaseCloudMessaging } from "../utils/webPush";
+import { motion } from "framer-motion";
+import Image from 'next/image';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,6 +56,12 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         justifyContent: "center"
     },
+    loader:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:"center"
+      },
 }));
 
 const SelectStore = () => {
@@ -90,18 +98,70 @@ const SelectStore = () => {
     // }, [])
 
     if (loading)
-        return (<div>Loading...</div>);
+        return (<div className={classes.loader}>
+            <div>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+              <Typography variant="h5"><b>Loading...</b></Typography>
+            </div>
+          </div>);
 
     if (error)
-        return (<div>Error! ${error.message}</div>);
+        return (<div className={classes.loader}>
+            <div>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+            </div>
+          </div>);
 
     const stores = Object.values(data)[0].stores
 
     if (userDataLoading)
-        return (<div>Loading...</div>);
+        return (<div className={classes.loader}>
+            <div>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+              <Typography variant="h5"><b>Loading...</b></Typography>
+            </div>
+          </div>);
 
     if (userDataError)
-        return (<div>Error! ${userDataError.message}</div>);
+        return (<div className={classes.loader}>
+            <div>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+            </div>
+          </div>);
 
     const user = Object.values(userData)[0];
 

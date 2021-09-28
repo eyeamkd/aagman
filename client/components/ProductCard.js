@@ -9,13 +9,10 @@ import CardActions from '@material-ui/core/CardActions';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
-import BestSellerImage from './../public/images/bestseller-removebg-preview.png'
-import Veg from './../public/images/Veg.jpeg'
-import NonVeg from './../public/images/NonVeg.jpeg'
-import NonEdible from './../public/images/NonEdible.jpeg'
-import Egg from './../public/images/Egg.jpeg'
 import Image from 'next/image';
 import {Rating} from '@material-ui/lab';
+import Box from '@material-ui/core/Box';
+import grey from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
     inputMultiline : {
@@ -39,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
     cardMedia: {
         border: "2px solid white",
-        borderRadius: "100px",
+        borderRadius: "10px",
         width: 50,
         height: 50,
     },
@@ -59,12 +56,23 @@ const useStyles = makeStyles((theme) => ({
         padding: "16px",
         textAlign: "center",
     },
+    type:{
+        display:"block"
+    },
     iconButtons: {
         backgroundColor: "#0596f5",
         "&:hover": {
             backgroundColor: '#0d47a1',
         },
         color: "#ffffff",
+    },
+    disableDiv:{
+        opacity:0.5,
+        pointerEvents:'none'
+        
+    },
+    ratingImage:{
+        display:'inline'
     }
 }));
 
@@ -84,8 +92,6 @@ const ProductCard = ({ product, setItem }) => {
     const incrementQuantity = () => {
         setQuantity(quantity + 1);
     }
-
-   
      
     const decrementQuantity = () => {
         if (quantity > 0) {
@@ -106,11 +112,14 @@ const ProductCard = ({ product, setItem }) => {
         setItem(itemCard);
     }
 
+    console.log(product.availability)
+
 
 
     return (
         <ThemeProvider theme={theme}>
             <Grid item xs={12} md={4}>
+            <div className={product.availability=="OutOfStock"?classes.disableDiv:null}>
                 <Card className={classes.card} variant="outlined">
                     <div className={classes.cardDetails}>
                         <CardContent className={classes.cardContent}>
@@ -126,6 +135,7 @@ const ProductCard = ({ product, setItem }) => {
                                 <Typography className={classes.inputMultiline} component="h2" variant="h5" style={{ fontWeight: "500" }}>
                                     {product.name}
                                 </Typography>
+                                <div className={classes.ratingImage}>
                                 <Rating name="read-only" value={product.rating} readOnly /><Image
                                  src={"/images/"+product.type+".jpeg"}
                                  alt="App Logo"
@@ -133,6 +143,7 @@ const ProductCard = ({ product, setItem }) => {
                                  height={20}
                                  className={classes.type}
                                 />
+                                </div>
                             </div>
                         </CardContent>
                     </div>
@@ -147,15 +158,16 @@ const ProductCard = ({ product, setItem }) => {
                             Quantity: {quantity}
                         </Typography>
                         <CardActions className={classes.cardActions}>
-                            <IconButton variant="contained" color="secondary" aria-label="add" onClick={incrementQuantity} className={classes.iconButtons}>
+                            <IconButton variant="contained" color="secondary" id="#incrementButton" aria-label="add" onClick={incrementQuantity} className={classes.iconButtons}>
                                 <AddIcon />
                             </IconButton>
                             <IconButton variant="contained" color="secondary" aria-label="remove" onClick={decrementQuantity} className={classes.iconButtons}>
                                 <RemoveIcon />
                             </IconButton>
                         </CardActions>
-                    </div>
+                    </div>    
                 </Card>
+                </div>
             </Grid>
         </ThemeProvider>
     );

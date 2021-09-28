@@ -23,6 +23,10 @@ import Head from 'next/head'
 import { VerifyOrder } from '../components/VerifyOrder';
 import axios from 'axios';
 import { firebaseCloudMessaging } from "../utils/customerPush";
+import { motion } from "framer-motion";
+import Image from 'next/image';
+import Typography from '@material-ui/core/Typography';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,6 +60,12 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "40px",
         textAlign: "center"
     },
+    loader:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:"center"
+      },
     // navIcons: {
     //     color: rgb(192,174,246,255)
     // }
@@ -113,28 +123,111 @@ const Menu = () => {
     }, [item])
 
     if (loading)
-        return (<div>Loading...</div>);
+        return (<div className={classes.loader}>
+            <div>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+              <Typography variant="h5"><b>Loading...</b></Typography>
+            </div>
+          </div>);
 
     if (error)
-        return (<div>Error! ${error.message}</div>);
+        return (<div className={classes.loader}>
+            <div>
+              <div  className={classes.logoError}>
+            
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+
+            </div>
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+            </div>
+          </div>);
 
     const productCards = Object.values(data);
 
     if (storeDataLoading)
-        return (<div>Loading...</div>);
+        return (<div className={classes.loader}>
+            <div>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+              <Typography variant="h5"><b>Loading...</b></Typography>
+            </div>
+          </div>);
 
     if (storeDataError)
-        return (<div>Error! ${storeDataError.message}</div>);
+        return (<div className={classes.loader}>
+            <div>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+            </div>
+          </div>);
 
     const store = Object.values(storeData)[0].store;
     const storeId = store.id;
     const storeName = store.name;
 
     if (tokenDataLoading)
-        return (<div>Loading...</div>);
+        return (<div className={classes.loader}>
+            <div>
+              <div  className={classes.logo}>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+            </div>
+              <Typography><b>Loading...</b></Typography>
+            </div>
+          </div>);
 
     if (tokenDataError)
-        return (<div>Error! ${tokenDataError.message}</div>);
+        return (<div className={classes.loader}>
+            <div>     
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+            </div>
+          </div>);
 
     const tokens = Object.values(tokenData)[0];
 

@@ -13,6 +13,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+
 const useStyles = makeStyles((theme) => ({
     button: {
         margin: "20px",
@@ -117,8 +118,6 @@ return (
                 <TextField label="GST Number" variant="outlined" color="primary" value={gstNumber} onChange={(e) => { setGstNumber(e.target.value); }} />
                 <br /><br />
                 <TextField label="Store Name" variant="outlined" color="primary" value={storeName} onChange={(e) => { setStoreName(e.target.value); }} />
-                <br /><br />
-                <TextField label="Rating" variant="outlined" color="primary" value={rating} onChange={(e) => { setRating(e.target.value); }} />
                 <br /><br />
                 <TextField label="Area" variant="outlined" color="primary" value={area} onChange={(e) => { setArea(e.target.value); }} />
                 <br /><br />

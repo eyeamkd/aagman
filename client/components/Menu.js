@@ -25,6 +25,8 @@ import { ADD_ITEM,UPDATE_ITEM,DELETE_ITEM } from '../GraphQL/Mutations/ItemMutat
 import QRCode from 'qrcode';
 import Button from '@material-ui/core/Button';
 import Image from 'next/image';
+import { motion } from "framer-motion";
+import Paper from '@material-ui/core/Paper';
 
 function preventDefault(event) {
     event.preventDefault();
@@ -133,7 +135,13 @@ const useStyles = makeStyles((theme) => ({
     categoryTable:
     {
         margin: "10px 0"
-    }
+    },
+    loader:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:"center"
+      },
 }));
 
 export default function MenuTable({ storeId }) {
@@ -189,7 +197,7 @@ export default function MenuTable({ storeId }) {
                     createItemAvailability: item.availability,
                     createItemType: item.type,
                     createItemPrice: parseFloat(item.price),
-                    createItemRating: parseFloat(item.rating),
+                    createItemRating: parseFloat(0),
                     createItemBestSeller: item.bestSeller,
                     createItemPhoto: "0",
                     createItemCategoryId: item.category
@@ -265,10 +273,35 @@ export default function MenuTable({ storeId }) {
     );
 
     if (loading)
-        return (<div>Loading...</div>);
+        return (<div className={classes.loader}>
+            <div>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+              <Typography variant="h5"><b>Loading...</b></Typography>
+            </div>
+          </div>);
 
     if (error)
-        return (<div>Error! ${error.message}</div>);
+        return (<Paper className={classes.loader}>
+            <div>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+            </div>
+          </Paper>);
 
     const menu = Object.values(data)[0].menu;
     const categories=menu.categories;

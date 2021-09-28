@@ -19,6 +19,8 @@ import { useQuery } from '@apollo/client';
 import Select from '@material-ui/core/Select';
 import moment from "moment";
 import Box from '@material-ui/core/Box';
+import { motion } from "framer-motion";
+import Image from 'next/image';
 
 
 function preventDefault(event) {
@@ -46,17 +48,20 @@ const useStyles = makeStyles((theme) => ({
     },
     data: {
         margin: "7px",
-        display:"flex",
         padding:"20px",
-        height:"200px",
+        height:"100px",
+        display:"flex",
+        width:"100%",
         justifyContent:"center",
         alignItems:"center",
         borderRadius: "20px",
+        textAlign:"center"
        
     },
     bestSeller: {
         margin: "7px",
         padding:"20px",
+        width:"100%",
         top:"50%",
         height:"125px",
         justifyContent:"center",
@@ -81,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
         width:"300px"
     },
     graph:{
-        width:"515px",
+        width:"100%",
         padding:"10px",
         height:"250px",
         margin:"5px",
@@ -102,21 +107,17 @@ const useStyles = makeStyles((theme) => ({
     },
     paymentTitle:{
         textAlign: 'center',
-       
-        
-    }
+    },
+    loader:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:"center"
+      },
 }));
 
 
-  const renderCustomizedLabel = ({
-    x, y, payment
-  }) => {
-    return (
-      <text x={x} y={y} fill="black" >
-        {payment}
-      </text>
-    );
-  };
+
 
 export default function Deposits({ storeId, userEmail }) {
     console.log(storeId,userEmail)
@@ -176,21 +177,83 @@ export default function Deposits({ storeId, userEmail }) {
             setStoreIdentification(e.target.value);
             refetch()
         }
+        const renderCustomizedLabel = ({
+            x, y, payment
+          }) => {
+            return (
+              <text x={x} y={y} fill="black" >
+                {payment}
+              </text>
+            );
+          };
     
         let todaysOrders=0
             let todaysRevenue=0
           if(storesLoading)
-          return (<div>Loading...</div>);
+          return (<div className={classes.loader}>
+            <div>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+              <Typography variant="h5"><b>Loading...</b></Typography>
+            </div>
+          </div>);
 
           if(storesError)
-          return (<div>Error! ${error.message}</div>);
+          return (<div className={classes.loader}>
+            <div>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+            </div>
+          </div>);
             const stores = Object.values(storesData)[0].stores
 
             if (loading)
-            return (<div>Loading...</div>);
+            return (<div className={classes.loader}>
+                <div>
+                   <motion.div animate={{
+                      y: 30, y: -30,
+                      transition: { yoyo: Infinity, duration: 1.5, },
+    
+                   }}>
+                   <Image
+                     src="/images/logo.png"
+                     alt="App Logo"
+                     width={100}
+                     height={100}
+                   />
+                  </motion.div>
+                  <Typography variant="h5"><b>Loading...</b></Typography>
+                  </div>
+              </div>);
     
         if (error)
-            return (<div>Error! ${error.message}</div>);
+            return (<div className={classes.loader}>
+                <div>
+                
+                   <Image
+                     src="/images/logo.png"
+                     alt="App Logo"
+                     width={100}
+                     height={100}
+                   />
+
+                </div>
+                  <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+              </div>);
             console.log(data)
            let revenue = Object.values(data)[0].revenue;
            
@@ -217,10 +280,6 @@ export default function Deposits({ storeId, userEmail }) {
                 obj.revenueCount+=orders[i].bill.totalCost
                 obj.orderCount+=1
                 }
-              //  }
-               // if(m1.isoMonth()==m.isoMonth()){
-                // console.log(d.getYear)
-                // console.log(new Date(orders[i].dateAndTime))
                 console.log((new Date(orders[i].dateAndTime).getFullYear()))
                 console.log(d.getFullYear())
                 if((new Date(orders[i].dateAndTime).getFullYear()==d.getFullYear())){
@@ -229,7 +288,6 @@ export default function Deposits({ storeId, userEmail }) {
                 obj.revenueCount+=orders[i].bill.totalCost
                 obj.orderCount+=1 
                 }
-              //  }
             }
             const mappings = {}
             for (let i = 0; i < arr.length; i++) {
@@ -241,11 +299,10 @@ export default function Deposits({ storeId, userEmail }) {
                 }
                 return mappings[b] - mappings[a]
             })
-          
+          const paymentMode1=[]
             for(var k=0;k<paymentMode.length;k++){
-                if(paymentMode[k].value==0){
-                    paymentMode.pop(paymentMode[k])
-                    k=0;
+                if(paymentMode[k].value!=0){
+                    paymentMode1.push(paymentMode[k])
                 }
             }
             
@@ -378,13 +435,13 @@ export default function Deposits({ storeId, userEmail }) {
             <Typography variant="h4" className={classes.paymentTitle}>Payment Mode</Typography>
             <PieChart width={325} height={300}>
           <Pie
-            data={paymentMode}
+            data={paymentMode1}
             labelLine={false}
             label={renderCustomizedLabel}
             outerRadius={100}
             dataKey="value"
           >
-            {paymentMode.map((entry, index) => (
+            {paymentMode1.map((entry, index) => (
               <Cell key={`cell-${index}`}  fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
