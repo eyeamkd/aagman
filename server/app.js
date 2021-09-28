@@ -41,7 +41,8 @@ const server = async () => {
   const server = new ApolloServer({
     typeDefs: [TypeDef],
     resolvers: Resolver,
-   // mocks,
+    //Uncomment mocks while running test files
+     // mocks,
     context:{pubsub}
   })
 
@@ -209,13 +210,15 @@ const server = async () => {
   });
   
   app.get('/', (req, res) => res.send('Welcome to Aagman Server'))
-
+  if(!module.parent){
   app.listen(PORT, () => {
     console.log("server is running on", PORT);
   })}
+}
+
 
 
 server();
-//module.exports = server
+module.exports = server
 
 
