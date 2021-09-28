@@ -41,7 +41,7 @@ const server = async () => {
   const server = new ApolloServer({
     typeDefs: [TypeDef],
     resolvers: Resolver,
-   // mocks:mocks,
+   // mocks,
     context:{pubsub}
   })
 
