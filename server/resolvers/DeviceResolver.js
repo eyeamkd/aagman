@@ -24,7 +24,19 @@ module.exports= {
                 return user.save()
             });
             return "Device Created";
+        },
+        deleteDevice: async(_, { fcmToken }) => {
+            const devices = await Device.find({fcmToken: fcmToken});
+            devices.map(async (device) =>{
+                console.log(device);
+                console.log(device.user);
+                User.findById(device.user).then(async (user) =>{
+                    user.devices.pop(device._id);
+                    user.save();
+                    await Device.findByIdAndDelete(device._id);
+                })
+            })
+            return "Device Deleted";
         }
-
     }
 }

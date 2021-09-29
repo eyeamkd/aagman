@@ -1,4 +1,9 @@
 import "@testing-library/jest-dom";
+import '@testing-library/jest-dom/extend-expect'
+import { configure } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-17-updated'
+
+configure({ adapter: new Adapter() })
 
 
 class LocalStorageMock {
@@ -24,3 +29,4 @@ class LocalStorageMock {
   }
   
   global.localStorage = new LocalStorageMock;
+

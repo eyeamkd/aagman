@@ -16,7 +16,7 @@ const TypeDef = ResolverTypeDefModule.typedef
 const LocationResolvers = require("./resolvers/LocationResolver");
 const LocationTypeDef = require("./typedefs/LocationTypeDef");
 const endpoint = 'http://localhost:5000/graphql';
-const {PubSub}=require("graphql-subscriptions");
+const { PubSub } = require("graphql-subscriptions");
 const client = new GraphQLClient(endpoint, {
   credentials: 'include',
   mode: 'cors'
@@ -30,7 +30,7 @@ admin.initializeApp({
 });
 
 const PORT = process.env.PORT || 5000;
-const pubsub=new PubSub()
+const pubsub = new PubSub()
 const server = async () => {
   const app = express();
   app.use(express.json());
@@ -42,7 +42,7 @@ const server = async () => {
     typeDefs: [TypeDef],
     resolvers: Resolver,
     //Uncomment mocks while running test files
-     // mocks,
+    // mocks,
     context:{pubsub}
   })
 
@@ -94,25 +94,25 @@ const server = async () => {
     );
     console.log(response);
   };
-  
- const addDevice = async(currentToken, userId) => {
-  const response = await client.request(
-    `
+
+  const addDevice = async (currentToken, userId) => {
+    const response = await client.request(
+      `
     mutation CreateDeviceMutation($createDeviceFcmToken: String, $createDeviceActive: Boolean, $createDeviceCreatedAt: String, $createDeviceUserId: ID) {
       createDevice(fcmToken: $createDeviceFcmToken, active: $createDeviceActive, createdAt: $createDeviceCreatedAt, userId: $createDeviceUserId)
     }
   `,
-    {
-      createDeviceFcmToken: currentToken,
-      createDeviceActive: true,
-      createDeviceCreatedAt: "datetime",
-      createDeviceUserId: userId
-    }
-  );
- } 
+      {
+        createDeviceFcmToken: currentToken,
+        createDeviceActive: true,
+        createDeviceCreatedAt: "datetime",
+        createDeviceUserId: userId
+      }
+    );
+  }
 
   app.post("/register", (req, res) => {
-    const {currentToken, userId} = req.body;
+    const { currentToken, userId } = req.body;
     addDevice(currentToken, userId)
     res.status(200).json({ message: "Successfully registered FCM Token!" });
   });
@@ -125,23 +125,23 @@ const server = async () => {
         body: "Order has been received."
       }
     };
-    
-     var options = {
+
+    var options = {
       priority: "high",
-      timeToLive: 60 * 60 *24
+      timeToLive: 60 * 60 * 24
     };
 
     admin.messaging().sendToDevice(tokens, payload, options)
-      .then(function(response) {
+      .then(function (response) {
         console.log("Successfully sent message:", response);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log("Error sending message:", error);
       });
     res.status(200).json({ message: "Successfully sent notification to the store owner for successful order" });
   });
 
-  const addCustomerDevice = async(currentToken, orderId) => {
+  const addCustomerDevice = async (currentToken, orderId) => {
     const response = await client.request(
       `
       mutation CreateCustomerDeviceMutation($createCustomerDeviceFcmToken: String, $createCustomerDeviceActive: Boolean, $createCustomerDeviceCreatedAt: String, $createCustomerDeviceOrderId: ID) {
@@ -155,36 +155,52 @@ const server = async () => {
         createCustomerDeviceOrderId: orderId
       }
     );
-   } 
+  }
 
   app.post("/registercustomer", (req, res) => {
-    const {currentToken, orderId} = req.body;
+    const { currentToken, orderId } = req.body;
     addCustomerDevice(currentToken, orderId)
     res.status(200).json({ message: "Successfully registered FCM Token!" });
   });
 
-  app.post("/updateorderstatus", (req, res) => {
-    const { token, status } = req.body;
+  app.post("/updateorderstatus", async (req, res) => {
+    const { token, status, orderId } = req.body;
     var payload = {
       notification: {
         title: "Order Status",
         body: `${status}`
       }
     };
-    
-     var options = {
+
+    var options = {
       priority: "high",
-      timeToLive: 60 * 60 *24
+      timeToLive: 60 * 60 * 24
     };
 
     admin.messaging().sendToDevice(token, payload, options)
-      .then(function(response) {
+      .then(function (response) {
         console.log("Successfully sent message:", response);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log("Error sending message:", error);
       });
     res.status(200).json({ message: "Successfully sent notification to the store owner for successful order" });
+
+    if (status === "Completed") {
+      console.log(token);
+      console.log(orderId);
+      const response = await client.request(
+        `
+    mutation DeleteCustomerDeviceMutation($deleteCustomerDeviceFcmToken: String!, $deleteCustomerDeviceOrderId: ID!) {
+      deleteCustomerDevice(fcmToken: $deleteCustomerDeviceFcmToken, orderId: $deleteCustomerDeviceOrderId)
+    }
+    `,
+        {
+          deleteCustomerDeviceFcmToken: token,
+          deleteCustomerDeviceOrderId: orderId
+        }
+      );
+    }
   });
 
   app.post("/send", (req, res) => {
@@ -208,7 +224,7 @@ const server = async () => {
         console.log(err);
       });
   });
-  
+
   app.get('/', (req, res) => res.send('Welcome to Aagman Server'))
   if(!module.parent){
   app.listen(PORT, () => {

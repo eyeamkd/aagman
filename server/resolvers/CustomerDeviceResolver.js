@@ -23,7 +23,11 @@ module.exports= {
                 return order.save()
             });;
             return "CustomerDevice Created";
+        },
+        deleteCustomerDevice: async(_, { fcmToken, orderId }) => {
+            const customerDevice = await CustomerDevice.findOne({fcmToken: fcmToken, order: orderId});
+            await CustomerDevice.findByIdAndDelete(customerDevice._id);
+            return "Customer Device Deleted";
         }
-
     }
 }
