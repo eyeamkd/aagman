@@ -19,6 +19,7 @@ import { ADD_FEEDBACK } from '../GraphQL/Mutations/FeedbackMutation';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import TextField from '@material-ui/core/TextField';
+import Image from 'next/image';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,7 +58,13 @@ const useStyles = makeStyles((theme) => ({
     },
     ratingContent:{
         textAlign:'center'
-    }
+    },
+    loader:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:"center"
+      }
 
 
 }));
@@ -125,10 +132,35 @@ const Feedback = () => {
     }
   
     if (loading)
-    return (<div>Loading...</div>);
+    return (<div className={classes.loader}>
+        <div>
+           <motion.div animate={{
+              y: 30, y: -30,
+              transition: { yoyo: Infinity, duration: 1.5, },
+           }}>
+           <Image
+             src="/images/logo.png"
+             alt="App Logo"
+             width={100}
+             height={100}
+           />
+          </motion.div>
+          <Typography variant="h5"><b>Loading...</b></Typography>
+        </div>
+      </div>);
 
     if (error)
-    return (<div>Error! ${error.message}</div>);
+    return (<div className={classes.loader}>
+        <div>
+           <Image
+             src="/images/logo.png"
+             alt="App Logo"
+             width={100}
+             height={100}
+           />
+          <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+        </div>
+      </div>);
     const storeId=Object.values(data)[0].store.id
     const itemsList = Object.values(data)[0].itemsList;
     for(let i=0;i<itemsList.length;i++){

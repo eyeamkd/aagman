@@ -55,7 +55,7 @@ module.exports= {
             const user= new User({email,fullName,gstNumber,phoneNumber});
             
 
-            const store = new Store({ name:storeName, owner:user.id});
+            const store = new Store({ name:storeName, owner:user.id,rating:0});
             user.stores.push(store);
             await user.save();
             
