@@ -67,18 +67,18 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: "5px 0"
     },
-    loader:{
+    loader: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        textAlign:"center"
-      },
+        textAlign: "center"
+    },
 }));
 
 export const AddMenu = (props) => {
     const classes = useStyles();
     const [openCategoryPopup, setOpenCategoryPopup] = useState(false)
-    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit,menuId } = props;
+    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit, menuId } = props;
     const [availabilityStatusTypes, setAvailabilityStatusTypes] = useState(["InStock", "OutOfStock"]);
     const [types, setTypes] = useState(["Veg", "NonVeg", "Egg", "NonEdible"]);
     const [choices, setChoices] = useState(["Yes", "No"]);
@@ -150,33 +150,34 @@ export const AddMenu = (props) => {
     if (loading)
         return (<div className={classes.loader}>
             <div>
-               <motion.div animate={{
-                  y: 30, y: -30,
-                  transition: { yoyo: Infinity, duration: 1.5, },
-               }}>
-               <Image
-                 src="/images/logo.png"
-                 alt="App Logo"
-                 width={100}
-                 height={100}
-               />
-              </motion.div>
-              <Typography variant="h5"><b>Loading...</b></Typography>
+                <motion.div animate={{
+                    y: 30, y: -30,
+                    transition: { yoyo: Infinity, duration: 1.5, },
+                }}>
+                    <Image
+                        src="/images/logo.png"
+                        alt="App Logo"
+                        width={100}
+                        height={100}
+                    />
+                </motion.div>
+                <Typography variant="h5"><b>Loading...</b></Typography>
             </div>
-          </div>);
+        </div>);
 
-    if (error)
+    if (error) {
         return (<div className={classes.loader}>
             <div>
-               <Image
-                 src="/images/logo.png"
-                 alt="App Logo"
-                 width={100}
-                 height={100}
-               />        
-              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
+                <Image
+                    src="/images/logo.png"
+                    alt="App Logo"
+                    width={100}
+                    height={100}
+                />
+                <Typography variant="h5"><b>Sorry for the Inconvenience :(<br />There has been a problem</b></Typography>
             </div>
-          </div>);
+        </div>);
+    }
 
     const categories = Object.values(data)[0].categories;
 

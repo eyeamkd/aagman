@@ -31,6 +31,14 @@ enum BestSellerItem{
     Yes,No
 }
 
+type File{
+    id:ID!
+    path:String!
+    filename:String!
+    mimetype:String!
+    encoding:String!
+}
+
 type Mutation{
     createItem(name:String!,
                description:String!,
@@ -51,6 +59,8 @@ type Mutation{
                photo:String!,
                itemId:ID!):String!
     deleteItem(itemId:ID!,categoryId:ID!):String!
+    uploadImage(file:Upload!):File!
+
 }
 
 

@@ -49,12 +49,12 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "40px",
         textAlign: "center"
     },
-    loader:{
+    loader: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        textAlign:"center"
-      },
+        textAlign: "center"
+    },
 }));
 
 
@@ -74,7 +74,7 @@ export default function Profile({ storeId }) {
         setOpenPopup(false)
         addUserStore({
             variables: {
-                addStoreStoreName:item.storeName,
+                addStoreStoreName: item.storeName,
                 addStoreCountry: item.country,
                 addStoreState: item.state,
                 addStoreCity: item.city,
@@ -84,41 +84,42 @@ export default function Profile({ storeId }) {
                 addStoreCloseTime: item.closeTime,
                 addStoreStatusTime: item.status,
                 addStoreUserId: userId
-                
+
             }
         })
 
     }
     if (loading)
-    return (<div className={classes.loader}>
-        <div>
-           <motion.div animate={{
-              y: 30, y: -30,
-              transition: { yoyo: Infinity, duration: 1.5, },
-           }}>
-           <Image
-             src="/images/logo.png"
-             alt="App Logo"
-             width={100}
-             height={100}
-           />
-          </motion.div>
-          <Typography variant="h5"><b>Loading...</b></Typography>
-        </div>
-      </div>);
+        return (<div className={classes.loader}>
+            <div>
+                <motion.div animate={{
+                    y: 30, y: -30,
+                    transition: { yoyo: Infinity, duration: 1.5, },
+                }}>
+                    <Image
+                        src="/images/logo.png"
+                        alt="App Logo"
+                        width={100}
+                        height={100}
+                    />
+                </motion.div>
+                <Typography variant="h5"><b>Loading...</b></Typography>
+            </div>
+        </div>);
 
-    if (error)
-    return (<div className={classes.loader}>
-        <div>
-           <Image
-             src="/images/logo.png"
-             alt="App Logo"
-             width={100}
-             height={100}
-           />
-          <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
-        </div>
-      </div>);
+    if (error) {
+        return (<div className={classes.loader}>
+            <div>
+                <Image
+                    src="/images/logo.png"
+                    alt="App Logo"
+                    width={100}
+                    height={100}
+                />
+                <Typography variant="h5"><b>Sorry for the Inconvenience :(<br />There has been a problem</b></Typography>
+            </div>
+        </div>);
+    }
 
     const userId = Object.values(data)[0].owner.id;
     console.log(userId)
@@ -126,7 +127,7 @@ export default function Profile({ storeId }) {
     return (
         <>
             <div className={classes.buttons}>
-                <Button startIcon={<AddIcon />} onClick={() => { setOpenPopup(true) }} variant="contained" color="secondary" className={classes.button}>
+                <Button id="button" startIcon={<AddIcon />} onClick={() => { setOpenPopup(true) }} variant="contained" color="secondary" className={classes.button}>
                     Add Store
                 </Button>
             </div>
