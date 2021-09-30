@@ -25,7 +25,7 @@ export default function MyApp(props) {
   })
   const link = from([
     errorLink,
-    new HttpLink({ uri: "http://localhost:5000/graphql", fetch  }),
+    new HttpLink({ uri: "http://localhost:5000/graphql",fetch }),
   ]);
   const client = new ApolloClient({
     cache: new InMemoryCache(),

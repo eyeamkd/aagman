@@ -108,7 +108,7 @@ it("renders with error", async () => {
     await act(() => wait(0));
     wrapper.update();
     expect(wrapper).toBeTruthy();
-    expect(wrapper.text()).toBe("Error loading data...");
+    expect(wrapper.text()).toBe("Sorry for the Inconvenience :(There has been a problem");
 })
 
 // it("adds store data", async () => {

@@ -63,7 +63,7 @@ it("renders loading category data", async () => {
             </MockedProvider>
         )
     })
-
+    wrapper.update();
     console.log(wrapper.debug())
     expect(wrapper).toBeTruthy();
     expect(wrapper.text()).toBe("Loading...");
@@ -83,5 +83,5 @@ it("renders category data with error", async () => {
     wrapper.update();
     console.log(wrapper.debug())
     expect(wrapper).toBeTruthy();
-    expect(wrapper.text()).toBe("Error loading data...");
+    expect(wrapper.text()).toBe("Sorry for the Inconvenience :(There has been a problem");
 })

@@ -1,10 +1,19 @@
+//import { Stream } from "stream";
+
+const {stream} = require("stream")
+
 const Item=require("./../models/Item");
 const Category = require("./../models/Category");
+const path=require('path');
+const mongoose = require('mongoose');
+const Grid = require('gridfs-stream');
+const fs = require('fs');
+const mongodb = require('mongodb');
 
 const storeFile = async (upload) => {
     const { filename, createReadStream, mimetype } = await upload.then(result => result);
 
-    const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'files' });
+    const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' });
     
     const uploadStream = bucket.openUploadStream(filename, {
       contentType: mimetype
@@ -58,6 +67,27 @@ module.exports= {
             })
             await Item.findByIdAndDelete(itemId);
             return "Item Deleted";
+        },
+        // uploadFile: async (_, { file }) => {
+        //     const fileId = await storeFile(file).then(result => result);
+            
+        //     return true;
+
+        //   }
+        uploadImage:async(parent,{file})=>{
+          const {createReadStream,filename,mimetype,encoding}=await file
+          console.log(filename)
+          const bucket=new mongodb.GridFSBucket(mongoose.connection.db, { bucketName: 'files' });
+          const uploadStream=bucket.openUploadStream(filename);
+          await new Promise((resolve,reject)=>{
+              stream.pipe(uploadStream)
+                    .on("error",reject)
+                    .on("finish",resolve);
+          });
+
+          return {
+           _id:uploadStream.id,filename,mimetype,encoding
+          }
         }
 
     }
