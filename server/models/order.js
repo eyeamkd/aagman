@@ -4,7 +4,7 @@ const GraphQLDateTime=require('graphql-iso-date');
 
 module.exports = mongoose.model("Order", { 
  
-    orderCode : Number, 
+    orderCode : String, 
     orderStatus : {type:String,
                    enum:["OrderReceived", "Preparing" , "Completed"],
                    default:"OrderReceived"},   //enum          

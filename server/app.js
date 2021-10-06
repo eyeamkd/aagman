@@ -17,6 +17,14 @@ const LocationResolvers = require("./resolvers/LocationResolver");
 const LocationTypeDef = require("./typedefs/LocationTypeDef");
 const endpoint = 'http://localhost:5000/graphql';
 const { PubSub } = require("graphql-subscriptions");
+const Razorpay = require("razorpay");
+const key_id = process.env.KEY_ID;
+const key_secret = process.env.KEY_SECRET;
+const instance = new Razorpay({
+  key_id: key_id,
+  key_secret: key_secret,
+});
+
 const client = new GraphQLClient(endpoint, {
   credentials: 'include',
   mode: 'cors'
@@ -226,6 +234,21 @@ const server = async () => {
   });
 
   app.get('/', (req, res) => res.send('Welcome to Aagman Server'))
+
+  app.get("/order/:totalCost", (req, res) =>{
+        const {totalCost} = req.params;
+        const amount = totalCost*100;
+        const currency = "INR";
+        instance.orders.create({amount, currency}, (error, order) =>{
+          if(error)
+          {
+            return res.status(500).json(error);
+          }
+          return res.status(200).json(order);
+
+        })
+  })
+
   if(!module.parent){
   app.listen(PORT, () => {
     console.log("server is running on", PORT);

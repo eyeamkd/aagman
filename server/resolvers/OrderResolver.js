@@ -46,7 +46,7 @@ module.exports= {
         //items here is an array of {itemCode, name, quantity, customization}   const order  = new Order({items})
 
         addOrder:async(_,{orderCode,orderStatus,items,storeId,totalCost,paymentMode,paymentStatus,dateAndTime})=>{
-            const orderCodeCreation=generateOrderCode()
+            const orderCodeCreation=orderCode
             //Add Orders to collection
             const orders=new Order({orderCode:orderCodeCreation,orderStatus,store:storeId,itemsList:items,dateAndTime})
             await orders.save().then(result=>{

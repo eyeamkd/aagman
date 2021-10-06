@@ -231,13 +231,13 @@ const Menu = () => {
 
     const tokens = Object.values(tokenData)[0];
 
-    const verifyOrder = (order, resetForm) => {
+    const verifyOrder = (order, generatedOrderId, resetForm) => {
         if (itemList.length === 0) {
             alert("No items have been added. Add items to place an order.")
         }
         else
         {
-            placeOrder(order);
+            placeOrder(order, generatedOrderId);
             resetForm();
 
         }
@@ -245,17 +245,17 @@ const Menu = () => {
        
     }
 
-    const placeOrder = async (order) => {
+    const placeOrder = async (order, generatedOrderId) => {
 
             createOrders({
                 variables: {
-                    addOrderOrderCode: 0,
+                    addOrderOrderCode: generatedOrderId,
                     addOrderOrderStatus: "OrderReceived",
                     addOrderItems: itemList,
                     addOrderStoreId: storeId,
                     addOrderTotalCost: totalCost,
                     addOrderPaymentMode: order.paymentMode,
-                    addOrderPaymentStatus: "NotPaid",
+                    addOrderPaymentStatus: "Paid",
                     addOrderDateAndTime:new Date()
                 }
             }).then(result=>{

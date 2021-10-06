@@ -19,7 +19,7 @@
     "debug": "~2.6.9",
     "dotenv": "^10.0.0",
     "easygraphql-tester": "^6.0.1",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "firebase-admin": "^9.11.1",
     "graphql": "^15.5.1",
     "graphql-iso-date": "^3.6.1",
@@ -40,6 +40,7 @@
     "nodemailer": "^6.6.3",
     "nodemailer-mock": "^1.5.11",
     "nodemailer-sendgrid-transport": "^0.2.0",
+    "razorpay": "^2.0.7",
     "should": "^13.2.3",
     "supertest": "^6.1.6",
     "web-push": "^3.4.5"

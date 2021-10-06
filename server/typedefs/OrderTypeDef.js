@@ -17,7 +17,7 @@ type OrderId{
 
 type Order {
     id: ID! 
-    orderCode : Int! 
+    orderCode : String! 
     dateAndTime:GraphQLDateTime!
     orderStatus : StatusOfOrder!           
     itemsList : [ItemsList!]!   
@@ -49,7 +49,7 @@ enum StatusOfOrder{
 
 type Mutation{
     createOrder(orderCode:String! ,orderStatus:StatusOfOrder!,storeId:ID!,dateAndTime:GraphQLDateTime! ):String!
-    addOrder(orderCode:Int!,
+    addOrder(orderCode:String!,
              orderStatus:StatusOfOrder!,
              items:[ItemsListInput]!,
              storeId:ID!,
