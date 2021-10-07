@@ -1,5 +1,11 @@
 import {gql} from '@apollo/client'
 
+
+export const GET_IMAGE=gql`
+query Query($retrieveImageImageName: String!) {
+  retrieveImage(imageName: $retrieveImageImageName)
+}`
+
 export const LOAD_ITEMS=gql`
 query Query {
     items {

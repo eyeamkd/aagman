@@ -17,6 +17,7 @@ const LocationResolvers = require("./resolvers/LocationResolver");
 const LocationTypeDef = require("./typedefs/LocationTypeDef");
 const endpoint = 'http://localhost:5000/graphql';
 const { PubSub } = require("graphql-subscriptions");
+const {GraphQLUpload,graphqlUploadExpress } = require('graphql-upload');
 const client = new GraphQLClient(endpoint, {
   credentials: 'include',
   mode: 'cors'
@@ -49,6 +50,7 @@ const server = async () => {
 
 
   await server.start()
+  app.use(graphqlUploadExpress());
   server.applyMiddleware({ app });
 
   try {

@@ -5,6 +5,24 @@ mutation Mutation($deleteItemItemId: ID!, $deleteItemCategoryId: ID!) {
   deleteItem(itemId: $deleteItemItemId, categoryId: $deleteItemCategoryId)
 }`
 
+export const UPLOAD_IMAGE=gql`
+mutation Mutation($uploadImageFile: Upload!) {
+  uploadImage(file: $uploadImageFile) {
+    id
+    generatedFileName
+  }
+}
+`
+
+
+export const UPDATE_UPLOADED_IMAGE=gql`
+mutation Mutation($uploadUpdatedImageFile: Upload!, $uploadUpdatedImageOldfilename: String!) {
+  uploadUpdatedImage(file: $uploadUpdatedImageFile, oldfilename: $uploadUpdatedImageOldfilename) {
+    id
+    generatedFileName
+  }
+}`
+
 export const UPDATE_ITEM=gql`
 mutation Mutation(
     $updateItemName: String!, 
