@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -18,7 +19,7 @@ import { AddCategory } from './AddCategory';
 import { useQuery } from '@apollo/client';
 import { useMutation } from '@apollo/client';
 import { GET_CATEGORIES } from '../GraphQL/Queries/CategoriesQueries';
-import { ADD_CATEGORY } from '../GraphQL/Mutations/CategoryMutation'
+import { ADD_CATEGORY } from '../GraphQL/Mutations/CategoryMutation';
 import { motion } from "framer-motion";
 import Image from 'next/image';
 
@@ -40,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid #654ea3',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(1, 3, 2),
+    },
+    imageControl:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:"center"
     },
     formPaper: {
         marginTop: theme.spacing(3),
@@ -67,18 +74,20 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: "5px 0"
     },
-    loader: {
+    loader:{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        textAlign: "center"
-    },
+        textAlign:"center"
+      },
 }));
 
 export const AddMenu = (props) => {
     const classes = useStyles();
     const [openCategoryPopup, setOpenCategoryPopup] = useState(false)
-    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit, menuId } = props;
+    const [file,setFile]=useState(null);
+    const [fileUpload,setFileUpload]=useState(null);
+    const { title, openPopup, setOpenPopup, recordForEdit, addOrEdit, setRecordForEdit,menuId } = props;
     const [availabilityStatusTypes, setAvailabilityStatusTypes] = useState(["InStock", "OutOfStock"]);
     const [types, setTypes] = useState(["Veg", "NonVeg", "Egg", "NonEdible"]);
     const [choices, setChoices] = useState(["Yes", "No"]);
@@ -100,13 +109,15 @@ export const AddMenu = (props) => {
         price: '',
         rating: 0,
         bestSeller: 'No',
-        category: ''
+        category: '',
+        photo:"0"
     }
 
     const resetForm = () => {
         setItem(initialFValues);
         setRecordForEdit(null);
     }
+
 
     const [item, setItem] = useState(initialFValues);
 
@@ -119,6 +130,7 @@ export const AddMenu = (props) => {
         }
     }, [recordForEdit])
 
+
     const handleInputChange = e => {
         const { name, value } = e.target
         setItem({
@@ -129,8 +141,19 @@ export const AddMenu = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault()
+        addOrEdit(item,resetForm,fileUpload)
+        setFile(null)
+        setFileUpload(null)
 
-        addOrEdit(item, resetForm);
+    }
+
+    const handleImageUploadingFunction=e=>{
+        
+        setFileUpload(e.target.files[0])
+        setFile(URL.createObjectURL(e.target.files[0]))
+        console.log(fileUpload)
+        console.log(file)
+
 
     }
 
@@ -150,34 +173,33 @@ export const AddMenu = (props) => {
     if (loading)
         return (<div className={classes.loader}>
             <div>
-                <motion.div animate={{
-                    y: 30, y: -30,
-                    transition: { yoyo: Infinity, duration: 1.5, },
-                }}>
-                    <Image
-                        src="/images/logo.png"
-                        alt="App Logo"
-                        width={100}
-                        height={100}
-                    />
-                </motion.div>
-                <Typography variant="h5"><b>Loading...</b></Typography>
+               <motion.div animate={{
+                  y: 30, y: -30,
+                  transition: { yoyo: Infinity, duration: 1.5, },
+               }}>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />
+              </motion.div>
+              <Typography variant="h5"><b>Loading...</b></Typography>
             </div>
-        </div>);
+          </div>);
 
-    if (error) {
+    if (error)
         return (<div className={classes.loader}>
             <div>
-                <Image
-                    src="/images/logo.png"
-                    alt="App Logo"
-                    width={100}
-                    height={100}
-                />
-                <Typography variant="h5"><b>Sorry for the Inconvenience :(<br />There has been a problem</b></Typography>
+               <Image
+                 src="/images/logo.png"
+                 alt="App Logo"
+                 width={100}
+                 height={100}
+               />        
+              <Typography variant="h5"><b>Sorry for the Inconvenience :(<br/>There has been a problem</b></Typography>
             </div>
-        </div>);
-    }
+          </div>);
 
     const categories = Object.values(data)[0].categories;
 
@@ -290,6 +312,13 @@ export const AddMenu = (props) => {
                                             )}
                                         </Select>
                                     </FormControl>
+                                    <FormControl variant="outlined" className={classes.imageControl} required autoFocus>
+                                    <Button className={classes.submit} variant="contained" component="label">
+                                         Upload Image
+                                         <input type="file"  onChange={handleImageUploadingFunction} hidden />
+                                         </Button><br/>
+                                         {file==null?null:<Image src={file} alt="image" width={150} height={150}/>}
+                                    </FormControl>
                                     <FormControl variant="outlined" className={classes.formControl} fullWidth required autoComplete="status" autoFocus>
                                         <InputLabel htmlFor="category">Category</InputLabel>
                                         <Select
@@ -304,6 +333,8 @@ export const AddMenu = (props) => {
                                                 <option key={index} value={category.id}>{category.name}</option>
                                             )}
                                         </Select>
+                                        
+
                                         <Button color="primary" onClick={() => { setOpenCategoryPopup(true) }}>Add Category (If not already existing.)</Button>
                                     </FormControl>
                                     <Button

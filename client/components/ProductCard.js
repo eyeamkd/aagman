@@ -11,6 +11,8 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import Image from 'next/image';
 import {Rating} from '@material-ui/lab';
+import { useQuery } from '@apollo/client';
+import { GET_IMAGE } from '../GraphQL/Queries/ItemsQueries';
 import Box from '@material-ui/core/Box';
 import grey from "@material-ui/core/colors";
 
@@ -84,6 +86,12 @@ const ProductCard = ({ product, setItem }) => {
     const [itemCard, setItemCard] = useState({})
     const [bestSeller,setBestSeller]=useState(true);
     const classes = useStyles();
+    const { data, loading, error } = useQuery(GET_IMAGE,
+        {
+            variables: {
+                retrieveImageImageName: product.photo
+            }
+        });
 
     useEffect(() => {
         updateOrder();
@@ -113,6 +121,16 @@ const ProductCard = ({ product, setItem }) => {
     }
 
     console.log(product.availability)
+    if(loading) return(<div>...</div>)
+    if(error) return(<div>error</div>)
+    const imageSource=(Object.values(data)[0])
+    let srcImage
+    if(imageSource=="0"){
+        srcImage= "/images/food_images.jpg"
+    }
+    else{
+        srcImage= `data:image/jpeg;base64,${imageSource}`
+    }
 
 
 
@@ -123,9 +141,11 @@ const ProductCard = ({ product, setItem }) => {
                 <Card className={classes.card} variant="outlined">
                     <div className={classes.cardDetails}>
                         <CardContent className={classes.cardContent}>
-                            <CardMedia
+                            <Image
                                 className={classes.cardMedia}
-                                image={"https://picsum.photos/50"}
+                                src={srcImage}
+                                width={50}
+                                height={50}
                                 title={product.name}
                             />
                             <div className={classes.product}>

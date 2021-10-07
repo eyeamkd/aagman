@@ -5,6 +5,7 @@ scalar Upload
 type Query {
     items: [Item!]!
     item(id: ID!): Item!
+    retrieveImage(imageName:String!):String!
 }
 
 type Item {
@@ -34,7 +35,7 @@ enum BestSellerItem{
 type File{
     id:ID!
     path:String!
-    filename:String!
+    generatedFileName:String!
     mimetype:String!
     encoding:String!
 }
@@ -60,6 +61,8 @@ type Mutation{
                itemId:ID!):String!
     deleteItem(itemId:ID!,categoryId:ID!):String!
     uploadImage(file:Upload!):File!
+    uploadUpdatedImage(file:Upload!,oldfilename:String!):File!
+    deleteImage(filename:String!):String!
 
 }
 
