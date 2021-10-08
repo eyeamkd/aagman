@@ -128,7 +128,7 @@ export const VerifyOrder = (props) => {
                     return;
                 }
                 setPaymentMode(false)
-                verifyOrder(item, response.razorpay_order_id, resetForm);
+                verifyOrder(item, response.razorpay_order_id, response.razorpay_payment_id, resetForm);
             },
             "prefill": {
                 "name": "Kunal Sharma",

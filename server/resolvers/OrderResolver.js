@@ -30,8 +30,8 @@ module.exports= {
     },
 
     Mutation: {
-        createOrder: async(_, { orderCode ,orderStatus,storeId ,dateAndTime}) => {
-            const orders = new Order({ orderCode ,orderStatus,Store:storeId,dateAndTime});
+        createOrder: async(_, { orderCode , paymentId , orderStatus,storeId ,dateAndTime}) => {
+            const orders = new Order({ orderCode ,  paymentId, orderStatus,Store:storeId,dateAndTime});
             await orders
             .save().then(result=>{
                 return Store.findById(storeId);
@@ -45,10 +45,10 @@ module.exports= {
 
         //items here is an array of {itemCode, name, quantity, customization}   const order  = new Order({items})
 
-        addOrder:async(_,{orderCode,orderStatus,items,storeId,totalCost,paymentMode,paymentStatus,dateAndTime})=>{
+        addOrder:async(_,{orderCode,  paymentId, orderStatus,items,storeId,totalCost,paymentMode,paymentStatus,dateAndTime})=>{
             const orderCodeCreation=orderCode
             //Add Orders to collection
-            const orders=new Order({orderCode:orderCodeCreation,orderStatus,store:storeId,itemsList:items,dateAndTime})
+            const orders=new Order({orderCode:orderCodeCreation,  paymentId, orderStatus,store:storeId,itemsList:items,dateAndTime})
             await orders.save().then(result=>{
                 return Store.findById(storeId);
             }).then(store=>{
