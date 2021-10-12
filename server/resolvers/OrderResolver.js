@@ -46,9 +46,20 @@ module.exports= {
         //items here is an array of {itemCode, name, quantity, customization}   const order  = new Order({items})
 
         addOrder:async(_,{orderCode,  paymentId, orderStatus,items,storeId,totalCost,paymentMode,paymentStatus,dateAndTime})=>{
-            const orderCodeCreation=orderCode
+            let orderCodeCreation;
+            let paymentIdCreation;
+            if(orderCode === "")
+            {
+                orderCodeCreation = generateOrderCode();
+                paymentIdCreation = "N/A";
+            }
+            else
+            {
+                orderCodeCreation=orderCode;
+                paymentIdCreation=paymentId;
+            }
             //Add Orders to collection
-            const orders=new Order({orderCode:orderCodeCreation,  paymentId, orderStatus,store:storeId,itemsList:items,dateAndTime})
+            const orders=new Order({orderCode:orderCodeCreation,  paymentId:paymentIdCreation, orderStatus,store:storeId,itemsList:items,dateAndTime})
             await orders.save().then(result=>{
                 return Store.findById(storeId);
             }).then(store=>{

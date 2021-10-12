@@ -245,6 +245,13 @@ const Menu = () => {
     }
 
     const placeOrder = async (order, generatedOrderId, paymentId) => {
+        
+        let status = "NotPaid";
+
+        if(generatedOrderId !== "")
+        {
+            status = "Paid";
+        }
 
         createOrders({
             variables: {
@@ -255,7 +262,7 @@ const Menu = () => {
                 addOrderStoreId: storeId,
                 addOrderTotalCost: totalCost,
                 addOrderPaymentMode: order.paymentMode,
-                addOrderPaymentStatus: "Paid",
+                addOrderPaymentStatus: status,
                 addOrderDateAndTime: new Date()
             }
         }).then(result => {

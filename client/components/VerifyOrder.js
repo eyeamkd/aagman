@@ -83,6 +83,7 @@ export const VerifyOrder = (props) => {
     const [orderId, setOrderId] = useState("")
     const [paymentId, setPaymentId] = useState("")
     const [signature, setSignature] = useState("")
+    const [isCashPayment, setIsCashPayment] = useState(false); 
     const { title, openPopup, setOpenPopup, verifyOrder, itemList, paymentModes, paymentStatusTypes, totalCost } = props;
     const initialFValues = {
         id: '',
@@ -97,12 +98,45 @@ export const VerifyOrder = (props) => {
 
     const [item, setItem] = useState(initialFValues);
 
+    useEffect (() => {
+        const script = document.createElement('script')
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+        script.async = true
+        script.id = 'razorpay-script'
+        document.head.appendChild(script)
+        return () => {
+            const script = document.getElementById('razorpay-script')
+            const rContainer = document.querySelector('.razorpay-container')
+            console.log('script2', rContainer)
+            rContainer && rContainer.remove()
+            script && script.remove()
+        };
+    }, [])
+
     const handleInputChange = e => {
         const { name, value } = e.target
         setItem({
             ...item,
             [name]: value
         })
+
+        if(value === "Cash")
+        {
+            setIsCashPayment(true);
+        }
+        else
+        {
+            setIsCashPayment(false);
+        }
+    }
+
+    const placeCashOrder = () =>{
+        if (item.paymentMode == "") {
+            setPaymentMode(true)
+            return;
+        }
+        setPaymentMode(false)
+        verifyOrder(item, "", "", resetForm);
     }
 
     const checkout = async (e) => {
@@ -136,11 +170,10 @@ export const VerifyOrder = (props) => {
                 "contact": "9816611905"
             }
         };
-        var rzp1 = new Razorpay(options);
+        var rzp1 = new window.Razorpay(options);
 
         rzp1.open();
-        e.preventDefault();
-
+        
         rzp1.on('payment.failed', function (response){
                 alert(response.error.code);
                 alert(response.error.description);
@@ -219,6 +252,16 @@ export const VerifyOrder = (props) => {
                                 {paymentMode && <Typography className={classes.error}>Please Provide Payment Mode</Typography>}
                                 <Grid container spacing={2} direction="item" justifyContent="center" alignItems="center">
                                     <Grid container xs={12} sm={4} justifyContent="center" alignItems="center">
+                                        {isCashPayment ? 
+                                        <Button
+                                            type="button"
+                                            variant="contained"
+                                            color="secondary"
+                                            className={classes.submit}
+                                            onClick={placeCashOrder}
+                                        >
+                                            Place Order
+                                        </Button> :
                                         <Button
                                             type="button"
                                             variant="contained"
@@ -227,7 +270,7 @@ export const VerifyOrder = (props) => {
                                             onClick={checkout}
                                         >
                                             Checkout
-                                        </Button>
+                                        </Button>}
                                     </Grid>
                                     <Grid container xs={12} sm={4} justifyContent="center" alignItems="center">
                                         <Button
