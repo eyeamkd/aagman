@@ -1,14 +1,13 @@
-import { AddCaregory, AddCategory } from '../components/AddCategory';
+import { AddCategory } from '../components/AddCategory';
 import React from 'react'
-import { mount, shallow } from "enzyme"
+import { mount } from "enzyme"
 import { act } from "react-dom/test-utils"
-import wait from 'waait';
 
 it("renders add category pop up", async () => {
     let wrapper;
     await act(async () => {
         wrapper = mount(
-                <AddCategory />
+            <AddCategory />
         )
     })
     expect(wrapper).toBeTruthy();

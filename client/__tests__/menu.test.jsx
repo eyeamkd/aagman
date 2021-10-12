@@ -1,5 +1,4 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
 import Menu from '../pages/menu'
 import { MockedProvider } from '@apollo/client/testing'
 import { DISPLAY_MENU } from '../GraphQL/Queries/MenuQueries';
@@ -56,14 +55,4 @@ describe('Menu', () => {
         await new Promise(resolve => setTimeout(resolve, 0))
         expect(component).toMatchSnapshot()
     })
-
-    // test('renders one buttons', async () => {
-    //     render
-    //         (<MockedProvider addTypename={false}>
-    //             <Menu />
-    //         </MockedProvider>)
-    //     const checkoutButton = await screen.findAllByRole('button')
-    //     expect(checkoutButton).toHaveLength(1)
-    // })
-
 })

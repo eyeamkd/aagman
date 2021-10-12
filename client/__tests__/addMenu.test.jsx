@@ -1,42 +1,10 @@
 import { AddMenu } from '../components/AddMenu';
 import React from 'react'
-import { GET_CATEGORIES } from '../GraphQL/Queries/CategoriesQueries';
 import { MockedProvider } from '@apollo/client/testing'
-import { mount, shallow } from "enzyme"
+import { mount } from "enzyme"
 import { act } from "react-dom/test-utils"
 import wait from 'waait';
-
-const mockCategoryData = {
-    request: {
-        query: GET_CATEGORIES,
-        variables: {
-            getCategoryByMenuIdMenuId: "61447243b8d19037a889dce0"
-        },
-    },
-    result: {
-        data: {
-            getCategoryByMenuId: {
-                categories: [
-                    {
-                        id: "61447d6c1de60f3dc42bc927",
-                        name: "Fast Food"
-                    }
-                ]
-            }
-        }
-    }
-}
-
-const mockCategoryErrorData = {
-    request: {
-        query: GET_CATEGORIES,
-        variables: {
-            getCategoryByMenuIdMenuId: "61447243b8d19037a889dce0"
-        },
-    },
-    error: new Error("Network Error")
-}
-
+import {mockCategoryData, mockCategoryErrorData} from '../mockData/category'
 
 it("renders category data", async () => {
     let wrapper;
@@ -50,7 +18,6 @@ it("renders category data", async () => {
 
     await act(() => wait(0));
     wrapper.update();
-    console.log(wrapper.debug())
     expect(wrapper).toBeTruthy();
 })
 
@@ -64,7 +31,6 @@ it("renders loading category data", async () => {
         )
     })
     wrapper.update();
-    console.log(wrapper.debug())
     expect(wrapper).toBeTruthy();
     expect(wrapper.text()).toBe("Loading...");
 })
@@ -81,7 +47,6 @@ it("renders category data with error", async () => {
 
     await act(() => wait(0));
     wrapper.update();
-    console.log(wrapper.debug())
     expect(wrapper).toBeTruthy();
     expect(wrapper.text()).toBe("Sorry for the Inconvenience :(There has been a problem");
 })

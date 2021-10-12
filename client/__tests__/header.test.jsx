@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../components/Header'
 import { MockedProvider } from '@apollo/client/testing'
-import { mount, shallow } from "enzyme"
+import { mount } from "enzyme"
 import { act } from "react-dom/test-utils"
 import wait from 'waait';
 

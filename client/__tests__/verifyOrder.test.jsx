@@ -1,9 +1,10 @@
 import { VerifyOrder } from '../components/VerifyOrder';
 import React from 'react'
 import { MockedProvider } from '@apollo/client/testing'
-import { mount, shallow } from "enzyme"
+import { mount } from "enzyme"
 import { act } from "react-dom/test-utils"
 import wait from 'waait';
+import {itemList, paymentModes} from '../mockData/product'
 
 jest.mock('next/router', () => ({
     useRouter: () => ({
@@ -11,27 +12,12 @@ jest.mock('next/router', () => ({
     }),
 }));
 
-const itemList = [
-    {
-        name: "Pizza",
-        price: 200,
-        quantity: 2
-    },
-    {
-        name: "Burger",
-        price: 100,
-        quantity: 3
-    }
-]
-
-const paymentModes = ["Cash", "CreditCard", "UPI", "DebitCard", "Check", "NetBanking"]
-
 it("renders verify order", async () => {
     let wrapper;
     await act(async () => {
         wrapper = mount(
             <MockedProvider>
-                <VerifyOrder itemList={itemList} paymentModes={paymentModes}/>
+                <VerifyOrder itemList={itemList} paymentModes={paymentModes} />
             </MockedProvider>
         )
     })
