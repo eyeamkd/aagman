@@ -4,12 +4,14 @@ const Store= require("./../models/Store");
 
 module.exports= {
     Query: {
-        stores:() => Timing.find(),
-        store:(parent, {id}) => Timing.findById(id),
+        //Get all timings
+        timings:() => Timing.find(),
+        //Get single timing from Id
+        timing:(parent, {id}) => Timing.findById(id),
     },
 
     Mutation: {
-      
+       //Create Timing
         createTiming: async(_, { openTime,closeTime,statusTime,storeId }) => {
             const timings = new Timing({ openTime,closeTime,status:statusTime});
             await timings

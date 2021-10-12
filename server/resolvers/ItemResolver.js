@@ -1,15 +1,10 @@
-//import { Stream } from "stream";
-
-// const {stream} = require("stream")
 
 const Item=require("./../models/Item");
 const Category = require("./../models/Category");
 const path=require('path');
 const mongoose = require('mongoose');
-const Grid = require('gridfs-stream');
-const fs = require('fs');
 const mongodb = require('mongodb');
-const {GraphQLUpload,graphqlUploadExpress } = require('graphql-upload');
+const {GraphQLUpload } = require('graphql-upload');
 
 
 function generateRandomString(length) {
@@ -28,8 +23,11 @@ function generateRandomString(length) {
 module.exports= {
     Upload: GraphQLUpload,
     Query: {
+        //Get all Items
         items:() => Item.find(),
+        //Get single Item by ID
         item:(parent, {id}) => Item.findById(id),
+        //Get Image by unique file name
         retrieveImage :async(parent,{imageName})=>{
             const bucket=new mongodb.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' });
             if(imageName=="0")
@@ -51,19 +49,13 @@ module.exports= {
                   resolve(img);
                 });
               });
-        //    const stream=bucket.openDownloadStreamByName(id)
-        //    let buffer
-        //    stream.on('data',(chunk)=>{
-        //        console.log(chunk)
-        //        return chunk.toString('base64');
-        //    })
 
         }
     },
 
     Mutation: {
+        //Create Item
         createItem: async(_, { name,description,availability,type,price,rating,bestSeller,photo,categoryId }) => {
-           // const fileId = await storeFile(photo).then(result => result);
             const item = new Item({ name,description,availability,type,price,rating,bestSeller,photo });
             await item
             .save().then(result=>{
@@ -75,6 +67,7 @@ module.exports= {
             });
             return "Item Created";
         },
+        //Update Item
         updateItem:async(_,{name,description,availability,type,price,rating,bestSeller,photo,itemId})=>{
             const item=await Item.findByIdAndUpdate(itemId,{name:name,
                                                             description:description,
@@ -87,6 +80,7 @@ module.exports= {
             item.save()
             return "Item Updated";
         },
+        //Delete Item
         deleteItem:async(_,{itemId,categoryId})=>{
             Category.findById(categoryId).then(result=>{
                 result.items.pop(itemId)
@@ -94,7 +88,6 @@ module.exports= {
             })
             const photoName=await Item.findById(itemId)
             .then(result=>{
-                console.log(result.photo)
                 return result.photo
             })
 
@@ -109,12 +102,11 @@ module.exports= {
             await Item.findByIdAndDelete(itemId);
             return "Item Deleted";
         },
-
+        //Upload Image
         uploadImage:async(_,{file})=>{
           const {createReadStream,filename,mimetype,encoding}=await file
           const {ext}=path.parse(filename);
           const generatedFileName=generateRandomString(12)+ext
-          console.log(generatedFileName)
           const bucket=new mongodb.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' });
           const uploadStream=bucket.openUploadStream(generatedFileName);
           await new Promise((resolve,reject)=>{
@@ -127,6 +119,7 @@ module.exports= {
            id:uploadStream.id,generatedFileName,mimetype,encoding
           }
         },
+        //Upload Updated Image
         uploadUpdatedImage:async(_,{file,oldfilename})=>{
 
             const {createReadStream,filename,mimetype,encoding}=await file
@@ -135,9 +128,7 @@ module.exports= {
             const generatedFileName=generateRandomString(12)+ext
             const bucket=new mongodb.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' });
            if(oldfilename!="0"){
-           
             const documents=await bucket.find({filename:oldfilename}).toArray();
-            console.log(documents)
             Promise.all(
                 documents.map((doc) => {
                  return bucket.delete(doc._id);
@@ -154,12 +145,11 @@ module.exports= {
              id:uploadStream.id,generatedFileName,mimetype,encoding
             }
         },
+        //Delete Image
         deleteImage:async(_,{filename})=>{
 
             const bucket=new mongodb.GridFSBucket(mongoose.connection.db, { bucketName: 'uploads' });
-            
              const documents=await bucket.find({filename:filename}).toArray();
-             console.log(documents)
              Promise.all(
                  documents.map((doc) => {
                   return bucket.delete(doc._id);

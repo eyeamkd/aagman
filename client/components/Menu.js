@@ -180,7 +180,7 @@ export default function MenuTable({ storeId }) {
 
 
     }
-
+    //Add Items
     const addItems=(item,file)=>{
         addItemsMenu({
 
@@ -197,7 +197,7 @@ export default function MenuTable({ storeId }) {
             }
         }).then(refetch)
     }
-
+    //Update Items
     const updateItems=(item,file)=>{
         updateItemsMenu({
 
@@ -217,15 +217,16 @@ export default function MenuTable({ storeId }) {
     }
 
     const addOrEdit = (item, resetForm,uploadImageFileName) => {
+        //Check if item is to be newly added or updated
         if (item.id === "") {
-            console.log(item.category)
+            //Check if File has been uploaded or not
             if(uploadImageFileName!=null){
+                //Add Image
                 uploadImage({
                     variables: {
                         uploadImageFile:uploadImageFileName
                     }
                 }).then(result=>{
-                    console.log(Object.values(result)[0].uploadImage.generatedFileName)
                     const ImageFileName=Object.values(result)[0].uploadImage.generatedFileName
                     addItems(item,ImageFileName)
                 })}
@@ -235,13 +236,12 @@ export default function MenuTable({ storeId }) {
 
         }
         else {
-           // menuService.updateMenu(item)
-           console.log(item.photo)
+            //Check if file has been uploaded or not
            if(uploadImageFileName==null){
                updateItems(item,item.photo)
            }
            else{
-
+            //update Image
             updateUploadedImage({
                 variables:{
                     uploadUpdatedImageFile:uploadImageFileName , 
@@ -249,7 +249,6 @@ export default function MenuTable({ storeId }) {
                 }
             }).then(result=>{
                 const ImageFileName=Object.values(result)[0].uploadUpdatedImage.generatedFileName
-                console.log(ImageFileName)
                     updateItems(item,ImageFileName)
             })
            }
@@ -263,8 +262,6 @@ export default function MenuTable({ storeId }) {
     }
 
     const deleteItem = (id,category) => {
-        // console.log(category);
-        // console.log("Delete the item with id ", id);
         deleteItemsMenu({
 
             variables: {

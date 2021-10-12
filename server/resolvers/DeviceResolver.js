@@ -3,8 +3,11 @@ const User=require("./../models/user");
 
 module.exports= {
     Query: {
+        //Get all devices
         devices:() => Device.find(),
+        //Get single device by ID
         device:(parent, {id}) => Device.findById(id),
+        //Check if User has token already
         checkIfUserWithTokenExists: async (parent, {token, userId}) => {
             const filter = { fcmToken: token, user: userId }
             const isExists = await Device.exists(filter);
@@ -13,6 +16,7 @@ module.exports= {
     },
 
     Mutation: {
+        //create device
         createDevice: async(_, { fcmToken, active, createdAt, userId}) => {
             const device = new Device({fcmToken, active, createdAt, user: userId});
             await device
@@ -25,6 +29,7 @@ module.exports= {
             });
             return "Device Created";
         },
+        //delete Device
         deleteDevice: async(_, { fcmToken }) => {
             const devices = await Device.find({fcmToken: fcmToken});
             devices.map(async (device) =>{

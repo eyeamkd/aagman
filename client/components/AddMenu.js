@@ -151,14 +151,11 @@ export const AddMenu = (props) => {
         
         setFileUpload(e.target.files[0])
         setFile(URL.createObjectURL(e.target.files[0]))
-        console.log(fileUpload)
-        console.log(file)
 
 
     }
 
     const addCategory = (item, resetForm) => {
-        //  setCategories(categories => [...categories, {"id": item.id , "name": item.name}])
         addCategoryMenu({
             variables: {
                 createCategoryMenuId: menuId,

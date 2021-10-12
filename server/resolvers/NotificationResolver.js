@@ -3,12 +3,15 @@ const User=require("./../models/user");
 
 module.exports= {
     Query: {
+        //Get all notification
         notifications:() => Notification.find(),
+        //Get single notification by ID
         notification:(parent, {id}) => Notification.findById(id),
        
     },
 
     Mutation: {
+        //Create Notification
         createNotification: async(_, { title, message, readAt, sentAt, createdAt, userId }) => {
             const notification = new Notification({ title, message, readAt, sentAt, createdAt });
             await notification

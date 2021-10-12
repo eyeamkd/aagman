@@ -11,8 +11,11 @@ const Subcribe=require("./Subscribe");
 
 module.exports= {
     Query: {
+        //Get all stores
         stores:() => Store.find(),
+        //Get single Store by Id
         store:(parent, {id}) => Store.findById(id),
+        //Display Orders from Store ID
         ordersDashboard:(parent,{storeId})=>{
             return Store.findById(storeId).populate({
                 path:"orders",
@@ -21,6 +24,7 @@ module.exports= {
                 }
             });
          },
+         //Get Menu from store Id
          getMenu:(_,{storeId})=>Store.findById(storeId).populate({
              path:"menu",
              populate:{
@@ -30,6 +34,7 @@ module.exports= {
                  }
              }
          }),
+         //Get Revenue from store id
          getRevenue:(_,{storeId})=>Store.findById(storeId).populate({
              path:"revenue",
              populate:{
@@ -39,6 +44,7 @@ module.exports= {
                  }
              }
          }),
+         //Get User Id from store Id
          getUserId:(_,{storeId})=>Store.findById(storeId).populate({
              path:"owner"
          })
@@ -46,7 +52,7 @@ module.exports= {
     
 
     Mutation: {
-        
+        //Create Store
         createStore: async(_, { name ,userId }) => {
             const store = new Store({ name, Owner:userId});
             await store.save().then(result=>{
@@ -57,6 +63,7 @@ module.exports= {
             });
             return "Store Created";
         },
+        //Create Store 
         addStore:async(_,{storeName,
                           country ,
                           state,
@@ -74,23 +81,27 @@ module.exports= {
                       result.save()
             });
             
-            
+            //Create Location and map to store
             const location = new Locations({  country , state, city , area, landMark });
             store.address=location
             await location.save();
-
+            
+            //Create menu and map to store
             const menu = new Menu({store:store.id});
             store.menu=menu
             await menu.save();
 
+            //Create revenue and map to store
             const revenue = new Revenue({totalIncome:0,store:store.id});
             store.revenue=revenue;
             await revenue.save();
 
+            //Create timings and map to store
             const timings = new Timing({ openTime,closeTime,status:statusTime});
             store.timings=timings;
             await timings.save();
             
+            //Create feedback and map to store
             const feedback=new Feedback({orderServiceRating:0,deliveryServiceRating:0,comments:[]});
             store.feedback=feedback
             await feedback.save()
