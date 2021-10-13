@@ -165,7 +165,7 @@ export default function Orders({ storeId }) {
     });
     const token = data.getCustomerToken;
 
-    await axios.post('http://localhost:5000/updateorderstatus', { token, status, orderId })
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/updateorderstatus`, { token, status, orderId })
     if (status === "Completed") {
       await localforage.removeItem('customer_fcm_token')
     }

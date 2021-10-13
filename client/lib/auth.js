@@ -46,7 +46,7 @@ export const postOtp = async (email) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email: email })
   };
-  const response = await fetch("http://localhost:5000/send", requestOptions);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/send`, requestOptions);
 
   const status = response.status;
   return (status === 200) ? true : false;

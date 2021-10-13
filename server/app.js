@@ -1,21 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { ApolloServer } = require("apollo-server-express");
-const GMR = require('graphql-merge-resolvers');
 const nodemailer = require("nodemailer");
 const sendGridTransport = require("nodemailer-sendgrid-transport");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 const cors = require("cors");
-const webpush = require('web-push')
 const { GraphQLClient } = require('graphql-request');
 const ResolverTypeDefModule = require('./ResolverTypeDef');
 const mocks= require('./mocks');
 const Resolver = ResolverTypeDefModule.resolver;
 const TypeDef = ResolverTypeDefModule.typedef
-const LocationResolvers = require("./resolvers/LocationResolver");
-const LocationTypeDef = require("./typedefs/LocationTypeDef");
-const endpoint = 'http://localhost:5000/graphql';
+const endpoint = process.env.GRAPHQL_ENDPOINT;
 const { PubSub } = require("graphql-subscriptions");
 const Razorpay = require("razorpay");
 const key_id = process.env.KEY_ID;
@@ -43,8 +39,6 @@ const server = async () => {
   const app = express();
   app.use(express.json());
   app.use(cors());
-
-  webpush.setVapidDetails(process.env.WEB_PUSH_CONTACT, process.env.PUBLIC_VAPID_KEY, process.env.PRIVATE_VAPID_KEY)
 
   const server = new ApolloServer({
     typeDefs: [TypeDef],

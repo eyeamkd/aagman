@@ -20,10 +20,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import Title from './Title';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import red from '@material-ui/core/colors';
-// import { checkDocument } from '@apollo/client/utilities';
-// import { checkout } from 'superagent';
 import axios from 'axios';
+import { url } from '../constants/paymentGateway'
 
 const useStyles = makeStyles((theme) => ({
     dialogWrapper: {
@@ -83,7 +81,7 @@ export const VerifyOrder = (props) => {
     const [orderId, setOrderId] = useState("")
     const [paymentId, setPaymentId] = useState("")
     const [signature, setSignature] = useState("")
-    const [isCashPayment, setIsCashPayment] = useState(false); 
+    const [isCashPayment, setIsCashPayment] = useState(false);
     const { title, openPopup, setOpenPopup, verifyOrder, itemList, paymentModes, paymentStatusTypes, totalCost } = props;
     const initialFValues = {
         id: '',
@@ -98,9 +96,9 @@ export const VerifyOrder = (props) => {
 
     const [item, setItem] = useState(initialFValues);
 
-    useEffect (() => {
+    useEffect(() => {
         const script = document.createElement('script')
-        script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+        script.src = url
         script.async = true
         script.id = 'razorpay-script'
         document.head.appendChild(script)
@@ -120,17 +118,15 @@ export const VerifyOrder = (props) => {
             [name]: value
         })
 
-        if(value === "Cash")
-        {
+        if (value === "Cash") {
             setIsCashPayment(true);
         }
-        else
-        {
+        else {
             setIsCashPayment(false);
         }
     }
 
-    const placeCashOrder = () =>{
+    const placeCashOrder = () => {
         if (item.paymentMode == "") {
             setPaymentMode(true)
             return;
@@ -140,9 +136,8 @@ export const VerifyOrder = (props) => {
     }
 
     const checkout = async (e) => {
-        const res = await axios.get(`http://localhost:5000/order/${totalCost}`)
-        if(res.status !== 200)
-        {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/order/${totalCost}`)
+        if (res.status !== 200) {
             return;
         }
         const options = {
@@ -152,7 +147,7 @@ export const VerifyOrder = (props) => {
             "name": "Aagman",
             "image": "/images/logo.png",
             "order_id": res.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "handler": function (response){
+            "handler": function (response) {
                 setOrderId(response.razorpay_order_id);
                 setSignature(response.razorpay_signature);
                 setPaymentId(response.razorpay_payment_id);
@@ -173,15 +168,15 @@ export const VerifyOrder = (props) => {
         var rzp1 = new window.Razorpay(options);
 
         rzp1.open();
-        
-        rzp1.on('payment.failed', function (response){
-                alert(response.error.code);
-                alert(response.error.description);
-                alert(response.error.source);
-                alert(response.error.step);
-                alert(response.error.reason);
-                alert(response.error.metadata.order_id);
-                alert(response.error.metadata.payment_id);
+
+        rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
         });
     }
 
@@ -252,25 +247,25 @@ export const VerifyOrder = (props) => {
                                 {paymentMode && <Typography className={classes.error}>Please Provide Payment Mode</Typography>}
                                 <Grid container spacing={2} direction="item" justifyContent="center" alignItems="center">
                                     <Grid container xs={12} sm={4} justifyContent="center" alignItems="center">
-                                        {isCashPayment ? 
-                                        <Button
-                                            type="button"
-                                            variant="contained"
-                                            color="secondary"
-                                            className={classes.submit}
-                                            onClick={placeCashOrder}
-                                        >
-                                            Place Order
-                                        </Button> :
-                                        <Button
-                                            type="button"
-                                            variant="contained"
-                                            color="secondary"
-                                            className={classes.submit}
-                                            onClick={checkout}
-                                        >
-                                            Checkout
-                                        </Button>}
+                                        {isCashPayment ?
+                                            <Button
+                                                type="button"
+                                                variant="contained"
+                                                color="secondary"
+                                                className={classes.submit}
+                                                onClick={placeCashOrder}
+                                            >
+                                                Place Order
+                                            </Button> :
+                                            <Button
+                                                type="button"
+                                                variant="contained"
+                                                color="secondary"
+                                                className={classes.submit}
+                                                onClick={checkout}
+                                            >
+                                                Checkout
+                                            </Button>}
                                     </Grid>
                                     <Grid container xs={12} sm={4} justifyContent="center" alignItems="center">
                                         <Button
@@ -288,10 +283,10 @@ export const VerifyOrder = (props) => {
                         </div>
                         <div>
                             {payment &&
-                            (<div>
-                                <p>Payment Id: {paymentId}</p>
-                                <p>Order Id: {orderId}</p>
-                                <p>Razorpay Signature: {signature}</p>
+                                (<div>
+                                    <p>Payment Id: {paymentId}</p>
+                                    <p>Order Id: {orderId}</p>
+                                    <p>Razorpay Signature: {signature}</p>
                                 </div>)
                             }
                         </div>

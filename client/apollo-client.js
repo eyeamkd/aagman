@@ -11,7 +11,7 @@ const errorLink = onError(({ graphqlErrors, networkError }) => {
   })
   const link = from([
     errorLink,
-    new HttpLink({ uri: "http://localhost:5000/graphql", fetch  }),
+    new HttpLink({ uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`, fetch  }),
   ]);
   const client = new ApolloClient({
     cache: new InMemoryCache(),

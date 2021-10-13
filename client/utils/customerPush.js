@@ -21,7 +21,7 @@ const firebaseCloudMessaging = {
     try {
       if ((await this.tokenInlocalforage()) !== null) {
         const currentToken =  await this.tokenInlocalforage();
-        await axios.post('http://localhost:5000/registercustomer', { currentToken, orderId });
+        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registercustomer`, { currentToken, orderId });
         return false
       }
 
@@ -37,7 +37,7 @@ const firebaseCloudMessaging = {
           // ...
           localforage.setItem('customer_fcm_token', currentToken)
           console.log('customer_fcm_token', currentToken)
-          axios.post('http://localhost:5000/registercustomer', { currentToken , orderId});
+          axios.post(`${process.env.NEXT_PUBLIC_API_URL}/registercustomer`, { currentToken , orderId});
         } else {
           // Show permission request UI
           console.log('No registration token available. Request permission to generate one.');

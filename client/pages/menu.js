@@ -277,7 +277,7 @@ const Menu = () => {
         })
         alert("Your order has been placed successfully.");
         if (tokens.length !== 0) {
-            await axios.post('http://localhost:5000/orderedsuccessfully', { tokens });
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/orderedsuccessfully`, { tokens });
         }
 
     }

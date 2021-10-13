@@ -38,7 +38,7 @@ const firebaseCloudMessaging = {
         console.log("Device with this user already exists.")
         if(!isExists)
         {
-          await axios.post('http://localhost:5000/register', { currentToken, userId });
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/register`, { currentToken, userId });
         }
         return false
       }
@@ -54,7 +54,7 @@ const firebaseCloudMessaging = {
           // ...
           localforage.setItem('fcm_token', currentToken)
           console.log('fcm_token', currentToken)
-          axios.post('http://localhost:5000/register', { currentToken, userId });
+          axios.post(`${process.env.NEXT_PUBLIC_API_URL}/register`, { currentToken, userId });
         } else {
           // Show permission request UI
           console.log('No registration token available. Request permission to generate one.');
