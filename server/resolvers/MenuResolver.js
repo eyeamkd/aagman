@@ -5,8 +5,11 @@ const Device=require("./../models/Device");
 
 module.exports = {
     Query: {
+        //Get all menus
         menus: () => Menu.find(),
+        //Get single menu by ID
         menu: (parent, { id }) => Menu.findById(id),
+        //Display menu alongwith categories,items and store 
         displayMenu: (parent, { menuId }) => {
             return Menu.findById(menuId).populate({
                 path: "categories store",
@@ -15,8 +18,11 @@ module.exports = {
                 }
             });
         },
+        //Get All Categories by Menu ID
         getCategoryByMenuId: (_, { menuId }) => Menu.findById(menuId).populate("categories"),
+        //Get Store ID from menuId
         getStoreId: (_, { menuId }) => Menu.findById(menuId).populate("store"),
+        //Get token from menuId
         getToken: async (_, { menuId }) => {
             const menu = await Menu.findById(menuId);
             const storeId = menu.store;
@@ -39,6 +45,7 @@ module.exports = {
     },
 
     Mutation: {
+        //Create Menu
         createMenu: async (_, { storeId }) => {
             const menu = new Menu({ store: storeId });
             await menu

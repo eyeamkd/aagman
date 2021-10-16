@@ -4,11 +4,14 @@ const Revenue=require("./../models/Revenue");
 
 module.exports= {
     Query: {
+        //Find all bill
         bills:() => Bill.find(),
+        //Find single Bill by ID
         bill:(parent, {id}) => Bill.findById(id),
     },
 
     Mutation: {
+        //Create Bill
         createBill: async(_, {  totalCost,paymentMode , paymentStatus,orderId,revenueId }) => {
             const bills = new Bill({ totalCost,paymentMode , paymentStatus,Order:orderId});
             await bills

@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, } from '@apollo/client';
 import fetch from 'cross-fetch';
 import { onError } from '@apollo/client/link/error';
+import { createUploadLink } from 'apollo-upload-client';
 
 const errorLink = onError(({ graphqlErrors, networkError }) => {
     if (graphqlErrors) {
@@ -11,7 +12,7 @@ const errorLink = onError(({ graphqlErrors, networkError }) => {
   })
   const link = from([
     errorLink,
-    new HttpLink({ uri: "http://localhost:5000/graphql", fetch  }),
+    createUploadLink({ uri: "http://localhost:5000/graphql", fetch  }),
   ]);
   const client = new ApolloClient({
     cache: new InMemoryCache(),

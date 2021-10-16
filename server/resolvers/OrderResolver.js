@@ -1,4 +1,4 @@
-//import { subscribe } from "graphql";
+
 
 const {subscribe} = require("graphql")
 
@@ -9,6 +9,7 @@ const Bill=require("./../models/Bill");
 const GraphQLDateTime=require('graphql-iso-date');
 const Subcribe=require("./Subscribe");
 
+//Generate Order Code
 const generateOrderCode = function () {
     var digits = "0123456789";
     let code = "";
@@ -20,8 +21,11 @@ const generateOrderCode = function () {
 
 module.exports= {
     Query: {
+        //Get all orders
         orders:() => Order.find(),
+        //Get single order by ID
         order:(parent, {id}) => Order.findById(id),
+        //Get order by Id and populate bill and store
         getOrder:(parent,{orderId})=>Order.findById(orderId).populate("bill store"),
         getOrderDemo:async(parent,{storeId})=>{
             return await Store.findById(storeId).toArray();
@@ -30,6 +34,7 @@ module.exports= {
     },
 
     Mutation: {
+        //Create Order
         createOrder: async(_, { orderCode ,orderStatus,storeId ,dateAndTime}) => {
             const orders = new Order({ orderCode ,orderStatus,Store:storeId,dateAndTime});
             await orders
@@ -43,7 +48,7 @@ module.exports= {
             return "Order Created";
         }, 
 
-        //items here is an array of {itemCode, name, quantity, customization}   const order  = new Order({items})
+        //Add Order
 
         addOrder:async(_,{orderCode,orderStatus,items,storeId,totalCost,paymentMode,paymentStatus,dateAndTime})=>{
             const orderCodeCreation=generateOrderCode()
@@ -76,11 +81,13 @@ module.exports= {
             Subcribe.subscribers.forEach(fn=>fn())
             return orders;
         },
+        //Update Order Status
         updateOrderStatus:async(_,{orderId,orderStatus})=>{
             const order=await Order.findByIdAndUpdate(orderId,{orderStatus:orderStatus},{new:true})
             order.save()
             return "Status Updated"
         },
+        //Update Payment Status
         updatePaymentStatus:async(_,{orderId,paymentStatus})=>{
             Order.findById(orderId).then(result=>{
                 return result.bill

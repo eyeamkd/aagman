@@ -6,6 +6,7 @@ module.exports= {
 
     },
     Mutation:{
+        //Add Customer Feedback
         addFeedback: async(_, { orderServiceRating,deliveryServiceRating,comment,storeId,overallStoreRating,foodRating,itemsList }) => {
             Store.findById(storeId).then(result=>{
                 if(result.rating==0){

@@ -27,6 +27,7 @@ import Button from '@material-ui/core/Button';
 import Image from 'next/image';
 import { motion } from "framer-motion";
 import Paper from '@material-ui/core/Paper';
+import {UPLOAD_IMAGE,UPDATE_UPLOADED_IMAGE} from '../GraphQL/Mutations/ItemMutation'
 
 function preventDefault(event) {
     event.preventDefault();
@@ -151,6 +152,8 @@ export default function MenuTable({ storeId }) {
     const [openPopup, setOpenPopup] = useState(false)
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [addItemsMenu] = useMutation(ADD_ITEM);
+    const [uploadImage] = useMutation(UPLOAD_IMAGE);
+    const [updateUploadedImage]=useMutation(UPDATE_UPLOADED_IMAGE)
     const { data, loading, error, refetch } = useQuery(GET_MENU,
         {
             variables: {
@@ -177,36 +180,26 @@ export default function MenuTable({ storeId }) {
 
 
     }
+    //Add Items
+    const addItems=(item,file)=>{
+        addItemsMenu({
 
-    const addOrEdit = (item, resetForm) => {
-        if (item.id === "") {
-            // let menuItem = {
-            //     name: item.name,
-            //     description: item.description,
-            //     status: item.status,
-            //     cost: item.cost,
-            //     category: item.category
-            // }
-            // setItems(items => [...items, menuItem])
-            console.log(item.category)
-            addItemsMenu({
-
-                variables: {
-                    createItemName: item.name,
-                    createItemDescription: item.description,
-                    createItemAvailability: item.availability,
-                    createItemType: item.type,
-                    createItemPrice: parseFloat(item.price),
-                    createItemRating: parseFloat(0),
-                    createItemBestSeller: item.bestSeller,
-                    createItemPhoto: "0",
-                    createItemCategoryId: item.category
-                }
-            }).then(refetch)
-        }
-        else {
-           // menuService.updateMenu(item)
-           updateItemsMenu({
+            variables: {
+                createItemName: item.name,
+                createItemDescription: item.description,
+                createItemAvailability: item.availability,
+                createItemType: item.type,
+                createItemPrice: parseFloat(item.price),
+                createItemRating: parseFloat(0),
+                createItemBestSeller: item.bestSeller,
+                createItemPhoto: file,
+                createItemCategoryId: item.category
+            }
+        }).then(refetch)
+    }
+    //Update Items
+    const updateItems=(item,file)=>{
+        updateItemsMenu({
 
             variables: {
                 updateItemName: item.name, 
@@ -216,10 +209,50 @@ export default function MenuTable({ storeId }) {
                 updateItemPrice: parseFloat(item.price), 
                 updateItemRating: parseFloat(item.rating), 
                 updateItemBestSeller: item.bestSeller, 
-                updateItemPhoto: "0", 
+                updateItemPhoto: file, 
                 updateItemItemId: item.id
             }
         }).then(refetch)
+
+    }
+
+    const addOrEdit = (item, resetForm,uploadImageFileName) => {
+        //Check if item is to be newly added or updated
+        if (item.id === "") {
+            //Check if File has been uploaded or not
+            if(uploadImageFileName!=null){
+                //Add Image
+                uploadImage({
+                    variables: {
+                        uploadImageFile:uploadImageFileName
+                    }
+                }).then(result=>{
+                    const ImageFileName=Object.values(result)[0].uploadImage.generatedFileName
+                    addItems(item,ImageFileName)
+                })}
+                else{
+                    addItems(item,"0")
+                }
+
+        }
+        else {
+            //Check if file has been uploaded or not
+           if(uploadImageFileName==null){
+               updateItems(item,item.photo)
+           }
+           else{
+            //update Image
+            updateUploadedImage({
+                variables:{
+                    uploadUpdatedImageFile:uploadImageFileName , 
+                    uploadUpdatedImageOldfilename:item.photo
+                }
+            }).then(result=>{
+                const ImageFileName=Object.values(result)[0].uploadUpdatedImage.generatedFileName
+                    updateItems(item,ImageFileName)
+            })
+           }
+          
 
         }
 
@@ -229,8 +262,6 @@ export default function MenuTable({ storeId }) {
     }
 
     const deleteItem = (id,category) => {
-        // console.log(category);
-        // console.log("Delete the item with id ", id);
         deleteItemsMenu({
 
             variables: {
