@@ -10,6 +10,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from, } from '@a
 import { StoreContext } from '../src/StoreContext';
 import { useEffect } from 'react'
 import { firebaseCloudMessaging } from "../utils/webPush";
+import fetch from 'cross-fetch';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -24,7 +25,7 @@ export default function MyApp(props) {
   })
   const link = from([
     errorLink,
-    new HttpLink({ uri: "http://localhost:5000/graphql" }),
+    new HttpLink({ uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,fetch }),
   ]);
   const client = new ApolloClient({
     cache: new InMemoryCache(),
@@ -54,7 +55,7 @@ export default function MyApp(props) {
     <React.Fragment>
       <Head>
         <title>My page</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
